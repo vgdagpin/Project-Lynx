@@ -1,21 +1,27 @@
-﻿using Lynx.MobileApp.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LoginPage : ContentPage
+    public partial class SessionVerificationPage : ContentPage
     {
-        public LoginPage()
+        public SessionVerificationPage()
         {
             InitializeComponent();
-            this.BindingContext = App.ServiceProvider.GetService<LoginViewModel>();
+        }
+
+        public async void Init()
+        {
+            Thread.Sleep(5000);
+            await Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }

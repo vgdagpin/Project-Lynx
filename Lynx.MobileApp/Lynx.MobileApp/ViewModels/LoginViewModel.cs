@@ -1,24 +1,60 @@
-﻿using Lynx.MobileApp.Views;
+﻿using Lynx.Commands.UserLoginCmds;
+using Lynx.MobileApp.Common.Interfaces;
+using Lynx.MobileApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using TasqR;
 using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        public Command LoginCommand { get; }
+        private readonly ITasqR p_TasqR;
+        private readonly INavigationService p_NavigationService;
+        private string p_Username;
+        public string Username
+        {
+            get { return p_Username; }
+            set { SetProperty(ref p_Username, value); }
+        }
 
-        public LoginViewModel()
+        private string p_Password;
+        public string Password
+        {
+            get { return p_Password; }
+            set { SetProperty(ref p_Password, value); }
+        }
+
+
+        public ICommand LoginCommand { get; }
+
+        public LoginViewModel(ITasqR tasqR, INavigationService navigationService)
         {
             LoginCommand = new Command(OnLoginClicked);
+            p_TasqR = tasqR;
+            p_NavigationService = navigationService;
         }
 
         private async void OnLoginClicked(object obj)
         {
-            // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            try
+            {
+                var cmd = new ValidateUserLoginCmd(p_Username, p_Password);
+
+                var loginResult = await p_TasqR.RunAsync(cmd);
+
+                if (loginResult.IsSuccess)
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(AppShell)}");
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

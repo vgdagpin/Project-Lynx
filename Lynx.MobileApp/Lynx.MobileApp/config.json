@@ -1,0 +1,5 @@
+{
+  "ConnectionStrings": {
+    "LynxDbContext_SQLiteConStr": "Filename=LynxDb_SQLite.db3;"
+  }
+}
