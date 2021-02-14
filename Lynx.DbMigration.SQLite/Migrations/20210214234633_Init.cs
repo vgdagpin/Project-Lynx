@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Lynx.DbMigration.SqlServer.Migrations
+namespace Lynx.DbMigration.SQLite.Migrations
 {
     public partial class Init : Migration
     {
@@ -15,7 +15,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ID = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

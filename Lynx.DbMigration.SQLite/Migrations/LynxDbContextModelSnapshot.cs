@@ -3,10 +3,9 @@ using System;
 using Lynx.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Lynx.DbMigration.SqlServer.Migrations
+namespace Lynx.DbMigration.SQLite.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
     partial class LynxDbContextModelSnapshot : ModelSnapshot
@@ -15,15 +14,13 @@ namespace Lynx.DbMigration.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "3.1.12");
 
             modelBuilder.Entity("Lynx.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 

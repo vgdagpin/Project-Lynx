@@ -107,11 +107,11 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             public BasePropertyBuilder(EntityTypeBuilder<TEntity> builder) : base(builder) { }
 
-            public PropertyBuilder<TProperty> Property<TProperty>([NotNull] Expression<Func<TEntity, TProperty>> propertyExpression)
+            public PropertyBuilder<TProperty> Property<TProperty>(Expression<Func<TEntity, TProperty>> propertyExpression)
             {
                 return m_Builder.Property(propertyExpression);
             }
-            public PropertyBuilder<TProperty> Property<TProperty>([NotNull] string propertyName)
+            public PropertyBuilder<TProperty> Property<TProperty>(string propertyName)
             {
                 return m_Builder.Property<TProperty>(propertyName);
             }
@@ -148,22 +148,22 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             public BaseSeeder(EntityTypeBuilder<TEntity> builder) : base(builder) { }
 
-            public void HasData([NotNull] IEnumerable<object> data)
+            public void HasData(IEnumerable<object> data)
             {
                 m_Builder.HasData(data);
             }
 
-            public void HasData([NotNull] params object[] data)
+            public void HasData(params object[] data)
             {
                 m_Builder.HasData(data);
             }
 
-            public void HasData([NotNull] IEnumerable<TEntity> data)
+            public void HasData(IEnumerable<TEntity> data)
             {
                 m_Builder.HasData(data);
             }
 
-            public void HasData([NotNull] params TEntity[] data)
+            public void HasData(params TEntity[] data)
             {
                 m_Builder.HasData(data);
             }
@@ -174,12 +174,12 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             public BaseIndexBuilder(EntityTypeBuilder<TEntity> builder) : base(builder) { }
 
-            public IndexBuilder HasIndex([NotNull] params string[] propertyNames)
+            public IndexBuilder HasIndex(params string[] propertyNames)
             {
                 return m_Builder.HasIndex(propertyNames);
             }
 
-            public IndexBuilder<TEntity> HasIndex([NotNull] Expression<Func<TEntity, object>> indexExpression)
+            public IndexBuilder<TEntity> HasIndex(Expression<Func<TEntity, object>> indexExpression)
             {
                 return m_Builder.HasIndex(indexExpression);
             }
@@ -190,12 +190,12 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             public BaseKeyBuilder(EntityTypeBuilder<TEntity> builder) : base(builder) { }
 
-            public KeyBuilder HasKey([NotNull] params string[] propertyNames)
+            public KeyBuilder HasKey(params string[] propertyNames)
             {
                 return m_Builder.HasKey(propertyNames);
             }
 
-            public KeyBuilder HasKey([NotNullAttribute] Expression<Func<TEntity, object>> keyExpression)
+            public KeyBuilder HasKey(Expression<Func<TEntity, object>> keyExpression)
             {
                 return m_Builder.HasKey(keyExpression);
             }
