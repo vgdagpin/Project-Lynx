@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Lynx.Application;
+using Lynx.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
+using TasqR;
 
 namespace Lynx.ConsoleApp
 {
@@ -14,26 +18,13 @@ namespace Lynx.ConsoleApp
 
 
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-        {
-            //services.AddScoped<IAppSession>(provider =>
-            //{
-            //    if (ClientID == 0)
-            //    {
-            //        throw new AerishException("No client selected");
-            //    }
+        {            
+            services.AddInfrastructureUseSqlServer(configuration);
+            services.AddApplication();
 
-            //    return new ConsoleAppSession(ClientID);
-            //});
-            //services.AddSingleton<IAppEnvironment, ConsoleAppEnvironment>();
-            //services.AddScoped<IDateTime, ConsoleDateTime>();
+            services.AddTasqR(Assembly.GetExecutingAssembly());
 
-            //services.AddInfrastructureUseSqlServer(configuration);
-            //services.AddApplication();
-            //services.AddImports();
-
-            //services.AddTasqR(Assembly.GetExecutingAssembly());
-
-            //services.AddMemoryCache();
+            services.AddMemoryCache();
         }
 
 

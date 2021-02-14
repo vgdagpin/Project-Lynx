@@ -1,0 +1,81 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="Newtonsoft.Json" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+
+
+    var _t4File = this.Host.TemplateFile;
+    var _entitiesPath= Path.GetDirectoryName(_t4File);
+    var _jsonConfig = Path.ChangeExtension(_t4File, "json");
+    var _config = JObject.Parse(File.ReadAllText(_jsonConfig));
+    var _tt = Path.GetFullPath(Path.Combine(_entitiesPath,_config.SelectToken("$.Entities.Path").ToString() ));
+
+
+#>
+<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
+using <#= ns #>;
+<# } #>
+using <#= _config.SelectToken("$.IDbContext.Namespace") #>;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Reflection;
+using System.Linq;
+
+/*
+Do not modify this file! This is auto generated!
+Any changes to this file will be gone when template gets generated again.
+*/
+
+namespace <#= _config.SelectToken("$.DbContext.Namespace") #>
+{
+	public partial class <#= _config.SelectToken("$.DbContext.Name") #> : DbContext, <#= _config.SelectToken("$.IDbContext.Name") #>
+	{
+		#region Entities
+<# foreach (var _eachFile in Directory.GetFiles(_tt, "*.cs", SearchOption.AllDirectories)) { #>
+		public DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
+<# } #>
+        #endregion
+
+		public <#= _config.SelectToken("$.DbContext.Name") #>(DbContextOptions<<#= _config.SelectToken("$.DbContext.Name") #>> dbContextOpt) : base(dbContextOpt)
+        {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+	}
+}
+
+namespace <#= _config.SelectToken("$.DbContext.Namespace") #>.Configurations
+{
+<# foreach (var _eachFile in Directory.GetFiles(_tt, "*.cs", SearchOption.AllDirectories)) { #>
+	public partial class <#= Path.GetFileNameWithoutExtension(_eachFile) #>_Configuration : BaseConfiguration<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> { }
+<# } #>
+}
+<#+
+private string Pluralize(string input)
+{
+	string _retVal = input ?? "";
+
+	if (_retVal.Trim() == "") return "";
+	if(_retVal.EndsWith("Data")) return _retVal;
+	if(_retVal.EndsWith("ch")) return _retVal + "es";
+	if(_retVal.EndsWith("sis")) return _retVal.Substring(0, _retVal.Length - 3) + "ses";
+	if	(_retVal.EndsWith("s")) return _retVal + "es";
+	if (_retVal.EndsWith("ay")) return _retVal + "s";
+	if (_retVal.EndsWith("y")) return _retVal.Substring(0, _retVal.Length - 1) + "ies";
+
+	return _retVal + "s";
+}
+#>

@@ -1,0 +1,16 @@
+{
+  "Entities": {
+    "Path": "../../Lynx/Domain/Entities",
+    "Namespaces": [
+      "Lynx.Domain.Entities"
+    ]
+  },
+  "IDbContext": {
+    "Name": "ILynxDbContext",
+    "Namespace": "Lynx.Application.Common.Interfaces"
+  },
+  "DbContext": {
+    "Name": "LynxDbContext",
+    "Namespace": "Lynx.Infrastructure.Persistence"
+  }
+}
