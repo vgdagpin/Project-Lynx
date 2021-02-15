@@ -19,7 +19,7 @@ namespace Lynx.MobileApp
 
             if (!File.Exists(SQLiteConstants.FilePath))
             {
-                App.ServiceProvider.GetService<DbContext>().Database.Migrate();
+                //App.ServiceProvider.GetService<DbContext>().Database.Migrate();
             }
         }
     }

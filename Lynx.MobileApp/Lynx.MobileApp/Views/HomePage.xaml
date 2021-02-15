@@ -1,9 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Lynx.MobileApp.ViewModels"
              x:Class="Lynx.MobileApp.Views.HomePage">
+    <ContentPage.BindingContext>
+        <vm:HomePageViewModel />
+    </ContentPage.BindingContext>
+    
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="Gray">
+            <ListView ItemsSource="{Binding Bills}" 
+                      HasUnevenRows="False"
+                      HeightRequest="300"
+                      BackgroundColor="LightGray">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Margin="10,10,10,0" Padding="0" BackgroundColor="#DADADA" Orientation="Horizontal">
+                                    <Label Text="{Binding Name}" />
+                                    <Label Text="Due: " />
+                                    <Label Text="Due: " />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Label Text="Welcome to Xamarin.Forms! - Home"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />

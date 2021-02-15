@@ -26,10 +26,14 @@ namespace Lynx.MobileApp.Handlers.Queries.UserSessionQrs
 
         public override UserSession Run(GetActiveUserSessionQr process)
         {
-            var activeSession = p_DbContext.UserSessions
-                .SingleOrDefault(a => a.Status == SessionStatus.Active && (a.ExpiredOn > p_DateTime.Now || a.ExpiredOn == null));
+            //var activeSession = p_DbContext.UserSessions
+            //    .SingleOrDefault(a => a.Status == SessionStatus.Active && (a.ExpiredOn > p_DateTime.Now || a.ExpiredOn == null));
 
-            return activeSession;
+            //return activeSession;
+            return new UserSession
+            {
+                
+            };
         }
     }
 }

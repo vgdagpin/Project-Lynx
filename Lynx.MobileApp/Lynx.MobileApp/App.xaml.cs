@@ -1,4 +1,5 @@
-﻿using Lynx.MobileApp.Services;
+﻿using Lynx.MobileApp.Common;
+using Lynx.MobileApp.Services;
 using Lynx.MobileApp.Views;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,15 +17,22 @@ namespace Lynx.MobileApp
 
         public App()
         {
-            ServiceProvider = new ServiceCollection()
-                .AddMobileAppPortable()
-                .BuildServiceProvider();
+            //ServiceProvider = new ServiceCollection()
+            //    .AddMobileAppPortable()
+            //    .BuildServiceProvider();
 
             InitializeComponent();
 
+            var handlerResolver = new TasqHandlerResolver();
+            handlerResolver.RegisterFromAssembly(Assembly.GetExecutingAssembly());
+            var tasqR = new TasqRObject(handlerResolver);
+
+            DependencyService.RegisterSingleton<ITasqR>(tasqR);
+
+            DependencyService.Register<AppDateTime>();
             DependencyService.Register<MockDataStore>();
             
-            MainPage = new StartShell();
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()

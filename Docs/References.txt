@@ -1,1 +1,18 @@
 https://devblogs.microsoft.com/xamarin/shell-xamarin-forms-4-0-getting-started/
+
+https://docs.telerik.com/devtools/xamarin/getting-started/windows/first-steps
+
+
+https://docs.telerik.com/devtools/xamarin/controls/accordion/accordion-overview
+
+https://dbeaver.io/download/ - Universal Database Tool
+
+
+https://www.apachefriends.org/index.html - MySQL
+https://www.postgresql.org/download/windows/ - PostgreSQL
+
+
+https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli
+only postgreSQL is available for net5.0 the time this project developed
+
+https://medium.com/@benjamintodts/cross-platform-environment-aware-configuration-files-in-xamarin-232e7d5ddd80

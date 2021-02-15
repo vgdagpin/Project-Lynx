@@ -8,6 +8,19 @@ namespace Lynx.MobileApp.Common.Constants
 {
     public abstract class SQLiteConstants
     {
-        public static string FilePath => Path.Combine(FileSystem.AppDataDirectory, "LynxDb_SQLite.db3");
+        public static string FilePath
+        {
+            get
+            {
+                try
+                {
+                    return Path.Combine(FileSystem.AppDataDirectory, "LynxDb_SQLite.db3");
+                }
+                catch (Exception)
+                {
+                    return "LynxDb_SQLite.db3";
+                }
+            }
+        }
     }
 }
