@@ -89,6 +89,10 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Lynx.DbMigration.SQLite\Lynx.DbMigration.SQLite.csproj">
+      <Project>{a73b40ab-30e2-4cb6-942e-27e57606e46e}</Project>
+      <Name>Lynx.DbMigration.SQLite</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lynx.MobileApp\Lynx.MobileApp.csproj">
       <Project>{745A0BC9-B5DF-4243-A0A3-790EA30202B6}</Project>
       <Name>Lynx.MobileApp</Name>

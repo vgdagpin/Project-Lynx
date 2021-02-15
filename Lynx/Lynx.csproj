@@ -7,8 +7,6 @@
   <ItemGroup>
     <Folder Include="Commands\UserCmds\" />
     <Folder Include="Constants\" />
-    <Folder Include="Enums\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>

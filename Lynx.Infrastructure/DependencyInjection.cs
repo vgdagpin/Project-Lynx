@@ -31,7 +31,7 @@ namespace Lynx.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration, string overridenFile = null)
         {
             string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -45,19 +45,24 @@ namespace Lynx.Infrastructure
                 Directory.CreateDirectory(appDataDirectory);
             }
 
-            string conString = $"Filename={Path.Combine(appDataDirectory, $"LynxDb_SQLite.db3")}";
-            string conStringFromSettings = configuration.GetConnectionString($"{nameof(LynxDbContext)}_SQLiteConStr");
+            string fileName = Path.Combine(appDataDirectory, $"LynxDb_SQLite.db3");
+            string fileNameFromSettings = configuration.GetConnectionString($"{nameof(LynxDbContext)}_SQLiteFile");
 
-            if (!string.IsNullOrEmpty(conStringFromSettings))
+            if (!string.IsNullOrEmpty(fileNameFromSettings))
             {
-                conString = conStringFromSettings;
+                fileName = fileNameFromSettings;
+            }
+
+            if (!string.IsNullOrWhiteSpace(overridenFile))
+            {
+                fileName = overridenFile;
             }
 
             services.AddDbContext<LynxDbContext>((svc, options) =>
             {
                 options.UseSqlite
                 (
-                    connectionString: conString,
+                    connectionString: $"Filename={fileName}",
                     sqliteOptionsAction: opt =>
                     {
                         opt.MigrationsAssembly("Lynx.DbMigration.SQLite");

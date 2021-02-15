@@ -17,6 +17,8 @@ namespace Lynx.Interfaces
 	{
 		#region Entities
 		IQueryable<User> Users { get; set; }
+		IQueryable<UserLogin> UserLogins { get; set; }
+		IQueryable<UserSession> UserSessions { get; set; }
         #endregion
 	}
 }

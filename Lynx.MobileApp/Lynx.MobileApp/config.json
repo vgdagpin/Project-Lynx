@@ -1,5 +1,5 @@
 {
   "ConnectionStrings": {
-    "LynxDbContext_SQLiteConStr": "Filename=LynxDb_SQLite.db3;"
+    "LynxDbContext_SQLiteFile": "" // put sqlite db fule file path here if customed
   }
 }

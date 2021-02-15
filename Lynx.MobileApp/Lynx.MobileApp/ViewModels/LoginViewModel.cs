@@ -1,6 +1,9 @@
 ﻿using Lynx.Commands.UserLoginCmds;
+using Lynx.Commands.UserSessionCmds;
+using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.Common.Interfaces;
 using Lynx.MobileApp.Views;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,6 +16,7 @@ namespace Lynx.MobileApp.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly ITasqR p_TasqR;
+        private readonly DbContext p_BaseDbContext;
         private string p_Username;
         public string Username
         {
@@ -28,12 +32,12 @@ namespace Lynx.MobileApp.ViewModels
         }
 
 
-        public ICommand LoginCommand { get; }
+        public ICommand LoginCommand => new Command(OnLoginClicked);
 
-        public LoginViewModel(ITasqR tasqR)
+        public LoginViewModel(ITasqR tasqR, DbContext baseDbContext)
         {
-            LoginCommand = new Command(OnLoginClicked);
             p_TasqR = tasqR;
+            p_BaseDbContext = baseDbContext;
         }
 
         private async void OnLoginClicked(object obj)
@@ -46,7 +50,13 @@ namespace Lynx.MobileApp.ViewModels
 
                 if (loginResult.IsSuccess)
                 {
-                    await Shell.Current.GoToAsync($"//{nameof(AppShell)}");
+                    var newSessionCmd = new CreateSessionCmd(p_Username);
+                    var sessionResult = await p_TasqR.RunAsync(newSessionCmd);
+
+                    await p_BaseDbContext.SaveChangesAsync();
+
+                    Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
+                    Application.Current.MainPage = new AppShell();
                 }
             }
             catch (Exception ex)

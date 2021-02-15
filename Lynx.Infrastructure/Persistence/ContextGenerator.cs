@@ -25,6 +25,18 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_Users; }
 			set { db_Users = (DbSet<User>)value; }
 		}
+		private DbSet<UserLogin> db_UserLogins { get; set; }
+		public IQueryable<UserLogin> UserLogins 
+		{ 
+			get { return db_UserLogins; }
+			set { db_UserLogins = (DbSet<UserLogin>)value; }
+		}
+		private DbSet<UserSession> db_UserSessions { get; set; }
+		public IQueryable<UserSession> UserSessions 
+		{ 
+			get { return db_UserSessions; }
+			set { db_UserSessions = (DbSet<UserSession>)value; }
+		}
         #endregion
 
 		public LynxDbContext(DbContextOptions<LynxDbContext> dbContextOpt) : base(dbContextOpt)
@@ -41,4 +53,6 @@ namespace Lynx.Infrastructure.Persistence
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
 	public partial class User_Configuration : BaseConfiguration<User> { }
+	public partial class UserLogin_Configuration : BaseConfiguration<UserLogin> { }
+	public partial class UserSession_Configuration : BaseConfiguration<UserSession> { }
 }

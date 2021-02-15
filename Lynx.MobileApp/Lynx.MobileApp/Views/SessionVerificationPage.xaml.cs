@@ -13,11 +13,26 @@ namespace Lynx.MobileApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SessionVerificationPage : ContentPage
     {
+        private SessionVerificationViewModel ViewModel = null;
+
         public SessionVerificationPage()
         {
             InitializeComponent();
 
-            BindingContext = App.ServiceProvider.GetService<SessionVerificationViewModel>();
+            BindingContext = ViewModel = App.ServiceProvider.GetService<SessionVerificationViewModel>();
+        }
+
+        private bool isStarted = false;
+        protected override void LayoutChildren(double x, double y, double width, double height)
+        {
+            base.LayoutChildren(x, y, width, height);
+
+            if (!isStarted)
+            {
+                isStarted = true;
+
+                ViewModel.ValidateSession().Wait();
+            }
         }
     }
 }

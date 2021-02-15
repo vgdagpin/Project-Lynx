@@ -1,24 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Lynx.Commands.UserLoginCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
 {
     public class ValidateUserLoginCmdHandler : TasqHandlerAsync<ValidateUserLoginCmd, LoginResultVM>
     {
+        private readonly ILynxDbContext p_DbContext;
+        private readonly IPasswordHasher p_PasswordHasher;
 
-
-        public override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process, CancellationToken cancellationToken = default)
+        public ValidateUserLoginCmdHandler(ILynxDbContext dbContext, IPasswordHasher passwordHasher)
         {
-            return Task.FromResult(new LoginResultVM
+            p_DbContext = dbContext;
+            p_PasswordHasher = passwordHasher;
+        }
+
+        public async override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process, CancellationToken cancellationToken = default)
+        {
+            var userLogin = await p_DbContext.UserLogins
+                .SingleOrDefaultAsync(a => a.Username == process.Username);
+
+            if (userLogin == null)
+            {
+                return new LoginResultVM
+                {
+                    IsSuccess = false,
+                    Error = new LynxException("Username or password not found")
+                };
+            }
+
+            if (!p_PasswordHasher.IsPasswordVerified(userLogin.Salt, userLogin.Password, process.Password))
+            {
+                return new LoginResultVM
+                {
+                    IsSuccess = false,
+                    Error = new LynxException("Username or password not found")
+                };
+            }
+
+            return new LoginResultVM
             {
                 IsSuccess = true
-            });
+            };
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Text;
 using Lynx.Infrastructure;
 using Lynx.Infrastructure.Common;
 using Lynx.Interfaces;
+using Lynx.MobileApp.Common;
+using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,8 +38,10 @@ namespace Lynx.MobileApp
 
             services.AddTransient<IPasswordHasher, PasswordHasher>();
 
-            services.AddInfrastructureUseSQLite(configuration);
+            services.AddInfrastructureUseSQLite(configuration, SQLiteConstants.FilePath);
             services.AddTasqR(Assembly.GetExecutingAssembly());
+            services.AddSingleton<IDateTime, AppDateTime>();
+            services.AddSingleton<IGuid, AppGuid>();
 
             services.AddTransient<SessionVerificationViewModel>();
             services.AddTransient<LoginViewModel>();
