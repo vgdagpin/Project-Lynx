@@ -1,12 +1,13 @@
-﻿using Lynx.Domain.Entities;
-using Lynx.Application.Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+using Lynx.Interfaces;
+using Lynx.Domain.Entities;
 
 /*
 Do not modify this file! This is auto generated!
@@ -18,7 +19,12 @@ namespace Lynx.Infrastructure.Persistence
 	public partial class LynxDbContext : DbContext, ILynxDbContext
 	{
 		#region Entities
-		public DbSet<User> Users { get; set; }
+		private DbSet<User> db_Users { get; set; }
+		public IQueryable<User> Users 
+		{ 
+			get { return db_Users; }
+			set { db_Users = (DbSet<User>)value; }
+		}
         #endregion
 
 		public LynxDbContext(DbContextOptions<LynxDbContext> dbContextOpt) : base(dbContextOpt)

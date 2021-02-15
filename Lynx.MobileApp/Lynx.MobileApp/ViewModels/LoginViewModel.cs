@@ -13,7 +13,6 @@ namespace Lynx.MobileApp.ViewModels
     public class LoginViewModel : BaseViewModel
     {
         private readonly ITasqR p_TasqR;
-        private readonly INavigationService p_NavigationService;
         private string p_Username;
         public string Username
         {
@@ -31,11 +30,10 @@ namespace Lynx.MobileApp.ViewModels
 
         public ICommand LoginCommand { get; }
 
-        public LoginViewModel(ITasqR tasqR, INavigationService navigationService)
+        public LoginViewModel(ITasqR tasqR)
         {
             LoginCommand = new Command(OnLoginClicked);
             p_TasqR = tasqR;
-            p_NavigationService = navigationService;
         }
 
         private async void OnLoginClicked(object obj)

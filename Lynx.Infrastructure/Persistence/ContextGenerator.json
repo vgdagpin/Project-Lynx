@@ -7,7 +7,7 @@
   },
   "IDbContext": {
     "Name": "ILynxDbContext",
-    "Namespace": "Lynx.Application.Common.Interfaces"
+    "Namespace": "Lynx.Interfaces"
   },
   "DbContext": {
     "Name": "LynxDbContext",

@@ -19,17 +19,18 @@
 
 
 #>
-<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
-using <#= ns #>;
-<# } #>
-using <#= _config.SelectToken("$.IDbContext.Namespace") #>;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Reflection;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
+using <#= _config.SelectToken("$.IDbContext.Namespace") #>;
+<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
+using <#= ns #>;
+<# } #>
 
 /*
 Do not modify this file! This is auto generated!
@@ -42,7 +43,12 @@ namespace <#= _config.SelectToken("$.DbContext.Namespace") #>
 	{
 		#region Entities
 <# foreach (var _eachFile in Directory.GetFiles(_tt, "*.cs", SearchOption.AllDirectories)) { #>
-		public DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
+		private DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> db_<#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
+		public IQueryable<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> 
+		{ 
+			get { return db_<#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #>; }
+			set { db_<#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> = (DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>>)value; }
+		}
 <# } #>
         #endregion
 

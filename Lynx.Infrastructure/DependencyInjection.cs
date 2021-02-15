@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using Lynx.Application.Common.Interfaces;
 using Lynx.Infrastructure.Persistence;
+using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

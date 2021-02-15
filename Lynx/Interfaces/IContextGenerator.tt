@@ -19,16 +19,15 @@
 
 
 #>
-<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
-using <#= ns #>;
-<# } #>
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using System;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+
+<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
+using <#= ns #>;
+<# } #>
 
 /*
 Do not modify this file! This is auto generated!
@@ -41,11 +40,9 @@ namespace <#= _config.SelectToken("$.IDbContext.Namespace") #>
 	{
 		#region Entities
 <# foreach (var _eachFile in Directory.GetFiles(_tt, "*.cs", SearchOption.AllDirectories)) { #>
-		DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
+		IQueryable<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
 <# } #>
         #endregion
-
-		EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 	}
 }
 

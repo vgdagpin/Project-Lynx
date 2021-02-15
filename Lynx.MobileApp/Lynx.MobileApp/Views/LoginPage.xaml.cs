@@ -15,7 +15,7 @@ namespace Lynx.MobileApp.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = App.ServiceProvider.GetService<LoginViewModel>();
+            BindingContext = App.ServiceProvider.GetService<LoginViewModel>();
         }
     }
 }

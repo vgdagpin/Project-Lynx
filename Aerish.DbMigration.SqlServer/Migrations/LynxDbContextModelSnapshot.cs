@@ -15,8 +15,8 @@ namespace Lynx.DbMigration.SqlServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Lynx.Domain.Entities.User", b =>
@@ -27,7 +27,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_User","dbo");
+                    b.ToTable("tbl_User", "dbo");
                 });
 #pragma warning restore 612, 618
         }

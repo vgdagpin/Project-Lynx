@@ -24,7 +24,7 @@ namespace Lynx.MobileApp
 
             DependencyService.Register<MockDataStore>();
             
-            MainPage = new AppShell();
+            MainPage = new StartShell();
         }
 
         protected override void OnStart()

@@ -39,7 +39,7 @@ namespace Lynx.MobileApp
             services.AddInfrastructureUseSQLite(configuration);
             services.AddTasqR(Assembly.GetExecutingAssembly());
 
-
+            services.AddTransient<SessionVerificationViewModel>();
             services.AddTransient<LoginViewModel>();
 
 

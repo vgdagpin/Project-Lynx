@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Lynx.MobileApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,12 +16,8 @@ namespace Lynx.MobileApp.Views
         public SessionVerificationPage()
         {
             InitializeComponent();
-        }
 
-        public async void Init()
-        {
-            Thread.Sleep(5000);
-            await Shell.Current.GoToAsync("//LoginPage");
+            BindingContext = App.ServiceProvider.GetService<SessionVerificationViewModel>();
         }
     }
 }
