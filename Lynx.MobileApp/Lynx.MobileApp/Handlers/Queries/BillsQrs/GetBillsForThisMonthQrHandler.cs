@@ -11,11 +11,14 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
     {
         public override IEnumerable<BillVM> Run(GetBillsForThisMonthQr process)
         {
-            return new List<BillVM>
+            List<BillVM> retVal = new List<BillVM>();
+
+            for (int i = 0; i < 10; i++)
             {
-                new BillVM{ Name = "Globe", DueDate = new DateTime(2021, 2, 24), AmountDue = 1200 },
-                new BillVM{ Name = "Meralco", DueDate = new DateTime(2021, 2, 27), AmountDue = 1200 }
-            };
+                retVal.Add(new BillVM { Name = "Globe", DueDate = new DateTime(2021, 2, 24), AmountDue = 1200 });
+            }
+
+            return retVal;
         }
     }
 }

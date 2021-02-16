@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Lynx.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AccountPage : ContentView
+    public partial class SettingPage : ContentPage
     {
-        public AccountPage()
+        public SettingPage()
         {
             InitializeComponent();
         }
