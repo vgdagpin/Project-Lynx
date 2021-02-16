@@ -13,7 +13,8 @@ namespace Lynx.MobileApp
             InitializeComponent();
 
             
-            //Routing.RegisterRoute(nameof(AboutPage), typeof(AboutPage));
+            Routing.RegisterRoute(nameof(BillDetail), typeof(BillDetail));
+            Routing.RegisterRoute(nameof(TrackBillPage), typeof(TrackBillPage));
             //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }

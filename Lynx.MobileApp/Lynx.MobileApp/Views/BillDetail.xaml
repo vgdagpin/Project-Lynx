@@ -2,19 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Lynx.MobileApp.ViewModels"
-             x:Class="Lynx.MobileApp.Views.ManageBillPage">
-
+             x:Class="Lynx.MobileApp.Views.BillDetail">
     <ContentPage.BindingContext>
-        <vm:ManageBillViewModel />
+        <vm:BillDetailViewModel />
     </ContentPage.BindingContext>
-    
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Track Bill" Command="{Binding TrackNewBill}" />
-    </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms! - Manage Bill"
+            <Label Text="Welcome to Xamarin.Forms!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>

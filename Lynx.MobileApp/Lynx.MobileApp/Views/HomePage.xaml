@@ -12,15 +12,33 @@
             <ListView ItemsSource="{Binding Bills}" 
                       HasUnevenRows="False"
                       HeightRequest="300"
-                      BackgroundColor="LightGray">
+                      BackgroundColor="LightGray" RowHeight="100">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <ViewCell>
+                        <ViewCell Height="100">
                             <ViewCell.View>
-                                <StackLayout Margin="10,10,10,0" Padding="0" BackgroundColor="#DADADA" Orientation="Horizontal">
-                                    <Label Text="{Binding Name}" />
-                                    <Label Text="Due: " />
-                                    <Label Text="Due: " />
+                                <StackLayout Padding="10"
+                                             BackgroundColor="#EEB9B9"  
+                                             VerticalOptions="FillAndExpand">									
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Bill: "></Label><Label Text="{Binding Name}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Due Date: "></Label>
+                                        <Label Text="{Binding DueDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Amount: "></Label>
+                                        <Label Text="{Binding AmountDue, StringFormat='{0:n2}'}" />
+                                    </StackLayout>
+
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomePageViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}">
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
                                 </StackLayout>
                             </ViewCell.View>
                         </ViewCell>
