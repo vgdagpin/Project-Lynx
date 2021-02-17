@@ -9,7 +9,6 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Total Due: 30,000.00" />
-        <ToolbarItem Text="Total Due: 30,000.00" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

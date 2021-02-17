@@ -16,3 +16,10 @@ https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli
 only postgreSQL is available for net5.0 the time this project developed
 
 https://medium.com/@benjamintodts/cross-platform-environment-aware-configuration-files-in-xamarin-232e7d5ddd80
+
+
+
+Font awesome icons
+https://www.youtube.com/watch?v=vhl1ISTlFpA
+https://www.youtube.com/watch?v=e2rymiDOTrA
+https://www.youtube.com/watch?v=j-oFC2lOQwI

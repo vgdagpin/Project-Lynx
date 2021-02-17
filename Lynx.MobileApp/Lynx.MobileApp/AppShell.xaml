@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:pages="clr-namespace:Lynx.MobileApp.Views"
+       xmlns:fonts="clr-namespace:Lynx.MobileApp.Resources.Fonts"
        Title="Lynx.MobileApp"
        x:Class="Lynx.MobileApp.AppShell">
 
@@ -9,19 +10,80 @@
         <BackButtonBehavior IconOverride="xamarin_logo.png" />
     </Shell.BackButtonBehavior>
 
-    <TabBar x:Name="MainTab">
-        <Tab Title="Home" Icon="xamarin_logo.png">
+    <!-- 
+    replacing the FlyoutIcon will also remove back button - cannot implement
+    https://github.com/xamarin/Xamarin.Forms/issues/6095
+    -->
+    <!--<Shell.FlyoutIcon>
+        <FontImageSource
+            FontFamily="FontAwesome"
+            Glyph="{x:Static fonts:FontAwesomeIcon.User}"
+            />
+    </Shell.FlyoutIcon>-->
+
+
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="100" BackgroundColor="LightBlue">
+            
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <FlyoutItem Title="Home">
+        <FlyoutItem.Icon>
+            <FontImageSource 
+                    FontFamily="FontAwesome"
+                    Glyph="{x:Static fonts:FontAwesomeIcon.Home}" 
+                    Color="Black" 
+                    Size="Small" />
+        </FlyoutItem.Icon>
+        
+        <Tab Title="Home">
+            <Tab.Icon>
+                <FontImageSource 
+                    FontFamily="FontAwesome"
+                    Glyph="{x:Static fonts:FontAwesomeIcon.Home}" 
+                    Color="Black" 
+                    Size="Small" />        
+            </Tab.Icon>
             <ShellContent Route="HomePage" ContentTemplate="{DataTemplate pages:HomePage}"/>
         </Tab>
-        <Tab Route="Manage" Title="Manage Bill" Icon="xamarin_logo.png">
+        <Tab Route="Manage" Title="Manage Bill">
+            <Tab.Icon>
+                <FontImageSource 
+                    FontFamily="FontAwesome"
+                    Glyph="{x:Static fonts:FontAwesomeIcon.Book}" 
+                    Color="Black" 
+                    Size="Small" />
+            </Tab.Icon>
+            
             <ShellContent ContentTemplate="{DataTemplate pages:ManageBillPage}"/>
         </Tab>
-        <Tab Route="Account" Title="Account" Icon="xamarin_logo.png">
+        <Tab Route="Invoice" Title="Invoice">
+            <Tab.Icon>
+                <FontImageSource 
+                    FontFamily="FontAwesome"
+                    Glyph="{x:Static fonts:FontAwesomeIcon.Qrcode}" 
+                    Color="Black" 
+                    Size="Small" />
+            </Tab.Icon>
+            
             <ShellContent Title="Invoice" ContentTemplate="{DataTemplate pages:InvoicePage}"/>
-            <ShellContent Title="About Lynx" ContentTemplate="{DataTemplate pages:AboutPage}"/>
-            <ShellContent Title="Settings" ContentTemplate="{DataTemplate pages:SettingPage}"/>
-            <ShellContent Title="Account" ContentTemplate="{DataTemplate pages:AccountPage}"/>
         </Tab>
-    </TabBar>
-    
+    </FlyoutItem>
+
+    <FlyoutItem Title="Account">
+        <ShellContent Title="Account" ContentTemplate="{DataTemplate pages:AccountPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About Lynx">
+        <ShellContent Title="About Lynx" ContentTemplate="{DataTemplate pages:AboutPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings">
+        <ShellContent Title="Settings" ContentTemplate="{DataTemplate pages:SettingPage}"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Logout">
+        <ShellContent Title="Logout" ContentTemplate="{DataTemplate pages:SettingPage}"/>
+    </FlyoutItem>
 </Shell>
