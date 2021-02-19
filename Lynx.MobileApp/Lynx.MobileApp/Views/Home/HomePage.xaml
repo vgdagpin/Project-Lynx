@@ -23,9 +23,9 @@
                     <ColumnDefinition Width="33*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Grid.Column="0" Text="Test 1"></Button>
-                <Button Grid.Row="0" Grid.Column="1" Text="Test 2"></Button>
-                <Button Grid.Row="0" Grid.Column="2" Text="Test 3"></Button>
+                <Button x:Name="Test1Btn" Grid.Row="0" Grid.Column="0" Text="Load Data" Clicked="Test1Btn_Clicked"></Button>
+                <Button x:Name="Test2Btn" Grid.Row="0" Grid.Column="1" Text="Re-create DB" Clicked="Test2Btn_Clicked"></Button>
+                <Button x:Name="Test3Btn" Grid.Row="0" Grid.Column="2" Text="DB Path" Clicked="Test3Btn_Clicked"></Button>
             </Grid>
             
             <ListView ItemsSource="{Binding Bills}" 
@@ -40,7 +40,8 @@
                                              BackgroundColor="#EEB9B9"  
                                              VerticalOptions="FillAndExpand">									
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Bill: "></Label><Label Text="{Binding Name}" />
+                                        <Label Text="Bill: "></Label>
+                                        <Label Text="{Binding ShortDesc}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="Due Date: "></Label>
@@ -48,7 +49,7 @@
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="Amount: "></Label>
-                                        <Label Text="{Binding AmountDue, StringFormat='{0:n2}'}" />
+                                        <Label Text="{Binding Amount, StringFormat='{0:n2}'}" />
                                     </StackLayout>
 
                                     <StackLayout.GestureRecognizers>

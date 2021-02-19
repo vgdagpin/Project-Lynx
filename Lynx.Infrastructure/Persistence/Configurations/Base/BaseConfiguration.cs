@@ -32,7 +32,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 
         protected virtual void KeyBuilder(BaseKeyBuilder<T> builder)
         {
-            m_EntityTypeBuilder.Property<Guid>("ID");
+            m_EntityTypeBuilder.Property<Guid>("ID").ValueGeneratedOnAdd();
 
             builder.HasKey("ID");
         }

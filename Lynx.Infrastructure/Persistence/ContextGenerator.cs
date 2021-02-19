@@ -19,23 +19,113 @@ namespace Lynx.Infrastructure.Persistence
 	public partial class LynxDbContext : DbContext, ILynxDbContext
 	{
 		#region Entities
+		private DbSet<Bill> db_Bills { get; set; }
+		public IQueryable<Bill> Bills 
+		{ 
+			get { return db_Bills; }
+			private set { db_Bills = (DbSet<Bill>)value; }
+		}
+		private DbSet<BillProvider> db_BillProviders { get; set; }
+		public IQueryable<BillProvider> BillProviders 
+		{ 
+			get { return db_BillProviders; }
+			private set { db_BillProviders = (DbSet<BillProvider>)value; }
+		}
+		private DbSet<BillSetting> db_BillSettings { get; set; }
+		public IQueryable<BillSetting> BillSettings 
+		{ 
+			get { return db_BillSettings; }
+			private set { db_BillSettings = (DbSet<BillSetting>)value; }
+		}
+		private DbSet<NotificationConfiguration> db_NotificationConfigurations { get; set; }
+		public IQueryable<NotificationConfiguration> NotificationConfigurations 
+		{ 
+			get { return db_NotificationConfigurations; }
+			private set { db_NotificationConfigurations = (DbSet<NotificationConfiguration>)value; }
+		}
+		private DbSet<NotificationTemplate> db_NotificationTemplates { get; set; }
+		public IQueryable<NotificationTemplate> NotificationTemplates 
+		{ 
+			get { return db_NotificationTemplates; }
+			private set { db_NotificationTemplates = (DbSet<NotificationTemplate>)value; }
+		}
+		private DbSet<ProviderType> db_ProviderTypes { get; set; }
+		public IQueryable<ProviderType> ProviderTypes 
+		{ 
+			get { return db_ProviderTypes; }
+			private set { db_ProviderTypes = (DbSet<ProviderType>)value; }
+		}
+		private DbSet<SchedulerEntry> db_SchedulerEntries { get; set; }
+		public IQueryable<SchedulerEntry> SchedulerEntries 
+		{ 
+			get { return db_SchedulerEntries; }
+			private set { db_SchedulerEntries = (DbSet<SchedulerEntry>)value; }
+		}
+		private DbSet<TrackBill> db_TrackBills { get; set; }
+		public IQueryable<TrackBill> TrackBills 
+		{ 
+			get { return db_TrackBills; }
+			private set { db_TrackBills = (DbSet<TrackBill>)value; }
+		}
+		private DbSet<TrackBillScheduler> db_TrackBillSchedulers { get; set; }
+		public IQueryable<TrackBillScheduler> TrackBillSchedulers 
+		{ 
+			get { return db_TrackBillSchedulers; }
+			private set { db_TrackBillSchedulers = (DbSet<TrackBillScheduler>)value; }
+		}
+		private DbSet<TrackBillSetting> db_TrackBillSettings { get; set; }
+		public IQueryable<TrackBillSetting> TrackBillSettings 
+		{ 
+			get { return db_TrackBillSettings; }
+			private set { db_TrackBillSettings = (DbSet<TrackBillSetting>)value; }
+		}
 		private DbSet<User> db_Users { get; set; }
 		public IQueryable<User> Users 
 		{ 
 			get { return db_Users; }
-			set { db_Users = (DbSet<User>)value; }
+			private set { db_Users = (DbSet<User>)value; }
+		}
+		private DbSet<UserBill> db_UserBills { get; set; }
+		public IQueryable<UserBill> UserBills 
+		{ 
+			get { return db_UserBills; }
+			private set { db_UserBills = (DbSet<UserBill>)value; }
+		}
+		private DbSet<UserBillAttachment> db_UserBillAttachments { get; set; }
+		public IQueryable<UserBillAttachment> UserBillAttachments 
+		{ 
+			get { return db_UserBillAttachments; }
+			private set { db_UserBillAttachments = (DbSet<UserBillAttachment>)value; }
+		}
+		private DbSet<UserBillPayment> db_UserBillPayments { get; set; }
+		public IQueryable<UserBillPayment> UserBillPayments 
+		{ 
+			get { return db_UserBillPayments; }
+			private set { db_UserBillPayments = (DbSet<UserBillPayment>)value; }
+		}
+		private DbSet<UserBillPaymentTransaction> db_UserBillPaymentTransactions { get; set; }
+		public IQueryable<UserBillPaymentTransaction> UserBillPaymentTransactions 
+		{ 
+			get { return db_UserBillPaymentTransactions; }
+			private set { db_UserBillPaymentTransactions = (DbSet<UserBillPaymentTransaction>)value; }
 		}
 		private DbSet<UserLogin> db_UserLogins { get; set; }
 		public IQueryable<UserLogin> UserLogins 
 		{ 
 			get { return db_UserLogins; }
-			set { db_UserLogins = (DbSet<UserLogin>)value; }
+			private set { db_UserLogins = (DbSet<UserLogin>)value; }
+		}
+		private DbSet<UserNotification> db_UserNotifications { get; set; }
+		public IQueryable<UserNotification> UserNotifications 
+		{ 
+			get { return db_UserNotifications; }
+			private set { db_UserNotifications = (DbSet<UserNotification>)value; }
 		}
 		private DbSet<UserSession> db_UserSessions { get; set; }
 		public IQueryable<UserSession> UserSessions 
 		{ 
 			get { return db_UserSessions; }
-			set { db_UserSessions = (DbSet<UserSession>)value; }
+			private set { db_UserSessions = (DbSet<UserSession>)value; }
 		}
         #endregion
 
@@ -52,7 +142,22 @@ namespace Lynx.Infrastructure.Persistence
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
+	public partial class Bill_Configuration : BaseConfiguration<Bill> { }
+	public partial class BillProvider_Configuration : BaseConfiguration<BillProvider> { }
+	public partial class BillSetting_Configuration : BaseConfiguration<BillSetting> { }
+	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
+	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
+	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }
+	public partial class SchedulerEntry_Configuration : BaseConfiguration<SchedulerEntry> { }
+	public partial class TrackBill_Configuration : BaseConfiguration<TrackBill> { }
+	public partial class TrackBillScheduler_Configuration : BaseConfiguration<TrackBillScheduler> { }
+	public partial class TrackBillSetting_Configuration : BaseConfiguration<TrackBillSetting> { }
 	public partial class User_Configuration : BaseConfiguration<User> { }
+	public partial class UserBill_Configuration : BaseConfiguration<UserBill> { }
+	public partial class UserBillAttachment_Configuration : BaseConfiguration<UserBillAttachment> { }
+	public partial class UserBillPayment_Configuration : BaseConfiguration<UserBillPayment> { }
+	public partial class UserBillPaymentTransaction_Configuration : BaseConfiguration<UserBillPaymentTransaction> { }
 	public partial class UserLogin_Configuration : BaseConfiguration<UserLogin> { }
+	public partial class UserNotification_Configuration : BaseConfiguration<UserNotification> { }
 	public partial class UserSession_Configuration : BaseConfiguration<UserSession> { }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using Lynx.Domain.Entities;
-using Lynx.Infrastructure.Common.Constants;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
@@ -26,6 +25,13 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 ID = Guid.Empty.Increment(1),
                 FirstName = "Admin",
                 LastName = "Admin"
+            });
+
+            builder.HasData(new User
+            {
+                ID = Guid.Empty.Increment(2),
+                FirstName = "Vincent",
+                LastName = "Dagpin"
             });
         }
     }

@@ -17,9 +17,9 @@ namespace Lynx.MobileApp
 
         public App()
         {
-            //ServiceProvider = new ServiceCollection()
-            //    .AddMobileAppPortable()
-            //    .BuildServiceProvider();
+            ServiceProvider = new ServiceCollection()
+                .AddMobileAppPortable()
+                .BuildServiceProvider();
 
             InitializeComponent();
 

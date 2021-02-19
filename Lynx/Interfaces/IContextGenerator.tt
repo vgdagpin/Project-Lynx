@@ -11,13 +11,13 @@
 <#
 
 
-				var _t4File = this.Host.TemplateFile;
-				var _entitiesPath= Path.GetDirectoryName(_t4File);
-				var _jsonConfig = Path.ChangeExtension(_t4File, "json");
-				var _config = JObject.Parse(File.ReadAllText(_jsonConfig));
-				var _tt = Path.GetFullPath(Path.Combine(_entitiesPath,_config.SelectToken("$.Entities.Path").ToString() ));
+	var t4File = this.Host.TemplateFile;
+	var entitiesPath= Path.GetDirectoryName(t4File);
+	var jsonConfig = Path.ChangeExtension(t4File, "json");
+	var config = JObject.Parse(File.ReadAllText(jsonConfig));
+	var entitiesDirectory = Path.GetFullPath(Path.Combine(entitiesPath,config.SelectToken("$.Entities.Path").ToString() ));
 
-
+    var excludedTypes = config.SelectToken("$.Entities.ExcludedFiles").ToObject<string[]>().Select(a => Path.GetFullPath(Path.Combine(entitiesPath, a)));
 #>
 using System;
 using System.Linq;
@@ -25,7 +25,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
-<# foreach (var ns in _config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
+<# foreach (var ns in config.SelectToken("$.Entities.Namespaces").ToObject<string[]>()) { #>
 using <#= ns #>;
 <# } #>
 
@@ -34,13 +34,13 @@ Do not modify this file! This is auto generated!
 Any changes to this file will be gone when template gets generated again.
 */
 
-namespace <#= _config.SelectToken("$.IDbContext.Namespace") #>
+namespace <#= config.SelectToken("$.IDbContext.Namespace") #>
 {
-	public interface <#= _config.SelectToken("$.IDbContext.Name") #>
+	public interface <#= config.SelectToken("$.IDbContext.Name") #>
 	{
 		#region Entities
-<# foreach (var _eachFile in Directory.GetFiles(_tt, "*.cs", SearchOption.AllDirectories)) { #>
-		IQueryable<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
+<# foreach (var _eachFile in Directory.GetFiles(entitiesDirectory, "*.cs", SearchOption.AllDirectories)) { if (excludedTypes.Contains(_eachFile)) continue; #>
+		IQueryable<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; }
 <# } #>
         #endregion
 	}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Lynx.Common;
 using Lynx.Infrastructure;
 using Lynx.Infrastructure.Common;
 using Lynx.Interfaces;
@@ -42,6 +43,7 @@ namespace Lynx.MobileApp
             services.AddTasqR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IDateTime, AppDateTime>();
             services.AddSingleton<IGuid, AppGuid>();
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddTransient<SessionVerificationViewModel>();
             services.AddTransient<LoginViewModel>();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Lynx.Domain.Entities;
 using Lynx.Infrastructure.Common;
-using Lynx.Infrastructure.Common.Constants;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
@@ -35,14 +34,23 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         protected override void SeedData(BaseSeeder<UserLogin> builder)
         {
             var hasher = new PasswordHasher();
-            byte[] salt = Encoding.ASCII.GetBytes("ADMIN-SALT-1234!@#$");
 
             builder.HasData(new UserLogin
             {
                 ID = Guid.Empty.Increment(1),
-                Salt = salt,
-                Password = hasher.HashPassword(salt, "k4m0t3"),
+                Salt = Encoding.ASCII.GetBytes(Guid.Empty.Increment(1).ToString()),
+                Password = hasher.HashPassword(Encoding.ASCII.GetBytes(Guid.Empty.Increment(1).ToString()), "k4m0t3"),
                 Username = "admin",
+                IsTemporaryPassword = true,
+                TemporaryPassword = "k4m0t3"
+            });
+
+            builder.HasData(new UserLogin
+            {
+                ID = Guid.Empty.Increment(2),
+                Salt = Encoding.ASCII.GetBytes(Guid.Empty.Increment(2).ToString()),
+                Password = hasher.HashPassword(Encoding.ASCII.GetBytes(Guid.Empty.Increment(2).ToString()), "k4m0t3"),
+                Username = "vgdagpin",
                 IsTemporaryPassword = true,
                 TemporaryPassword = "k4m0t3"
             });

@@ -3,6 +3,9 @@
     "Path": "../../Lynx/Domain/Entities",
     "Namespaces": [
       "Lynx.Domain.Entities"
+    ],
+    "ExcludedFiles": [
+      "../../Lynx/Domain/Entities/Base/BaseEntity.cs"
     ]
   },
   "IDbContext": {
