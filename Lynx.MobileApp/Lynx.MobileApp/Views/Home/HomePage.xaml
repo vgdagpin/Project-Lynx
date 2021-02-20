@@ -6,6 +6,8 @@
     <ContentPage.BindingContext>
         <vm:HomePageViewModel />
     </ContentPage.BindingContext>
+    
+    
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Total Due: 30,000.00" />

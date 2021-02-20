@@ -44,7 +44,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp.Android", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp.iOS", "Lynx.MobileApp\Lynx.MobileApp.iOS\Lynx.MobileApp.iOS.csproj", "{67A8E6F3-9CAD-4504-9EA9-812A4862A064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp", "Lynx.MobileApp\Lynx.MobileApp\Lynx.MobileApp.csproj", "{E387504A-FA75-4507-A5A1-C67CFFE63D56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lynx.MobileApp", "Lynx.MobileApp\Lynx.MobileApp\Lynx.MobileApp.csproj", "{E387504A-FA75-4507-A5A1-C67CFFE63D56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

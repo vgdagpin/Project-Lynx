@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="TasqR" Version="1.4.1" />
+    <PackageReference Include="TasqR" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup>

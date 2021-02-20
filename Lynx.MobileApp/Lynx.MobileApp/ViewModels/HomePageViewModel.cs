@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
-using Lynx.Domain.Entities;
 using Lynx.Infrastructure.Common.Constants;
 using Lynx.MobileApp.Views;
-using Lynx.Queries.BillsQrs;
 using Lynx.Queries.UserBillQrs;
-using Microsoft.EntityFrameworkCore;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -23,7 +17,7 @@ namespace Lynx.MobileApp.ViewModels
         public ObservableCollection<UserBillVM> Bills { get; protected set; }
 
         public Command<BillVM> ItemTapped { get; }
-        public Command LoadData { get; }
+        public ICommand LoadData { get; }
 
         public HomePageViewModel()
         {
@@ -40,14 +34,33 @@ namespace Lynx.MobileApp.ViewModels
             await Shell.Current.GoToAsync($"{nameof(BillDetail)}?{nameof(BillDetailViewModel.BillID)}={bill.ID}");
         }
 
+        bool isLoading = false;
         async void loadDataCommand()
         {
-            var bills = tasqR.Run(new GetUserBillsQr(Guid.Parse(UserIDConstants.Enteng)));
-
-            foreach (var bill in bills)
+            if (isLoading)
             {
-                Bills.Add(bill);
-            }            
+                return;
+            }
+
+            Bills.Clear();
+
+            try
+            {
+                isLoading = true;
+                var qr = new GetUserBillsQr(Guid.Parse(UserIDConstants.Enteng));
+                var bills = await tasqR.RunAsync(qr);
+
+                foreach (var item in bills)
+                {
+                    Bills.Add(item);
+                }
+
+                isLoading = false;
+            }
+            catch (Exception ex)
+            {
+                isLoading = false;
+            }
         }
     }
 }
