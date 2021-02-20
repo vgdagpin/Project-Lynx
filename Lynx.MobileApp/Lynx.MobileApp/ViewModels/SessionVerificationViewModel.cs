@@ -30,7 +30,7 @@ namespace Lynx.MobileApp.ViewModels
 
             if (activeSession != null)
             {
-                Application.Current.Properties[TokenConstant.AppTokenKey] = activeSession;
+                Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = activeSession;
 
                 GoToMainPage();
             }
@@ -47,7 +47,7 @@ namespace Lynx.MobileApp.ViewModels
 
         private void GoToMainPage()
         {
-            Application.Current.MainPage = new AppShell();
+            Xamarin.Forms.Application.Current.MainPage = new AppShell();
         }
     }
 }

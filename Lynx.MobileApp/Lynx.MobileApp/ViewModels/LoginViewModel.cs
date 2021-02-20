@@ -55,8 +55,8 @@ namespace Lynx.MobileApp.ViewModels
 
                     await p_BaseDbContext.SaveChangesAsync();
 
-                    Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
-                    Application.Current.MainPage = new AppShell();
+                    Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
+                    Xamarin.Forms.Application.Current.MainPage = new AppShell();
                 }
             }
             catch (Exception ex)

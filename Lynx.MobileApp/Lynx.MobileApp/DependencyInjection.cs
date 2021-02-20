@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using Lynx.Common;
 using Lynx.Infrastructure;
 using Lynx.Infrastructure.Common;
@@ -39,10 +37,19 @@ namespace Lynx.MobileApp
 
             services.AddTransient<IPasswordHasher, PasswordHasher>();
 
+            services.AddHttpClient("lynx-api", config =>
+            {
+                config.BaseAddress = new Uri("http://project-lynx.azurewebsites.net/");
+
+                config.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Lynx");
+            });
+
             services.AddInfrastructureUseSQLite(configuration, SQLiteConstants.FilePath);
             services.AddTasqR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IDateTime, AppDateTime>();
             services.AddSingleton<IGuid, AppGuid>();
+            services.AddSingleton<IAppUser, AppUser>();
+            services.AddSingleton<IExceptionHandler, ExceptionHandler>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddTransient<SessionVerificationViewModel>();

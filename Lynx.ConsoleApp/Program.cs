@@ -18,8 +18,8 @@ namespace Lynx.ConsoleApp
 
 
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
-        {            
-            services.AddInfrastructureUseSQLite(configuration);
+        {
+            services.AddInfrastructureUseSqlServer(configuration);
             services.AddApplication();
 
             services.AddTasqR(Assembly.GetExecutingAssembly());

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lynx.DbMigration.SqlServer.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
-    [Migration("20210219100034_Init")]
+    [Migration("20210220151855_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

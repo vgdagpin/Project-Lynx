@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Resizetizer.NT" Version="0.2.0" />
     <PackageReference Include="TasqR" Version="1.4.2" />
     <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.2" />
@@ -30,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Lynx.Application\Lynx.Application.csproj" />
     <ProjectReference Include="..\..\Lynx.DbMigration.SQLite\Lynx.DbMigration.SQLite.csproj" />
     <ProjectReference Include="..\..\Lynx.Infrastructure\Lynx.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Lynx\Lynx.csproj" />
@@ -40,9 +42,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Account\AccountPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Views\Home\BillDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\ContactPage.xaml">
@@ -58,6 +57,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Account\InvoicePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Home\UserBillDetailPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\LibraryPage.xaml">

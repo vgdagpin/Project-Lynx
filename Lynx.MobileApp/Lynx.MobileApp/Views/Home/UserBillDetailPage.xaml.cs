@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Lynx.MobileApp.Views
+namespace Lynx.MobileApp.Views.Home
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BillDetail : ContentPage
+    public partial class UserBillDetailPage : ContentPage
     {
-        public BillDetail()
+        public UserBillDetailPage()
         {
             InitializeComponent();
         }

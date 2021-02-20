@@ -7,7 +7,7 @@ using TasqR;
 
 namespace Lynx.Queries.UserBillQrs
 {
-    public class GetUserBillsQr : ITasq<IQueryable<UserBillVM>>
+    public class GetUserBillsQr : ITasq<IEnumerable<UserBillVM>>
     {
         public GetUserBillsQr(Guid userID)
         {

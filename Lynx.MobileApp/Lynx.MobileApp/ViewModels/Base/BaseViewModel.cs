@@ -1,15 +1,60 @@
-﻿using Lynx.MobileApp.Models;
-using Lynx.MobileApp.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Lynx.Interfaces;
+using Lynx.MobileApp.Models;
+using Lynx.MobileApp.Services;
+using TasqR;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+        private IExceptionHandler p_ExceptionHandler;
+        protected IExceptionHandler ExceptionHandler
+        {
+            get
+            {
+                if (p_ExceptionHandler == null)
+                {
+                    p_ExceptionHandler = GetService<IExceptionHandler>();
+                }
+
+                return p_ExceptionHandler;
+            }
+        }
+
+        private ITasqR p_TasqR;
+        protected ITasqR TasqR
+        {
+            get
+            {
+                if (p_TasqR == null)
+                {
+                    p_TasqR = GetService<ITasqR>();
+                }
+
+                return p_TasqR;
+            }
+        }
+
+        private IAppUser p_appUser;
+        protected IAppUser AppUser
+        {
+            get
+            {
+                if (p_appUser == null)
+                {
+                    p_appUser = GetService<IAppUser>();
+                }
+
+                return p_appUser;
+            }
+        }
+
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         bool isBusy = false;
@@ -37,6 +82,11 @@ namespace Lynx.MobileApp.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        protected T GetService<T>()
+        {
+            return App.ServiceProvider.GetService<T>();
         }
 
         #region INotifyPropertyChanged
