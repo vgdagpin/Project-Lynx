@@ -1,38 +1,54 @@
-﻿using System.Threading;
+﻿using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Common.ViewModels;
 using Lynx.Interfaces;
+using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
 {
-    public class GetUserBillQrAPIHandler : TasqHandlerAsync<GetUserBillQr, UserBillVM>
+    public class GetUserBillQrAPIHandler : GetUserBillQrHandler
     {
-        private readonly ILynxDbContext p_DbContext;
-        private readonly IMapper p_Mapper;
+        private readonly IHttpClientFactory p_ClientFactory;
+        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly HttpClient p_HttpClient;
 
-        public GetUserBillQrAPIHandler(ILynxDbContext dbContext, IMapper mapper)
+        public GetUserBillQrAPIHandler(ILynxDbContext dbContext, IMapper mapper, IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler)
+            : base(dbContext, mapper)
         {
-            p_DbContext = dbContext;
-            p_Mapper = mapper;
+            p_ClientFactory = clientFactory;
+            p_ExceptionHandler = exceptionHandler;
+            p_HttpClient = p_ClientFactory.LynxApiClient();
         }
 
         public async override Task<UserBillVM> RunAsync(GetUserBillQr process, CancellationToken cancellationToken = default)
         {
-            var result = await p_DbContext.UserBills
-                   .Include(a => a.N_TrackBill)
-                   .ThenInclude(a => a.N_Bill)
-                   .SingleOrDefaultAsync(a => a.UserID == process.UserBillID, cancellationToken);
-
-            if (result == null)
+            try
             {
-                return null;
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}/{process.UserBillID}");
+
+                var response = await p_HttpClient.SendAsync(request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    using var responseStream = await response.Content.ReadAsStreamAsync();
+
+                    return await JsonSerializer.DeserializeAsync<UserBillVM>(responseStream);
+                }
+            }
+            catch (Exception ex)
+            {
+                p_ExceptionHandler.LogError(ex);
             }
 
-            return p_Mapper.Map<UserBillVM>(result);
+            return await base.RunAsync(process, cancellationToken);
         }
     }
 }

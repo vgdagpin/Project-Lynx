@@ -39,7 +39,7 @@ namespace Lynx.MobileApp
 
             services.AddHttpClient("lynx-api", config =>
             {
-                config.BaseAddress = new Uri("http://project-lynx.azurewebsites.net/");
+                config.BaseAddress = new Uri(configuration["Lynx-API-Hostname-Local"]);
 
                 config.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Lynx");
             });

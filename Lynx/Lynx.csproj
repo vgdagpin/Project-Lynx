@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commands\UserCmds\" />
     <Folder Include="Constants\" />
   </ItemGroup>
 

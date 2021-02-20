@@ -10,6 +10,7 @@ using AutoMapper.QueryableExtensions;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Common.ViewModels;
 using Lynx.Interfaces;
+using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
@@ -34,7 +35,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, "UserBill");
+                var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.UserBill);
 
                 var response = await p_HttpClient.SendAsync(request);
 

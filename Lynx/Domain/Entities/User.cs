@@ -4,10 +4,8 @@ using System.Text;
 
 namespace Lynx.Domain.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
-        public Guid ID { get; set; }
-
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
