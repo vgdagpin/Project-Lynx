@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.ViewModels;
@@ -22,31 +23,35 @@ namespace Lynx.MobileApp.ViewModels
         public HomePageViewModel()
         {
             LoadData = new Command(LoadDataCommand);
+
+            LoadData.Execute(null);
         }
 
-        async void LoadDataCommand()
+        private void LoadDataCommand()
         {
-            if (IsBusy) return;
-
-            Bills.Clear();
-
-            try
+            Task.Run(async () =>
             {
-                IsBusy = true;
 
-                var bills = await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID));
-
-                foreach (var item in bills)
+                try
                 {
-                    Bills.Add(item);
-                }
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.LogError(ex);
-            }
+                    IsBusy = true;
 
-            IsBusy = false;
+                    var bills = await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID));
+
+                    Bills.Clear();
+
+                    foreach (var item in bills)
+                    {
+                        Bills.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHandler.LogError(ex);
+                }
+
+                IsBusy = false;
+            });
         }
     }
 }

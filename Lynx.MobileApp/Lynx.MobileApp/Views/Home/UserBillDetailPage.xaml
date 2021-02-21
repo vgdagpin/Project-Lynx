@@ -9,9 +9,17 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Name}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            
+            <ActivityIndicator  
+                IsRunning="True" 
+                IsVisible="{Binding IsBusy}" 
+                Color="Gray"
+                HorizontalOptions="CenterAndExpand" 
+                VerticalOptions="CenterAndExpand"/>
+
+            <Label Text="{Binding Path=UserBill.ShortDesc}"
+                   IsVisible="{Binding IsLoaded}" />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

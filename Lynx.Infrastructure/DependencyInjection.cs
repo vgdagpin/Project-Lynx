@@ -30,7 +30,7 @@ namespace Lynx.Infrastructure
                     {
                         opt.MigrationsAssembly("Lynx.DbMigration.SqlServer");
                         opt.MigrationsHistoryTable("MigrationHistory", "admin");
-                        opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
+                        //opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                     }
                 );
 

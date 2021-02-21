@@ -13,5 +13,8 @@ namespace Lynx.Domain.Entities
 
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
+
+
+        public ProviderType N_ProviderType { get; set; }
     }
 }

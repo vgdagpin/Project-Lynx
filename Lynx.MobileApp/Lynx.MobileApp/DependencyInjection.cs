@@ -23,7 +23,11 @@ namespace Lynx.MobileApp
             var embeddedResourceStream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("Lynx.MobileApp.config.json");
 
-            IConfiguration configuration = null;
+            IConfiguration configuration = 
+                
+                
+                
+                null;
 
             if (embeddedResourceStream != null)
             {

@@ -19,5 +19,6 @@ namespace Lynx.Domain.Entities
         public string TypeName { get; set; }
 
         public ICollection<BillSetting> N_BillSettings { get; set; } = new HashSet<BillSetting>();
+        public ICollection<BillProvider> N_BillProviders { get; set; } = new HashSet<BillProvider>();
     }
 }

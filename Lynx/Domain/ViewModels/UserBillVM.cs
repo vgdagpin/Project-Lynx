@@ -19,5 +19,11 @@ namespace Lynx.Common.ViewModels
                 .ForMember(a => a.ShortDesc, b => b.MapFrom(x => x.N_TrackBill.ShortDesc ?? x.N_TrackBill.N_Bill.ShortDesc))
                 .ForMember(a => a.LongDesc, b => b.MapFrom(x => x.N_TrackBill.LongDesc ?? x.N_TrackBill.N_Bill.LongDesc));
         }
+
+
+        public static UserBillVM Null()
+        {
+            return null;
+        }
     }
 }

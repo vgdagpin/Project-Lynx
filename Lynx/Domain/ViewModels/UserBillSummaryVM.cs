@@ -12,6 +12,9 @@ namespace Lynx.Domain.ViewModels
         public Guid ID { get; set; }
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
+        public DateTime DueDate { get; set; }
+        public decimal Amount { get; set; }
+        public BillPaymentStatus Status { get; set; }
 
         public void Mapping(Profile profile)
         {

@@ -7,7 +7,10 @@ using TasqR;
 
 namespace Lynx.Queries.BillsQrs
 {
-    public class GetBillsForThisMonthQr : ITasq<IEnumerable<BillVM>>
+    /// <summary>
+    /// GetBillsQrHandler
+    /// </summary>
+    public class GetBillsQr : ITasq<IEnumerable<BillSummaryVM>>
     {
 
     }

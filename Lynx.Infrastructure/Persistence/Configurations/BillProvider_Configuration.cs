@@ -25,16 +25,16 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         protected override void ConfigureRelationship(BaseRelationshipBuilder<BillProvider> builder)
         {
             builder.HasOne<Bill>()
-                .WithMany()
+                .WithMany(a => a.N_BillProviders)
                 .HasForeignKey(a => a.BillID);
 
-            builder.HasOne<ProviderType>()
+            builder.HasOne(a => a.N_ProviderType)
                 .WithMany()
                 .HasForeignKey(a => a.ProviderTypeID);
         }
 
         protected override void SeedData(BaseSeeder<BillProvider> builder)
-        { 
+        {
             builder.HasData(new BillProvider
             {
                 ID = 1,

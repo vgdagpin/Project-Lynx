@@ -20,6 +20,7 @@ using Lynx.WebAPI.Common;
 using Lynx.Common;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.EntityFrameworkCore;
+using Lynx.WebAPI.Middlewares;
 
 namespace Lynx.WebAPI
 {
@@ -74,6 +75,8 @@ namespace Lynx.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<MockDelayResponseMiddleware>();
 
             app.UseAuthorization();
 

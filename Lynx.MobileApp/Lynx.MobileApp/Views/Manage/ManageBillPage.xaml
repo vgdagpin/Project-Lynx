@@ -11,12 +11,46 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Track Bill" Command="{Binding TrackNewBill}" />
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms! - Manage Bill"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BackgroundColor="Gray">
+            <ListView ItemsSource="{Binding TrackedBills}" 
+                      HasUnevenRows="False"
+                      HeightRequest="300"
+                      BackgroundColor="LightGray" 
+                      RowHeight="100" 
+                      IsPullToRefreshEnabled="True" 
+                      RefreshCommand="{Binding LoadData}" 
+                      IsRefreshing="{Binding IsBusy}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell Height="100">
+                            <ViewCell.View>
+                                <StackLayout Padding="10"
+                                             BackgroundColor="#EEB9B9"  
+                                             VerticalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Bill: "></Label>
+                                        <Label Text="{Binding ShortDesc}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Account Number: "></Label>
+                                        <Label Text="{Binding AccountNumber}" />
+                                    </StackLayout>
+
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ManageBillViewModel}}, Path=ItemTapped}"
+                                            CommandParameter="{Binding .}">
+                                        </TapGestureRecognizer>
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

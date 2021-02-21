@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Lynx.Common.ViewModels;
 using Lynx.Queries.UserBillQrs;
 using TasqR;
 using Xamarin.Forms;
@@ -14,23 +16,27 @@ namespace Lynx.MobileApp.ViewModels
         private Guid billID;
         public string BillID
         {
-            get
-            {
-                return billID.ToString();
-            }
+            get { return billID.ToString(); }
             set
             {
                 billID = Guid.Parse(value);
+
                 LoadItemId(billID);
             }
         }
 
-        private string name;
-
-        public string Name
+        private bool isLoaded;
+        public bool IsLoaded
         {
-            get { return name; }
-            set { SetProperty(ref name, value); }
+            get { return isLoaded; }
+            set { SetProperty(ref isLoaded, value); }
+        }
+
+        private UserBillVM userBill;
+        public UserBillVM UserBill
+        {
+            get { return userBill; }
+            set { SetProperty(ref userBill, value); }
         }
 
 
@@ -39,18 +45,24 @@ namespace Lynx.MobileApp.ViewModels
             p_TasqR = App.ServiceProvider.GetService<ITasqR>();
         }
 
-        async void LoadItemId(Guid billID)
+        private Task LoadItemId(Guid billID)
         {
-            try
+            return Task.Run(async () =>
             {
-                var item = await p_TasqR.RunAsync(new GetUserBillQr(billID));
+                try
+                {
+                    IsBusy = true;
 
-                Name = item.LongDesc;
-            }
-            catch (Exception ex)
-            {
-                ExceptionHandler.LogError(ex);
-            }
+                    UserBill = await p_TasqR.RunAsync(new GetUserBillQr(billID));
+                }
+                catch (Exception ex)
+                {
+                    ExceptionHandler.LogError(ex);
+                }
+
+                IsLoaded = true;
+                IsBusy = false;
+            });
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,9 @@ namespace Lynx.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://*:5003");
+                    //webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
+                    //webBuilder.UseIISIntegration();
                     webBuilder.UseStartup<Startup>();
                 });
     }

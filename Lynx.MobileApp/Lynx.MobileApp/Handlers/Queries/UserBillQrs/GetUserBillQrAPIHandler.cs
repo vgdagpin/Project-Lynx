@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
@@ -28,27 +29,38 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             p_HttpClient = p_ClientFactory.LynxApiClient();
         }
 
-        public async override Task<UserBillVM> RunAsync(GetUserBillQr process, CancellationToken cancellationToken = default)
+        public override Task<UserBillVM> RunAsync(GetUserBillQr process, CancellationToken cancellationToken = default)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}/{process.UserBillID}");
 
-                var response = await p_HttpClient.SendAsync(request);
+                return p_HttpClient.SendAsync(request, cancellationToken)
+                    .ContinueWith(responseTask =>
+                    {
+                        var response = responseTask.Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                        if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
+                        {
+                            return Task.FromResult(UserBillVM.Null());
+                        }
 
-                    return await JsonSerializer.DeserializeAsync<UserBillVM>(responseStream);
-                }
+                        return response.Content.ReadAsStringAsync()
+                            .ContinueWith(jsonTask =>
+                            {
+                                var json = jsonTask.Result;
+
+                                return JsonSerializer.Deserialize<UserBillVM>(json);
+                            });
+                    })
+                    .Unwrap();
             }
             catch (Exception ex)
             {
                 p_ExceptionHandler.LogError(ex);
-            }
 
-            return await base.RunAsync(process, cancellationToken);
+                return Task.FromResult(UserBillVM.Null());
+            }
         }
     }
 }

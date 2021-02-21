@@ -14,26 +14,16 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Gray">
-            <Grid Margin="0, 5, 0, 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="60"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="33*"></ColumnDefinition>
-                    <ColumnDefinition Width="33*"></ColumnDefinition>
-                    <ColumnDefinition Width="33*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-
-                <Button x:Name="Test1Btn" Grid.Row="0" Grid.Column="0" Text="Load Data" Clicked="Test1Btn_Clicked"></Button>
-                <Button x:Name="Test2Btn" Grid.Row="0" Grid.Column="1" Text="Re-create DB" Clicked="Test2Btn_Clicked"></Button>
-                <Button x:Name="Test3Btn" Grid.Row="0" Grid.Column="2" Text="DB Path" Clicked="Test3Btn_Clicked"></Button>
-            </Grid>
+        <StackLayout BackgroundColor="Gray">          
             
             <ListView ItemsSource="{Binding Bills}" 
                       HasUnevenRows="False"
                       HeightRequest="300"
-                      BackgroundColor="LightGray" RowHeight="100">
+                      BackgroundColor="LightGray" 
+                      RowHeight="100"
+                      IsPullToRefreshEnabled="True" 
+                      RefreshCommand="{Binding LoadData}" 
+                      IsRefreshing="{Binding IsBusy}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="100">
