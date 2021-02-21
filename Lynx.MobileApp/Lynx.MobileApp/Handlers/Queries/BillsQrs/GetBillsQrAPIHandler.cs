@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Application.Handlers.Queries.BillsQrs;
 using Lynx.Domain.ViewModels;
@@ -26,27 +29,38 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
             p_HttpClient = p_ClientFactory.LynxApiClient();
         }
 
-        public override IEnumerable<BillSummaryVM> Run(GetBillsQr process)
+        public override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.Bill);
 
-                var response = p_HttpClient.SendAsync(request).Result;
+                return p_HttpClient.SendAsync(request, cancellationToken)
+                    .ContinueWith(responseTask =>
+                    {
+                        var response = responseTask.Result;
 
-                if (response.IsSuccessStatusCode)
-                {
-                    using var responseStream = response.Content.ReadAsStreamAsync().Result;
+                        if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
+                        {
+                            return Task.FromResult(BillSummaryVM.Empty());
+                        }
 
-                    return JsonSerializer.DeserializeAsync<List<BillSummaryVM>>(responseStream).Result;
-                }
+                        return response.Content.ReadAsStringAsync()
+                            .ContinueWith(jsonTask =>
+                            {
+                                var json = jsonTask.Result;
+
+                                return JsonSerializer.Deserialize<IEnumerable<BillSummaryVM>>(json);
+                            });
+                    })
+                    .Unwrap();
             }
             catch (Exception ex)
             {
                 p_ExceptionHandler.LogError(ex);
-            }
 
-            return base.Run(process);
+                return Task.FromResult(BillSummaryVM.Empty());
+            }
         }
     }
 }
