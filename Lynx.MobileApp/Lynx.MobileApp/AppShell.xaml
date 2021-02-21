@@ -58,7 +58,7 @@
             
             <ShellContent ContentTemplate="{DataTemplate pages:ManageBillPage}"/>
         </Tab>
-        <!--<Tab Route="Invoice" Title="Invoice">
+        <Tab Route="Invoice" Title="Invoice">
             <Tab.Icon>
                 <FontImageSource 
                     FontFamily="FontAwesome"
@@ -68,7 +68,7 @@
             </Tab.Icon>
             
             <ShellContent Title="Invoice" ContentTemplate="{DataTemplate pages:InvoicePage}"/>
-        </Tab>-->
+        </Tab>
     </FlyoutItem>
 
     <FlyoutItem Title="Account">

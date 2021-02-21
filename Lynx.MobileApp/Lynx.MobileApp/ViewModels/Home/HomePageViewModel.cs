@@ -29,28 +29,29 @@ namespace Lynx.MobileApp.ViewModels
 
         private void LoadDataCommand()
         {
-            Task.Run(async () =>
+            Task.Run(() =>
             {
-
                 try
                 {
                     IsBusy = true;
 
-                    var bills = await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID));
+                    TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID))
+                        .ContinueWith(bills =>
+                        {
+                            Bills.Clear();
 
-                    Bills.Clear();
+                            foreach (var item in bills.Result)
+                            {
+                                Bills.Add(item);
+                            }
 
-                    foreach (var item in bills)
-                    {
-                        Bills.Add(item);
-                    }
+                            IsBusy = false;
+                        });
                 }
                 catch (Exception ex)
                 {
                     ExceptionHandler.LogError(ex);
                 }
-
-                IsBusy = false;
             });
         }
     }

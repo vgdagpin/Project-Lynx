@@ -1,6 +1,7 @@
 ﻿using System;
 using Lynx.MobileApp.Views;
 using Lynx.MobileApp.Views.Home;
+using Lynx.MobileApp.Views.Manage;
 using Xamarin.Forms;
 
 namespace Lynx.MobileApp
@@ -13,6 +14,7 @@ namespace Lynx.MobileApp
 
 
             Routing.RegisterRoute(nameof(UserBillDetailPage), typeof(UserBillDetailPage));
+            Routing.RegisterRoute(nameof(NewTrackBillPage), typeof(NewTrackBillPage));
             Routing.RegisterRoute(nameof(TrackBillPage), typeof(TrackBillPage));
             //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
