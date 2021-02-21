@@ -2,6 +2,7 @@
 using Lynx.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Reflection;
 using TasqR;
@@ -10,6 +11,8 @@ namespace Lynx.ConsoleApp
 {
     class Program
     {
+        static readonly ILoggerFactory SampleLoggingFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         static void Main(string[] args)
         {
             var mainService = CreateHostBuilder(args).Build().Services;
@@ -19,7 +22,7 @@ namespace Lynx.ConsoleApp
 
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddInfrastructureUseSqlServer(configuration);
+            services.AddInfrastructureUseSqlServer(configuration, SampleLoggingFactory);
             services.AddApplication();
 
             services.AddTasqR(Assembly.GetExecutingAssembly());

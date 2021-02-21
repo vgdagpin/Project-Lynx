@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.ViewModels;
 using Lynx.Queries.UserBillQrs;
 using Xamarin.Forms;
 
@@ -9,9 +10,9 @@ namespace Lynx.MobileApp.ViewModels
 {
     public class HomePageViewModel : BaseViewModel
     {
-        public ObservableCollection<UserBillVM> Bills { get; protected set; } = new ObservableCollection<UserBillVM>();
+        public ObservableCollection<UserBillSummaryVM> Bills { get; protected set; } = new ObservableCollection<UserBillSummaryVM>();
 
-        public Command<UserBillVM> ItemTapped { get; } = new Command<UserBillVM>(async bill =>
+        public Command<UserBillSummaryVM> ItemTapped { get; } = new Command<UserBillSummaryVM>(async bill =>
         {
             await Shell.Current.GoToUserBillDetailPage(bill.ID);
         });

@@ -18,11 +18,18 @@ using Lynx.Infrastructure;
 using Lynx.Interfaces;
 using Lynx.WebAPI.Common;
 using Lynx.Common;
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.WebAPI
 {
     public class Startup
     {
+        static readonly ILoggerFactory SampleLoggingFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+        });
+
         public Startup(IConfiguration configuration)
         {
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -36,7 +43,7 @@ namespace Lynx.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructureUseSqlServer(Configuration);
+            services.AddInfrastructureUseSqlServer(Configuration, SampleLoggingFactory);
 
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddScoped<IAppUser>(p => new AppUser());
@@ -57,7 +64,11 @@ namespace Lynx.WebAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Lynx.WebAPI v1"));
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Lynx.WebAPI v1");
+                    options.DefaultModelsExpandDepth(-1);
+                });
             }
 
             app.UseHttpsRedirection();

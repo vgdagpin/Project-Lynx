@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.ViewModels;
 using Lynx.Queries.BillsQrs;
 using TasqR;
 
@@ -11,14 +12,15 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
     {
         public override IEnumerable<BillVM> Run(GetBillsForThisMonthQr process)
         {
-            List<BillVM> retVal = new List<BillVM>();
+            //List<BillVM> retVal = new List<BillVM>();
 
-            for (int i = 0; i < 10; i++)
-            {
-                retVal.Add(new BillVM { Name = "Globe", DueDate = new DateTime(2021, 2, 24), AmountDue = 1200 });
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    retVal.Add(new BillVM { Name = "Globe", DueDate = new DateTime(2021, 2, 24), AmountDue = 1200 });
+            //}
 
-            return retVal;
+            //return retVal;
+            throw new NotImplementedException();
         }
     }
 }

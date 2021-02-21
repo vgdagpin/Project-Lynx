@@ -9,6 +9,7 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
@@ -31,7 +32,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             p_HttpClient = p_ClientFactory.LynxApiClient();
         }
 
-        public async override Task<IEnumerable<UserBillVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
                 if (response.IsSuccessStatusCode)
                 {
                     using var responseStream = await response.Content.ReadAsStreamAsync();
-                    return await JsonSerializer.DeserializeAsync<List<UserBillVM>>(responseStream);
+                    return await JsonSerializer.DeserializeAsync<List<UserBillSummaryVM>>(responseStream);
                 }
             }
             catch (Exception ex)

@@ -1,16 +1,25 @@
 ﻿using System;
 using System.IO;
+using Lynx.Infrastructure.Common;
 using Lynx.Infrastructure.Persistence;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Lynx.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructureUseSqlServer(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddInfrastructureUseSqlServer(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             services.AddDbContext<LynxDbContext>((svc, options) =>
             {
@@ -24,15 +33,19 @@ namespace Lynx.Infrastructure
                         opt.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery);
                     }
                 );
+
+                options.UseLoggerFactory(loggerFactory);
             });
 
             services.AddScoped<ILynxDbContext>(provider => provider.GetService<LynxDbContext>());
             services.AddScoped<DbContext>(provider => provider.GetService<LynxDbContext>());
 
+            services.AddCommonServices(configuration);
+
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration, string overridenFile = null)
+        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory, string overridenFile = null)
         {
             string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -69,10 +82,14 @@ namespace Lynx.Infrastructure
                         opt.MigrationsAssembly("Lynx.DbMigration.SQLite");
                     }
                 );
+
+                options.UseLoggerFactory(loggerFactory);
             });
 
             services.AddScoped<ILynxDbContext>(provider => provider.GetService<LynxDbContext>());
             services.AddScoped<DbContext>(provider => provider.GetService<LynxDbContext>());
+
+            services.AddCommonServices(configuration);
 
             return services;
         }

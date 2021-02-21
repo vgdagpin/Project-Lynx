@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.UserBillQrs
 {
-    public class GetUserBillsQrHandler : TasqHandlerAsync<GetUserBillsQr, IEnumerable<UserBillVM>>
+    public class GetUserBillsQrHandler : TasqHandlerAsync<GetUserBillsQr, IEnumerable<UserBillSummaryVM>>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
@@ -25,13 +26,13 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
             p_Mapper = mapper;
         }
 
-        public async override Task<IEnumerable<UserBillVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
         {
             return await p_DbContext.UserBills
                     .Include(a => a.N_TrackBill)
                     .ThenInclude(a => a.N_Bill)
                     .Where(a => a.UserID == process.UserID)
-                    .ProjectTo<UserBillVM>(p_Mapper.ConfigurationProvider)
+                    .ProjectTo<UserBillSummaryVM>(p_Mapper.ConfigurationProvider)
                     .ToListAsync();
         }
     }

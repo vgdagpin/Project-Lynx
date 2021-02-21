@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.AspNetCore.Mvc;
@@ -11,31 +13,26 @@ using TasqR;
 
 namespace Lynx.WebAPI.Controllers
 {
-    [ApiController]
     [Route("[controller]")]
-    public class UserBillController : ControllerBase
+    public class UserBillController : LynxBaseController
     {
-        private readonly ITasqR p_TasqR;
         private readonly ILogger<UserBillController> p_Logger;
-        private readonly IAppUser p_AppUser;
 
-        public UserBillController(ITasqR tasqR, ILogger<UserBillController> logger, IAppUser appUser)
+        public UserBillController(ITasqR tasqR, ILogger<UserBillController> logger, IAppUser appUser) : base(tasqR, appUser)
         {
-            p_TasqR = tasqR;
             p_Logger = logger;
-            p_AppUser = appUser;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserBillVM>> Get()
+        public async Task<IEnumerable<UserBillSummaryVM>> Get()
         {
-            return await p_TasqR.RunAsync(new GetUserBillsQr(p_AppUser.UserID));
+            return await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID));
         }
 
         [HttpGet("{id}")]
         public async Task<UserBillVM> Get(Guid id)
         {
-            return await p_TasqR.RunAsync(new GetUserBillQr(id));
+            return await TasqR.RunAsync(new GetUserBillQr(id));
         }
     }
 }

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Lynx.Common.ViewModels;
 using Lynx.Domain.ViewModels;
 using TasqR;
 
-namespace Lynx.Queries.UserBillQrs
+namespace Lynx.Queries.TrackBillsQrs
 {
-    public class GetUserBillsQr : ITasq<IEnumerable<UserBillSummaryVM>>
+    public class GetUserTrackedBillsQr : ITasq<IEnumerable<TrackBillSummaryVM>>
     {
-        public GetUserBillsQr(Guid userID)
+        public GetUserTrackedBillsQr(Guid userID)
         {
             UserID = userID;
         }

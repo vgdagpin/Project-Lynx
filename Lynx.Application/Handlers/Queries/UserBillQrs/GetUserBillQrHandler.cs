@@ -28,7 +28,7 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
             var result = await p_DbContext.UserBills
                    .Include(a => a.N_TrackBill)
                    .ThenInclude(a => a.N_Bill)
-                   .SingleOrDefaultAsync(a => a.UserID == process.UserBillID, cancellationToken);
+                   .SingleOrDefaultAsync(a => a.ID == process.UserBillID, cancellationToken);
 
             if (result == null)
             {

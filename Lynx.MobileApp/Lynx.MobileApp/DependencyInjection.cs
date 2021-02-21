@@ -10,6 +10,7 @@ using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using TasqR;
 using Xamarin.Essentials;
 
@@ -17,7 +18,7 @@ namespace Lynx.MobileApp
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddMobileAppPortable(this IServiceCollection services)
+        public static IServiceCollection AddMobileAppPortable(this IServiceCollection services, ILoggerFactory loggerFactory)
         {
             var embeddedResourceStream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("Lynx.MobileApp.config.json");
@@ -35,8 +36,6 @@ namespace Lynx.MobileApp
                 }
             }
 
-            services.AddTransient<IPasswordHasher, PasswordHasher>();
-
             services.AddHttpClient("lynx-api", config =>
             {
                 config.BaseAddress = new Uri(configuration["Lynx-API-Hostname-Local"]);
@@ -44,7 +43,7 @@ namespace Lynx.MobileApp
                 config.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Lynx");
             });
 
-            services.AddInfrastructureUseSQLite(configuration, SQLiteConstants.FilePath);
+            services.AddInfrastructureUseSQLite(configuration, loggerFactory, SQLiteConstants.FilePath);
             services.AddTasqR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IDateTime, AppDateTime>();
             services.AddSingleton<IGuid, AppGuid>();
