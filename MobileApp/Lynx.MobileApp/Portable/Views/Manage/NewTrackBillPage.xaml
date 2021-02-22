@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Lynx.MobileApp.ViewModels.Manage"
+             x:Class="Lynx.MobileApp.Views.Manage.NewTrackBillPage">
+
+    <ContentPage.BindingContext>
+        <vm:NewTrackBillViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save" />
+    </ContentPage.ToolbarItems>
+    
+
+
+    <ContentPage.Content>
+        <StackLayout Spacing="3" Padding="15">
+            <Grid Margin="0, 5, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0" Grid.Column="0" Text="Add Entry" Command="{Binding OnAddEntryClicked}"></Button>
+            </Grid>
+            
+            <ActivityIndicator  
+                IsRunning="{Binding IsBusy}" 
+                Color="Gray"
+                HorizontalOptions="CenterAndExpand" 
+                VerticalOptions="CenterAndExpand"/>
+            
+            <!--<Picker Title="Bill" 
+                    ItemsSource="{Binding Bills}" 
+                    ItemDisplayBinding="{Binding .}"
+                    SelectedItem="{Binding SelectedBill}"/>-->
+            
+            <Label Text="Name" FontSize="Medium" />
+            <Entry Text="{Binding ShortDesc, Mode=TwoWay}" FontSize="Medium" />
+            
+            
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>
