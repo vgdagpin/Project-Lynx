@@ -33,8 +33,6 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
         {
             try
             {
-                return base.RunAsync(process, cancellationToken);
-
                 var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.Bill);
 
                 return p_HttpClient.SendAsync(request, cancellationToken)

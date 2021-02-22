@@ -15,13 +15,41 @@ namespace Lynx.MobileApp.ViewModels.Manage
     public class NewTrackBillViewModel : BaseViewModel
     {
         public ObservableCollection<BillSummaryVM> Bills { get; protected set; } = new ObservableCollection<BillSummaryVM>();
+        public ObservableCollection<BillProviderVM> BillProviders { get; protected set; } = new ObservableCollection<BillProviderVM>();
+
+        private bool billProviderLoaded;
+        public bool BillProviderLoaded
+        {
+            get { return billProviderLoaded; }
+            set { if (billProviderLoaded != value) SetProperty(ref billProviderLoaded, value); }
+        }
+
 
         private BillSummaryVM selectedBill;
         public BillSummaryVM SelectedBill
         {
             get { return selectedBill; }
-            set { SetProperty(ref selectedBill, value); }
+            set
+            {
+                SetProperty(ref selectedBill, value);
+                BillProviderLoaded = true;
+
+                BillProviders.Clear();
+
+                foreach (var provider in selectedBill.Providers)
+                {
+                    BillProviders.Add(provider);
+                }
+            }
         }
+
+        private BillProviderVM selectedBillProvider;
+        public BillProviderVM SelectedBillProvider
+        {
+            get { return selectedBillProvider; }
+            set { SetProperty(ref selectedBillProvider, value); }
+        }
+
 
         private string shortDesc;
         public string ShortDesc
@@ -30,16 +58,16 @@ namespace Lynx.MobileApp.ViewModels.Manage
             set { SetProperty(ref shortDesc, value); }
         }
 
-        public ICommand OnAddEntryClicked { get; }
+        private string billsLoadIndicator;
+
+        public string BillsLoadIndicator
+        {
+            get { return billsLoadIndicator; }
+            set { SetProperty(ref billsLoadIndicator, value); }
+        }
 
         public NewTrackBillViewModel()
         {
-            OnAddEntryClicked = new Command(() =>
-            {
-                LoadBills();
-            });
-
-
             LoadBills();
         }
 
@@ -50,11 +78,12 @@ namespace Lynx.MobileApp.ViewModels.Manage
                 try
                 {
                     IsBusy = true;
+                    BillsLoadIndicator = "Loading Bills..";
 
                     TasqR.RunAsync(new GetBillsQr())
                         .ContinueWith(bills =>
                         {
-                            //-Bills.Clear();
+                            Bills.Clear();
 
                             foreach (var item in bills.Result)
                             {
@@ -62,10 +91,12 @@ namespace Lynx.MobileApp.ViewModels.Manage
                             }
 
                             IsBusy = false;
+                            BillsLoadIndicator = "Select Bills to Track";
                         });
                 }
                 catch (Exception ex)
                 {
+                    BillsLoadIndicator = "Bills Loading Error";
                     ExceptionHandler.LogError(ex);
                 }
 

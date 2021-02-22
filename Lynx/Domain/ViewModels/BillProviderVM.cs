@@ -22,7 +22,9 @@ namespace Lynx.Domain.ViewModels
         public void Mapping(Profile profile)
         {
             profile.CreateMap<BillProvider, BillProviderVM>()
-                .ForMember(t => t.ProviderType, s => s.MapFrom(sprop => sprop.N_ProviderType));
+                .ForMember(t => t.ProviderType, s => s.MapFrom(sprop => sprop.N_ProviderType))
+                .ForMember(t => t.ShortDesc, s => s.MapFrom(sprop => sprop.ShortDesc ?? sprop.N_ProviderType.ShortDesc))
+                .ForMember(t => t.LongDesc, s => s.MapFrom(sprop => sprop.LongDesc ?? sprop.N_ProviderType.LongDesc));
         }
     }
 }
