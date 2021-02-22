@@ -29,7 +29,7 @@
     <PackageReference Include="TasqR" Version="1.4.3" />
     <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.3" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1791" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Lynx.Application\Lynx.Application.csproj" />
