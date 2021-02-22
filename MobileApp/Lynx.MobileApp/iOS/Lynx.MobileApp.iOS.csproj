@@ -99,64 +99,10 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
-    <Reference Include="Telerik.Xamarin.iOS">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.Xamarin.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.Chart">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.Chart.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.Common">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.DataControls">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.DataControls.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.DataGrid">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.DataGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.DataVisualization">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.DataVisualization.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.ImageEditor">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.ImageEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.Input">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.Input.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.Map">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.Map.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.PdfViewer">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.PdfViewer.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.Primitives">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.RichTextEditor">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.RichTextEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.SkiaSharp">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.XamarinForms.ConversationalUI">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\iOS\Telerik.XamarinForms.ConversationalUI.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Documents.Core">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Documents.Fixed">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\Portable\Telerik.Documents.Fixed.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Documents.Flow">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\Portable\Telerik.Documents.Flow.dll</HintPath>
-    </Reference>
-    <Reference Include="Telerik.Documents.Flow.FormatProviders.Pdf">
-      <HintPath>D:\Program Files (x86)\Progress\Telerik UI for Xamarin R1 2021\Binaries\Portable\Telerik.Documents.Flow.FormatProviders.Pdf.dll</HintPath>
-    </Reference>
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.1791" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="SkiaSharp" Version="2.80.2" />
     <PackageReference Include="SkiaSharp.Views" Version="2.80.2" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.2" />
