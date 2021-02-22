@@ -29,10 +29,10 @@ namespace Lynx.WebAPI
             Console.WriteLine(url);
             Console.WriteLine();
 
-            if (!InsideIIS())
-            {
-                OpenUrl(url);
-            }
+            TextCopy.ClipboardService.SetText(url);
+
+            Console.WriteLine("Url copied to clipboard!");
+            Console.WriteLine();
 
             CreateHostBuilder(args).Build().Run();
         }
@@ -58,35 +58,6 @@ namespace Lynx.WebAPI
                 }
             }
             throw new Exception("No network adapters with an IPv4 address in the system!");
-        }
-
-        private static void OpenUrl(string url)
-        {
-            try
-            {
-                Process.Start(url);
-            }
-            catch
-            {
-                // hack because of this: https://github.com/dotnet/corefx/issues/10361
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    url = url.Replace("&", "^&");
-                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    Process.Start("xdg-open", url);
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    Process.Start("open", url);
-                }
-                else
-                {
-                    throw;
-                }
-            }
         }
     }
 }

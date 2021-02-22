@@ -32,5 +32,10 @@ namespace Lynx.Domain.ViewModels
         {
             return null;
         }
+
+        public override string ToString()
+        {
+            return ShortDesc ?? LongDesc;
+        }
     }
 }

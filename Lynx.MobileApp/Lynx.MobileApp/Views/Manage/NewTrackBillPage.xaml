@@ -26,10 +26,18 @@
 
                 <Button Grid.Row="0" Grid.Column="0" Text="Add Entry" Command="{Binding OnAddEntryClicked}"></Button>
             </Grid>
-            <Picker Title="Bill" 
+            
+            <ActivityIndicator  
+                IsRunning="{Binding IsBusy}" 
+                Color="Gray"
+                HorizontalOptions="CenterAndExpand" 
+                VerticalOptions="CenterAndExpand"/>
+            
+            <!--<Picker Title="Bill" 
                     ItemsSource="{Binding Bills}" 
-                    ItemDisplayBinding="{Binding ShortDesc}" 
-                    SelectedItem="{Binding SelectedBill}"/>
+                    ItemDisplayBinding="{Binding .}"
+                    SelectedItem="{Binding SelectedBill}"/>-->
+            
             <Label Text="Name" FontSize="Medium" />
             <Entry Text="{Binding ShortDesc, Mode=TwoWay}" FontSize="Medium" />
             

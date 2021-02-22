@@ -36,22 +36,11 @@ namespace Lynx.MobileApp.ViewModels.Manage
         {
             OnAddEntryClicked = new Command(() =>
             {
-                Bills.Add(new BillSummaryVM
-                {
-                    ShortDesc = Guid.NewGuid().ToString().Substring(0, 5)
-                });
+                LoadBills();
             });
 
-            Bills.Add(new BillSummaryVM
-            {
-                ShortDesc = "Aw"
-            });
 
-            Bills.Add(new BillSummaryVM
-            {
-                ShortDesc = "Ew"
-            });
-            //LoadBills();
+            LoadBills();
         }
 
         private void LoadBills()

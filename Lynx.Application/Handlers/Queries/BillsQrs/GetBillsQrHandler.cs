@@ -16,21 +16,22 @@ namespace Lynx.Application.Handlers.Queries.BillsQrs
 {
     public class GetBillsQrHandler : TasqHandlerAsync<GetBillsQr, IEnumerable<BillSummaryVM>>
     {
-        private readonly ILynxDbContext p_DbContext;
-        private readonly IMapper p_Mapper;
 
         public GetBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
-            p_DbContext = dbContext;
-            p_Mapper = mapper;
+            DbContext = dbContext;
+            Mapper = mapper;
         }
+
+        protected ILynxDbContext DbContext { get; }
+        protected IMapper Mapper { get; }
 
         public async override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
         {
-            return await p_DbContext.Bills
+            return await DbContext.Bills
                    .Include(a => a.N_BillSettings)
                    .Where(a => a.IsEnabled)
-                   .ProjectTo<BillSummaryVM>(p_Mapper.ConfigurationProvider)
+                   .ProjectTo<BillSummaryVM>(Mapper.ConfigurationProvider)
                    .ToListAsync();
         }
     }

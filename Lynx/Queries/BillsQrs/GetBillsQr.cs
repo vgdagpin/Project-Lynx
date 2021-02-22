@@ -13,6 +13,11 @@ namespace Lynx.Queries.BillsQrs
     /// </summary>
     public class GetBillsQr : ITasq<IEnumerable<BillSummaryVM>>
     {
+        public GetBillsQr(bool cacheResult = true)
+        {
+            CacheResult = cacheResult;
+        }
 
+        public bool CacheResult { get; }
     }
 }
