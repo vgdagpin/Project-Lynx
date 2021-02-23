@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Lynx.Commands.TrackBillCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.TrackBillsQrs;
@@ -19,15 +20,21 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TrackBillSummaryVM>> Get()
+        public Task<IEnumerable<TrackBillSummaryVM>> Get()
         {
-            return await TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID));
+            return TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID));
         }
 
         [HttpGet("{id}")]
-        public async Task<TrackBillVM> Get(Guid id)
+        public Task<TrackBillVM> Get(Guid id)
         {
-            return await TasqR.RunAsync(new GetTrackBillQr(id));
+            return TasqR.RunAsync(new GetTrackBillQr(id));
+        }
+
+        [HttpPut]
+        public Task<CreateResult<TrackBillVM>> Put(TrackBillVM newEntry, CancellationToken cancellationToken = default)
+        {
+            return TasqR.RunAsync(new CreateTrackBillCmd(newEntry, true), cancellationToken);
         }
     }
 }
