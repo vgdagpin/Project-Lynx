@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lynx.DbMigration.SqlServer.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
-    [Migration("20210220151855_Init")]
+    [Migration("20210227143956_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -839,6 +839,11 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Property<DateTime?>("ExpiredOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsExpired")
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("bit")
+                        .HasComputedColumnSql("CONVERT(BIT, (IIF(ExpiredOn IS NOT NULL AND GETUTCDATE() >= ExpiredOn, 1, 0)))");
+
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -850,8 +855,8 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
@@ -866,16 +871,18 @@ namespace Lynx.DbMigration.SqlServer.Migrations
             modelBuilder.Entity("Lynx.Domain.Entities.BillProvider", b =>
                 {
                     b.HasOne("Lynx.Domain.Entities.Bill", null)
-                        .WithMany()
+                        .WithMany("N_BillProviders")
                         .HasForeignKey("BillID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lynx.Domain.Entities.ProviderType", null)
+                    b.HasOne("Lynx.Domain.Entities.ProviderType", "N_ProviderType")
                         .WithMany()
                         .HasForeignKey("ProviderTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_ProviderType");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.BillSetting", b =>
@@ -1041,6 +1048,8 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
             modelBuilder.Entity("Lynx.Domain.Entities.Bill", b =>
                 {
+                    b.Navigation("N_BillProviders");
+
                     b.Navigation("N_BillSettings");
                 });
 
