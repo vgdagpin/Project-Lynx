@@ -58,6 +58,34 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_ProviderTypeConfigEmail",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClientEmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ReceiverEmailAddress = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_ProviderTypeConfigEmail", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_ProviderTypeConfigWebService",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_ProviderTypeConfigWebService", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_User",
                 schema: "dbo",
                 columns: table => new
@@ -119,46 +147,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         column: x => x.ProviderTypeID,
                         principalSchema: "dbo",
                         principalTable: "tbl_ProviderType",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tbl_TrackBill",
-                schema: "dbo",
-                columns: table => new
-                {
-                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    BillID = table.Column<short>(type: "smallint", nullable: false),
-                    ProviderTypeID = table.Column<short>(type: "smallint", nullable: false),
-                    ShortDesc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
-                    LongDesc = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    AccountNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbl_TrackBill", x => new { x.ID, x.UserID });
-                    table.ForeignKey(
-                        name: "FK_tbl_TrackBill_tbl_Bill_BillID",
-                        column: x => x.BillID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_Bill",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_TrackBill_tbl_ProviderType_ProviderTypeID",
-                        column: x => x.ProviderTypeID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_ProviderType",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_TrackBill_tbl_User_UserID",
-                        column: x => x.UserID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_User",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -237,6 +225,63 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_TrackBill",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    BillID = table.Column<short>(type: "smallint", nullable: false),
+                    ProviderTypeID = table.Column<short>(type: "smallint", nullable: false),
+                    ShortDesc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    LongDesc = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    AccountNumber = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    IsEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    N_ProviderTypeConfigEmailID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    N_ProviderTypeConfigSchedulerID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    N_ProviderTypeConfigWebServiceID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_TrackBill", x => new { x.ID, x.UserID });
+                    table.ForeignKey(
+                        name: "FK_tbl_TrackBill_tbl_Bill_BillID",
+                        column: x => x.BillID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_Bill",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tbl_TrackBill_tbl_ProviderType_ProviderTypeID",
+                        column: x => x.ProviderTypeID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_ProviderType",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tbl_TrackBill_tbl_ProviderTypeConfigEmail_N_ProviderTypeConfigEmailID",
+                        column: x => x.N_ProviderTypeConfigEmailID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_ProviderTypeConfigEmail",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tbl_TrackBill_tbl_ProviderTypeConfigWebService_N_ProviderTypeConfigWebServiceID",
+                        column: x => x.N_ProviderTypeConfigWebServiceID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_ProviderTypeConfigWebService",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tbl_TrackBill_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_NotificationConfiguration",
                 schema: "dbo",
                 columns: table => new
@@ -261,12 +306,11 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "tbl_TrackBillScheduler",
+                name: "tbl_ProviderTypeConfigScheduler",
                 schema: "dbo",
                 columns: table => new
                 {
                     ID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TrackBillID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ShortDesc = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LongDesc = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
@@ -279,16 +323,16 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbl_TrackBillScheduler", x => x.ID);
+                    table.PrimaryKey("PK_tbl_ProviderTypeConfigScheduler", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_tbl_TrackBillScheduler_tbl_TrackBill_TrackBillID_UserID",
-                        columns: x => new { x.TrackBillID, x.UserID },
+                        name: "FK_tbl_ProviderTypeConfigScheduler_tbl_TrackBill_ID_UserID",
+                        columns: x => new { x.ID, x.UserID },
                         principalSchema: "dbo",
                         principalTable: "tbl_TrackBill",
                         principalColumns: new[] { "ID", "UserID" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_tbl_TrackBillScheduler_tbl_User_UserID",
+                        name: "FK_tbl_ProviderTypeConfigScheduler_tbl_User_UserID",
                         column: x => x.UserID,
                         principalSchema: "dbo",
                         principalTable: "tbl_User",
@@ -364,10 +408,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 {
                     table.PrimaryKey("PK_tbl_SchedulerEntry", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_tbl_SchedulerEntry_tbl_TrackBillScheduler_TrackBillSchedulerID",
+                        name: "FK_tbl_SchedulerEntry_tbl_ProviderTypeConfigScheduler_TrackBillSchedulerID",
                         column: x => x.TrackBillSchedulerID,
                         principalSchema: "dbo",
-                        principalTable: "tbl_TrackBillScheduler",
+                        principalTable: "tbl_ProviderTypeConfigScheduler",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -485,14 +529,14 @@ namespace Lynx.DbMigration.SqlServer.Migrations
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "N_ProviderTypeConfigEmailID", "N_ProviderTypeConfigSchedulerID", "N_ProviderTypeConfigWebServiceID", "ProviderTypeID", "ShortDesc" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-0000-0000-0000-000000000002"), "GLOBE-ACCT-NUM", (short)1, true, null, (short)3, null },
-                    { new Guid("00000000-0000-0000-0000-000000000002"), new Guid("00000000-0000-0000-0000-000000000002"), "MERALCO-ACCT-NUM", (short)2, true, null, (short)3, null },
-                    { new Guid("00000000-0000-0000-0000-000000000003"), new Guid("00000000-0000-0000-0000-000000000002"), "LANCASTER-ACCT-NUM", (short)3, true, null, (short)1, null },
-                    { new Guid("00000000-0000-0000-0000-000000000004"), new Guid("00000000-0000-0000-0000-000000000002"), "588-ACCT-NUM", (short)3, true, null, (short)1, null },
-                    { new Guid("00000000-0000-0000-0000-000000000005"), new Guid("00000000-0000-0000-0000-000000000002"), "BRV-ACCT-NUM", (short)4, true, null, (short)1, null }
+                    { new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-0000-0000-0000-000000000002"), "GLOBE-ACCT-NUM", (short)1, true, null, null, null, null, (short)3, null },
+                    { new Guid("00000000-0000-0000-0000-000000000002"), new Guid("00000000-0000-0000-0000-000000000002"), "MERALCO-ACCT-NUM", (short)2, true, null, null, null, null, (short)3, null },
+                    { new Guid("00000000-0000-0000-0000-000000000003"), new Guid("00000000-0000-0000-0000-000000000002"), "LANCASTER-ACCT-NUM", (short)3, true, null, null, null, null, (short)1, null },
+                    { new Guid("00000000-0000-0000-0000-000000000004"), new Guid("00000000-0000-0000-0000-000000000002"), "588-ACCT-NUM", (short)3, true, null, null, null, null, (short)1, null },
+                    { new Guid("00000000-0000-0000-0000-000000000005"), new Guid("00000000-0000-0000-0000-000000000002"), "BRV-ACCT-NUM", (short)4, true, null, null, null, null, (short)1, null }
                 });
 
             migrationBuilder.InsertData(
@@ -507,13 +551,13 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_TrackBillScheduler",
-                columns: new[] { "ID", "Amount", "DayFrequency", "EndDate", "Frequency", "LongDesc", "ShortDesc", "SkipTimes", "StartDate", "TrackBillID", "UserID" },
+                table: "tbl_ProviderTypeConfigScheduler",
+                columns: new[] { "ID", "Amount", "DayFrequency", "EndDate", "Frequency", "LongDesc", "ShortDesc", "SkipTimes", "StartDate", "UserID" },
                 values: new object[,]
                 {
-                    { new Guid("00000000-0000-0000-0000-000000000003"), 21000m, (short)23, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000003"), new Guid("00000000-0000-0000-0000-000000000002") },
-                    { new Guid("00000000-0000-0000-0000-000000000004"), 14000m, (short)28, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000004"), new Guid("00000000-0000-0000-0000-000000000002") },
-                    { new Guid("00000000-0000-0000-0000-000000000005"), 15000m, (short)13, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000005"), new Guid("00000000-0000-0000-0000-000000000002") }
+                    { new Guid("00000000-0000-0000-0000-000000000003"), 21000m, (short)23, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") },
+                    { new Guid("00000000-0000-0000-0000-000000000004"), 14000m, (short)28, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") },
+                    { new Guid("00000000-0000-0000-0000-000000000005"), 15000m, (short)13, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") }
                 });
 
             migrationBuilder.InsertData(
@@ -574,6 +618,19 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: new[] { "N_UserBillTrackingID", "N_UserBillTrackingUserID" });
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_ProviderTypeConfigScheduler_ID_UserID",
+                schema: "dbo",
+                table: "tbl_ProviderTypeConfigScheduler",
+                columns: new[] { "ID", "UserID" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_ProviderTypeConfigScheduler_UserID",
+                schema: "dbo",
+                table: "tbl_ProviderTypeConfigScheduler",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_SchedulerEntry_TrackBillSchedulerID",
                 schema: "dbo",
                 table: "tbl_SchedulerEntry",
@@ -586,6 +643,24 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 column: "BillID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_TrackBill_N_ProviderTypeConfigEmailID",
+                schema: "dbo",
+                table: "tbl_TrackBill",
+                column: "N_ProviderTypeConfigEmailID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_TrackBill_N_ProviderTypeConfigSchedulerID",
+                schema: "dbo",
+                table: "tbl_TrackBill",
+                column: "N_ProviderTypeConfigSchedulerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_TrackBill_N_ProviderTypeConfigWebServiceID",
+                schema: "dbo",
+                table: "tbl_TrackBill",
+                column: "N_ProviderTypeConfigWebServiceID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_TrackBill_ProviderTypeID",
                 schema: "dbo",
                 table: "tbl_TrackBill",
@@ -595,18 +670,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 name: "IX_tbl_TrackBill_UserID",
                 schema: "dbo",
                 table: "tbl_TrackBill",
-                column: "UserID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbl_TrackBillScheduler_TrackBillID_UserID",
-                schema: "dbo",
-                table: "tbl_TrackBillScheduler",
-                columns: new[] { "TrackBillID", "UserID" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbl_TrackBillScheduler_UserID",
-                schema: "dbo",
-                table: "tbl_TrackBillScheduler",
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
@@ -657,10 +720,35 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo",
                 table: "tbl_UserSession",
                 column: "UserID");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_tbl_TrackBill_tbl_ProviderTypeConfigScheduler_N_ProviderTypeConfigSchedulerID",
+                schema: "dbo",
+                table: "tbl_TrackBill",
+                column: "N_ProviderTypeConfigSchedulerID",
+                principalSchema: "dbo",
+                principalTable: "tbl_ProviderTypeConfigScheduler",
+                principalColumn: "ID",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_tbl_TrackBill_tbl_Bill_BillID",
+                schema: "dbo",
+                table: "tbl_TrackBill");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_tbl_TrackBill_tbl_ProviderType_ProviderTypeID",
+                schema: "dbo",
+                table: "tbl_TrackBill");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_tbl_ProviderTypeConfigScheduler_tbl_TrackBill_ID_UserID",
+                schema: "dbo",
+                table: "tbl_ProviderTypeConfigScheduler");
+
             migrationBuilder.DropTable(
                 name: "tbl_BillProvider",
                 schema: "dbo");
@@ -706,10 +794,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "tbl_TrackBillScheduler",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
                 name: "tbl_UserBillPayment",
                 schema: "dbo");
 
@@ -718,15 +802,27 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "tbl_TrackBill",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
                 name: "tbl_Bill",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
                 name: "tbl_ProviderType",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_TrackBill",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_ProviderTypeConfigEmail",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_ProviderTypeConfigScheduler",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_ProviderTypeConfigWebService",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Lynx.Domain.Entities
 {
-    public class TrackBillScheduler : BaseEntity
+    public class ProviderTypeConfigScheduler : BaseEntity
     {
-        public Guid TrackBillID { get; set; }
         public Guid UserID { get; set; }
 
         public string ShortDesc { get; set; }
@@ -28,9 +27,6 @@ namespace Lynx.Domain.Entities
         /// Useful for scheduling every other day
         /// </summary>
         public short? SkipTimes { get; set; }
-
-        public TrackBill N_TrackBill { get; set; }
-        public User N_User { get; set; }
 
 
         public ICollection<SchedulerEntry> N_ScheduleEntries { get; set; } = new HashSet<SchedulerEntry>();

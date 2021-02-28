@@ -37,7 +37,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 
             builder.HasData(new ProviderType
             {
-                ID = ProviderTypeConstants.API,
+                ID = ProviderTypeConstants.WebService,
                 ShortDesc = "API",
                 LongDesc = "API"
             });

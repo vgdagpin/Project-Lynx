@@ -16,7 +16,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 
         protected override void ConfigureRelationship(BaseRelationshipBuilder<SchedulerEntry> builder)
         {
-            builder.HasOne<TrackBillScheduler>()
+            builder.HasOne<ProviderTypeConfigScheduler>()
                 .WithMany(a => a.N_ScheduleEntries)
                 .HasForeignKey(a => a.TrackBillSchedulerID);
         }

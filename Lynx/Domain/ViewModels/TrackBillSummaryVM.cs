@@ -15,12 +15,14 @@ namespace Lynx.Domain.ViewModels
         public string LongDesc { get; set; }
         public string AccountNumber { get; set; }
         public bool IsEnabled { get; set; }
+        public ProviderTypeVM ProviderType { get; set; }
 
         public void Mapping(Profile profile)
         {
             profile.CreateMap<TrackBill, TrackBillSummaryVM>()
                 .ForMember(t => t.ShortDesc, s => s.MapFrom(sprop => sprop.ShortDesc ?? $"{sprop.N_Bill.ShortDesc} - {sprop.N_ProviderType.ShortDesc}"))
-                .ForMember(t => t.LongDesc, s => s.MapFrom(sprop => sprop.LongDesc ?? $"{sprop.N_Bill.LongDesc} - {sprop.N_ProviderType.LongDesc}"));
+                .ForMember(t => t.LongDesc, s => s.MapFrom(sprop => sprop.LongDesc ?? $"{sprop.N_Bill.LongDesc} - {sprop.N_ProviderType.LongDesc}"))
+                .ForMember(t => t.ProviderType, s => s.MapFrom(sprop => sprop.N_ProviderType));
         }
     }
 }

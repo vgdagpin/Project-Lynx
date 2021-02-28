@@ -14,20 +14,20 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
 {
-    public class GetUserTrackedBillsQrHandler : TasqHandlerAsync<GetUserTrackedBillsQr, IEnumerable<TrackBillSummaryVM>>
+    public class GetTrackedBillsQrHandler : TasqHandlerAsync<GetTrackBillsQr, IEnumerable<TrackBillSummaryVM>>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
 
-        protected GetUserTrackedBillsQrHandler() { }
+        protected GetTrackedBillsQrHandler() { }
 
-        public GetUserTrackedBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
+        public GetTrackedBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
             p_DbContext = dbContext;
             p_Mapper = mapper;
         }
 
-        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetUserTrackedBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
         {
             return await p_DbContext.TrackBills
                     .Include(a => a.N_Bill)

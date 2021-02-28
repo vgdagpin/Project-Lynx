@@ -29,7 +29,7 @@ namespace Lynx.MobileApp.ViewModels
         {
             try
             {
-                var bills = await TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID));
+                var bills = await TasqR.RunAsync(new GetTrackBillsQr(AppUser.UserID));
 
                 TrackedBills.Clear();
 

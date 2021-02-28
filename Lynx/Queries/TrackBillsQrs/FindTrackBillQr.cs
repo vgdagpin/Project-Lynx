@@ -6,9 +6,9 @@ using TasqR;
 
 namespace Lynx.Queries.TrackBillsQrs
 {
-    public class GetTrackBillQr : ITasq<TrackBillVM>
+    public class FindTrackBillQr : ITasq<TrackBillVM>
     {
-        public GetTrackBillQr(Guid trackBillID)
+        public FindTrackBillQr(Guid trackBillID)
         {
             TrackBillID = trackBillID;
         }

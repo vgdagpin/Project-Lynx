@@ -23,6 +23,10 @@ namespace Lynx.Domain.Entities
         public Bill N_Bill { get; set; }
         public ProviderType N_ProviderType { get; set; }
 
+        public ProviderTypeConfigEmail N_ProviderTypeConfigEmail { get; set; }
+        public ProviderTypeConfigScheduler N_ProviderTypeConfigScheduler { get; set; }
+        public ProviderTypeConfigWebService N_ProviderTypeConfigWebService { get; set; }
+
         public ICollection<NotificationConfiguration> N_NotificationConfigurations { get; private set; } = new HashSet<NotificationConfiguration>();
         public ICollection<TrackBillSetting> N_TrackBillSettings { get; set; } = new HashSet<TrackBillSetting>();
     }

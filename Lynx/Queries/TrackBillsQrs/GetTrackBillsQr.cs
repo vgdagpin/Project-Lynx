@@ -6,9 +6,9 @@ using TasqR;
 
 namespace Lynx.Queries.TrackBillsQrs
 {
-    public class GetUserTrackedBillsQr : ITasq<IEnumerable<TrackBillSummaryVM>>
+    public class GetTrackBillsQr : ITasq<IEnumerable<TrackBillSummaryVM>>
     {
-        public GetUserTrackedBillsQr(Guid userID)
+        public GetTrackBillsQr(Guid userID)
         {
             UserID = userID;
         }

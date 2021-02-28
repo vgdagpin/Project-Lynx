@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
-    public partial class TrackBillScheduler_Configuration
+    public partial class ProviderTypeConfigScheduler_Configuration
     {
-        protected override void ConfigureProperty(BasePropertyBuilder<TrackBillScheduler> builder)
+        protected override void ConfigureProperty(BasePropertyBuilder<ProviderTypeConfigScheduler> builder)
         {
             builder.Property(p => p.ShortDesc)
                 .HasMaxLength(StringLengthConstant.ShortDesc);
@@ -22,29 +22,28 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 .HasMaxLength(StringLengthConstant.Enums);
         }
 
-        protected override void ConfigureRelationship(BaseRelationshipBuilder<TrackBillScheduler> builder)
+        protected override void ConfigureRelationship(BaseRelationshipBuilder<ProviderTypeConfigScheduler> builder)
         {
-            builder.HasOne(a => a.N_TrackBill)
-                .WithMany()
-                .HasForeignKey(a => new
+            builder.HasOne<TrackBill>()
+                .WithOne(a => a.N_ProviderTypeConfigScheduler)
+                .HasForeignKey<ProviderTypeConfigScheduler>(a => new
                 {
-                    a.TrackBillID,
+                    a.ID,
                     a.UserID
                 });
 
-            builder.HasOne(a => a.N_User)
+            builder.HasOne<User>()
                 .WithMany()
                 .HasForeignKey(a => a.UserID)
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-        protected override void SeedData(BaseSeeder<TrackBillScheduler> builder)
+        protected override void SeedData(BaseSeeder<ProviderTypeConfigScheduler> builder)
         {
             // lancaster
-            builder.HasData(new TrackBillScheduler
+            builder.HasData(new ProviderTypeConfigScheduler
             {
                 ID = Guid.Parse(TrackBillIDConstants.Lancaster),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.Lancaster),
                 UserID = Guid.Parse(UserIDConstants.Enteng),
                 StartDate = new DateTime(2021, 2, 19),
                 EndDate = new DateTime(2021, 5, 19),
@@ -53,10 +52,9 @@ namespace Lynx.Infrastructure.Persistence.Configurations
             });
 
             // 588
-            builder.HasData(new TrackBillScheduler
+            builder.HasData(new ProviderTypeConfigScheduler
             {
                 ID = Guid.Parse(TrackBillIDConstants.Condo588),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.Condo588),
                 UserID = Guid.Parse(UserIDConstants.Enteng),
                 StartDate = new DateTime(2021, 2, 19),
                 EndDate = new DateTime(2021, 5, 19),
@@ -65,10 +63,9 @@ namespace Lynx.Infrastructure.Persistence.Configurations
             });
 
             // brv
-            builder.HasData(new TrackBillScheduler
+            builder.HasData(new ProviderTypeConfigScheduler
             {
                 ID = Guid.Parse(TrackBillIDConstants.HondaBRV),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.HondaBRV),
                 UserID = Guid.Parse(UserIDConstants.Enteng),
                 StartDate = new DateTime(2021, 2, 19),
                 EndDate = new DateTime(2021, 5, 19),

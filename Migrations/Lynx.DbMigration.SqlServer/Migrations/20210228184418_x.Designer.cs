@@ -4,14 +4,16 @@ using Lynx.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lynx.DbMigration.SqlServer.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
-    partial class LynxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210228184418_x")]
+    partial class x
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -281,11 +283,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserID");
-
-                    b.HasIndex("ID", "UserID")
-                        .IsUnique();
-
                     b.ToTable("tbl_ProviderTypeConfigEmail", "dbo");
                 });
 
@@ -370,18 +367,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Indentity")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("UserID");
-
-                    b.HasIndex("ID", "UserID")
-                        .IsUnique();
 
                     b.ToTable("tbl_ProviderTypeConfigWebService", "dbo");
                 });
@@ -534,6 +523,12 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid?>("N_ProviderTypeConfigEmailID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("N_ProviderTypeConfigWebServiceID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<short>("ProviderTypeID")
                         .HasColumnType("smallint");
 
@@ -544,6 +539,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasKey("ID", "UserID");
 
                     b.HasIndex("BillID");
+
+                    b.HasIndex("N_ProviderTypeConfigEmailID");
+
+                    b.HasIndex("N_ProviderTypeConfigWebServiceID");
 
                     b.HasIndex("ProviderTypeID");
 
@@ -943,49 +942,23 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Navigation("N_UserBillTracking");
                 });
 
-            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigEmail", b =>
-                {
-                    b.HasOne("Lynx.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
-                        .WithOne("N_ProviderTypeConfigEmail")
-                        .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigEmail", "ID", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
                 {
-                    b.HasOne("Lynx.Domain.Entities.User", null)
+                    b.HasOne("Lynx.Domain.Entities.User", "N_User")
                         .WithMany()
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
+                    b.HasOne("Lynx.Domain.Entities.TrackBill", "N_TrackBill")
                         .WithOne("N_ProviderTypeConfigScheduler")
                         .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigScheduler", "ID", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
-                {
-                    b.HasOne("Lynx.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                    b.Navigation("N_TrackBill");
 
-                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
-                        .WithOne("N_ProviderTypeConfigWebService")
-                        .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigWebService", "ID", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("N_User");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.SchedulerEntry", b =>
@@ -1005,6 +978,14 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Lynx.Domain.Entities.ProviderTypeConfigEmail", "N_ProviderTypeConfigEmail")
+                        .WithMany()
+                        .HasForeignKey("N_ProviderTypeConfigEmailID");
+
+                    b.HasOne("Lynx.Domain.Entities.ProviderTypeConfigWebService", "N_ProviderTypeConfigWebService")
+                        .WithMany()
+                        .HasForeignKey("N_ProviderTypeConfigWebServiceID");
+
                     b.HasOne("Lynx.Domain.Entities.ProviderType", "N_ProviderType")
                         .WithMany()
                         .HasForeignKey("ProviderTypeID")
@@ -1020,6 +1001,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Navigation("N_Bill");
 
                     b.Navigation("N_ProviderType");
+
+                    b.Navigation("N_ProviderTypeConfigEmail");
+
+                    b.Navigation("N_ProviderTypeConfigWebService");
 
                     b.Navigation("N_User");
                 });
@@ -1128,11 +1113,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 {
                     b.Navigation("N_NotificationConfigurations");
 
-                    b.Navigation("N_ProviderTypeConfigEmail");
-
                     b.Navigation("N_ProviderTypeConfigScheduler");
-
-                    b.Navigation("N_ProviderTypeConfigWebService");
 
                     b.Navigation("N_TrackBillSettings");
                 });

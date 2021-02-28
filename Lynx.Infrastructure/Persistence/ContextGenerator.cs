@@ -55,6 +55,24 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_ProviderTypes; }
 			private set { db_ProviderTypes = (DbSet<ProviderType>)value; }
 		}
+		private DbSet<ProviderTypeConfigEmail> db_ProviderTypeConfigEmails { get; set; }
+		public IQueryable<ProviderTypeConfigEmail> ProviderTypeConfigEmails 
+		{ 
+			get { return db_ProviderTypeConfigEmails; }
+			private set { db_ProviderTypeConfigEmails = (DbSet<ProviderTypeConfigEmail>)value; }
+		}
+		private DbSet<ProviderTypeConfigScheduler> db_ProviderTypeConfigSchedulers { get; set; }
+		public IQueryable<ProviderTypeConfigScheduler> ProviderTypeConfigSchedulers 
+		{ 
+			get { return db_ProviderTypeConfigSchedulers; }
+			private set { db_ProviderTypeConfigSchedulers = (DbSet<ProviderTypeConfigScheduler>)value; }
+		}
+		private DbSet<ProviderTypeConfigWebService> db_ProviderTypeConfigWebServices { get; set; }
+		public IQueryable<ProviderTypeConfigWebService> ProviderTypeConfigWebServices 
+		{ 
+			get { return db_ProviderTypeConfigWebServices; }
+			private set { db_ProviderTypeConfigWebServices = (DbSet<ProviderTypeConfigWebService>)value; }
+		}
 		private DbSet<SchedulerEntry> db_SchedulerEntries { get; set; }
 		public IQueryable<SchedulerEntry> SchedulerEntries 
 		{ 
@@ -66,12 +84,6 @@ namespace Lynx.Infrastructure.Persistence
 		{ 
 			get { return db_TrackBills; }
 			private set { db_TrackBills = (DbSet<TrackBill>)value; }
-		}
-		private DbSet<TrackBillScheduler> db_TrackBillSchedulers { get; set; }
-		public IQueryable<TrackBillScheduler> TrackBillSchedulers 
-		{ 
-			get { return db_TrackBillSchedulers; }
-			private set { db_TrackBillSchedulers = (DbSet<TrackBillScheduler>)value; }
 		}
 		private DbSet<TrackBillSetting> db_TrackBillSettings { get; set; }
 		public IQueryable<TrackBillSetting> TrackBillSettings 
@@ -148,9 +160,11 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
 	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
 	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }
+	public partial class ProviderTypeConfigEmail_Configuration : BaseConfiguration<ProviderTypeConfigEmail> { }
+	public partial class ProviderTypeConfigScheduler_Configuration : BaseConfiguration<ProviderTypeConfigScheduler> { }
+	public partial class ProviderTypeConfigWebService_Configuration : BaseConfiguration<ProviderTypeConfigWebService> { }
 	public partial class SchedulerEntry_Configuration : BaseConfiguration<SchedulerEntry> { }
 	public partial class TrackBill_Configuration : BaseConfiguration<TrackBill> { }
-	public partial class TrackBillScheduler_Configuration : BaseConfiguration<TrackBillScheduler> { }
 	public partial class TrackBillSetting_Configuration : BaseConfiguration<TrackBillSetting> { }
 	public partial class User_Configuration : BaseConfiguration<User> { }
 	public partial class UserBill_Configuration : BaseConfiguration<UserBill> { }

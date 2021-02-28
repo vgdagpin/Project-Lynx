@@ -22,13 +22,13 @@ namespace Lynx.WebAPI.Controllers
         [HttpGet]
         public Task<IEnumerable<TrackBillSummaryVM>> Get()
         {
-            return TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID));
+            return TasqR.RunAsync(new GetTrackBillsQr(AppUser.UserID));
         }
 
         [HttpGet("{id}")]
         public Task<TrackBillVM> Get(Guid id)
         {
-            return TasqR.RunAsync(new GetTrackBillQr(id));
+            return TasqR.RunAsync(new FindTrackBillQr(id));
         }
 
         [HttpPost("Create")]

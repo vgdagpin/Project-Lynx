@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentValidation;
+using Lynx.Constants;
 using Lynx.Domain.ViewModels;
 using TasqR;
 
@@ -26,6 +27,15 @@ namespace Lynx.Commands.TrackBillCmds
         {
             RuleFor(a => a.Bill).NotNull();
             RuleFor(a => a.BillProvider).NotNull();
+            RuleFor(a => a.ProviderTypeConfigEmail)
+                .NotNull()
+                .When(a => a.BillProvider.ProviderTypeID == ProviderTypeConstants.Email);
+            RuleFor(a => a.ProviderTypeConfigScheduler)
+                 .NotNull()
+                 .When(a => a.BillProvider.ProviderTypeID == ProviderTypeConstants.Scheduled);
+            RuleFor(a => a.ProviderTypeConfigWebService)
+                .NotNull()
+                .When(a => a.BillProvider.ProviderTypeID == ProviderTypeConstants.WebService);
         }
     }
 }

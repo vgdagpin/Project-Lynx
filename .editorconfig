@@ -254,3 +254,6 @@ dotnet_diagnostic.S101.severity = none
 
 # S927: Parameter names should match base declaration and other partial definitions
 dotnet_diagnostic.S927.severity = none
+
+# S1118: Utility classes should not have public constructors
+dotnet_diagnostic.S1118.severity = none

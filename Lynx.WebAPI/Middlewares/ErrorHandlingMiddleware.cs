@@ -55,12 +55,12 @@ namespace Lynx.WebAPI.Middlewares
 
             //if (env.IsDevelopment() || env.IsStaging())
             //{
-            _result = JsonConvert.SerializeObject(new
-            {
-                type = _exceptionType.Name,
-                message = _exception.Message,
-                stactTrace = _exception.StackTrace
-            });
+            //_result = JsonConvert.SerializeObject(new
+            //{
+            //    type = _exceptionType.Name,
+            //    message = _exception.Message,
+            //    stactTrace = _exception.StackTrace
+            //});
             //}
 
             context.Response.ContentType = "application/json";

@@ -11,23 +11,26 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
 {
-    public class GetTrackBillQrHandler : TasqHandler<GetTrackBillQr, TrackBillVM>
+    public class FindTrackBillQrHandler : TasqHandler<FindTrackBillQr, TrackBillVM>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
 
-        public GetTrackBillQrHandler(ILynxDbContext dbContext, IMapper mapper)
+        public FindTrackBillQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
             p_DbContext = dbContext;
             p_Mapper = mapper;
         }
 
-        public override TrackBillVM Run(GetTrackBillQr process)
+        public override TrackBillVM Run(FindTrackBillQr process)
         {
             var result = p_DbContext.TrackBills
                     .Include(a => a.N_Bill)
                     .Include(a => a.N_ProviderType)
                     .Include(a => a.N_TrackBillSettings)
+                    .Include(a => a.N_ProviderTypeConfigEmail)
+                    .Include(a => a.N_ProviderTypeConfigScheduler)
+                    .Include(a => a.N_ProviderTypeConfigWebService)
                     .SingleOrDefault(a => a.ID == process.TrackBillID);
 
             return p_Mapper.Map<TrackBillVM>(result);

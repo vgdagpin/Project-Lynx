@@ -31,6 +31,197 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "TrackBills",
+			"item": [
+				{
+					"name": "Create Track Bills",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-requested-with",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ID\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"ShortDesc\": \"string\",\r\n    \"LongDesc\": \"string\",\r\n    \"AccountNumber\": \"string\",\r\n    \"IsEnabled\": true,\r\n    \"Bill\": {\r\n        \"ID\": 3\r\n    },\r\n    \"BillProvider\": {\r\n        \"ProviderTypeID\": 1\r\n    },\r\n    \"ProviderTypeConfigScheduler\": {\r\n        \"ShortDesc\": \"string\",\r\n        \"LongDesc\": \"string\",\r\n        \"StartDate\": \"2021-02-27\",\r\n        \"Amount\": 100,\r\n        \"DayFrequency\": 35\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Domain}}/TrackBills/Create",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"Create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tracked Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Tracked Bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills/00000000-0000-0000-0000-000000000001",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"00000000-0000-0000-0000-000000000001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tracked Bill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills/c1657fa0-f165-472e-8e6e-f0a4902d147e",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"c1657fa0-f165-472e-8e6e-f0a4902d147e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bills",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/Bills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"Bills"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Generate Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "EmailOrUsername",
+						"value": "vgdagpin",
+						"type": "text"
+					},
+					{
+						"key": "Password",
+						"value": "k4m0t3",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"EmailOrUsername\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Domain}}/AccessToken/Generate",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken",
+						"Generate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJ1bmlxdWVfbmFtZSI6IlZpbmNlbnQiLCJo..."
+		},
+		{
+			"key": "Domain",
+			"value": "http://localhost:53795"
 		}
 	]
 }

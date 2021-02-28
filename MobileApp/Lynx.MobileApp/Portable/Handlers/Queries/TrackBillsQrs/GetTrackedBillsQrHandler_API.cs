@@ -16,7 +16,7 @@ using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
 {
-    public class GetUserTrackedBillsQrHandler_API : GetUserTrackedBillsQrHandler
+    public class GetTrackedBillsQrHandler_API : GetTrackedBillsQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
         private readonly IExceptionHandler p_ExceptionHandler;
@@ -24,7 +24,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
         private readonly IAppUser p_AppUser;
         private HttpClient p_HttpClient;
 
-        public GetUserTrackedBillsQrHandler_API(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler, ITasqR tasqR, IAppUser appUser)
+        public GetTrackedBillsQrHandler_API(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler, ITasqR tasqR, IAppUser appUser)
         {
             p_ClientFactory = clientFactory;
             p_ExceptionHandler = exceptionHandler;
@@ -32,7 +32,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
             p_AppUser = appUser;
         }
 
-        public override Task InitializeAsync(GetUserTrackedBillsQr request, CancellationToken cancellationToken)
+        public override Task InitializeAsync(GetTrackBillsQr request, CancellationToken cancellationToken)
         {
             return p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID))
                 .ContinueWith(result =>
@@ -41,7 +41,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
                 });
         }
 
-        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetUserTrackedBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {

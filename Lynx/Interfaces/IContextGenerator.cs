@@ -22,9 +22,11 @@ namespace Lynx.Interfaces
 		IQueryable<NotificationConfiguration> NotificationConfigurations { get; }
 		IQueryable<NotificationTemplate> NotificationTemplates { get; }
 		IQueryable<ProviderType> ProviderTypes { get; }
+		IQueryable<ProviderTypeConfigEmail> ProviderTypeConfigEmails { get; }
+		IQueryable<ProviderTypeConfigScheduler> ProviderTypeConfigSchedulers { get; }
+		IQueryable<ProviderTypeConfigWebService> ProviderTypeConfigWebServices { get; }
 		IQueryable<SchedulerEntry> SchedulerEntries { get; }
 		IQueryable<TrackBill> TrackBills { get; }
-		IQueryable<TrackBillScheduler> TrackBillSchedulers { get; }
 		IQueryable<TrackBillSetting> TrackBillSettings { get; }
 		IQueryable<User> Users { get; }
 		IQueryable<UserBill> UserBills { get; }
