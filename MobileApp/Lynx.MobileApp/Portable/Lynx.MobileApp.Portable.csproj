@@ -51,7 +51,7 @@
     <Compile Update="StartShell.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
-    <Compile Update="Views\Account\AboutPage.xaml.cs">
+    <Compile Update="Views\AboutPage.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\Account\AccountPage.xaml.cs">
@@ -105,5 +105,8 @@
     <Compile Update="Views\SessionVerificationPage.xaml.cs">
       <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>

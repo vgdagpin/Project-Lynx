@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
@@ -11,6 +12,19 @@ namespace Lynx.MobileApp.ViewModels
 {
     public class HomePageViewModel : BaseViewModel
     {
+        #region TotalDue
+        private decimal totalDue;
+        public decimal TotalDue
+        {
+            get => totalDue;
+            set => SetProperty(ref totalDue, value);
+        }
+        #endregion
+
+
+
+
+
         public ObservableCollection<UserBillSummaryVM> Bills { get; protected set; } = new ObservableCollection<UserBillSummaryVM>();
 
         public Command<UserBillSummaryVM> ItemTapped { get; } = new Command<UserBillSummaryVM>(async bill =>
@@ -22,37 +36,32 @@ namespace Lynx.MobileApp.ViewModels
 
         public HomePageViewModel()
         {
-            LoadData = new Command(LoadDataCommand);
-
-            LoadData.Execute(null);
+            LoadData = new Command(async () => await LoadDataCommand());
         }
 
-        private void LoadDataCommand()
+        private async Task LoadDataCommand()
         {
-            Task.Run(() =>
+            IsBusy = true;
+
+            try
             {
-                try
+                var bills = await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID, 30));
+
+                Bills.Clear();
+
+                foreach (var item in bills)
                 {
-                    IsBusy = true;
-
-                    TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID))
-                        .ContinueWith(bills =>
-                        {
-                            Bills.Clear();
-
-                            foreach (var item in bills.Result)
-                            {
-                                Bills.Add(item);
-                            }
-
-                            IsBusy = false;
-                        });
+                    Bills.Add(item);
                 }
-                catch (Exception ex)
-                {
-                    ExceptionHandler.LogError(ex);
-                }
-            });
+
+                TotalDue = bills.Sum(a => a.Amount);
+            }
+            catch (Exception ex)
+            {
+                ExceptionHandler.LogError(ex);
+            }
+
+            IsBusy = false;
         }
     }
 }

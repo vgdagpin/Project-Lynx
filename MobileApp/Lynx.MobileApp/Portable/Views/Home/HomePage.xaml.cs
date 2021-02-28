@@ -16,5 +16,12 @@ namespace Lynx.MobileApp.Views
         {
             InitializeComponent();
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            ((HomePageViewModel)BindingContext).LoadData.Execute(null);
+        }
     }
 }

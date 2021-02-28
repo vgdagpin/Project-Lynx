@@ -17,7 +17,7 @@ namespace Lynx.WebAPI
 {
     public class Program
     {
-        static int port = 14344;
+        static int port = 53795;
         public static bool InsideIIS() => Environment.GetEnvironmentVariable("APP_POOL_ID") is string;
 
         public static void Main(string[] args)

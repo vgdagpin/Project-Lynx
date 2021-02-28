@@ -19,6 +19,8 @@ namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
 
+        protected GetUserTrackedBillsQrHandler() { }
+
         public GetUserTrackedBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
             p_DbContext = dbContext;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lynx.Infrastructure.Common.Constants
+namespace Lynx.Constants
 {
     public abstract class TrackBillIDConstants
     {

@@ -20,6 +20,8 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
 
+        protected GetUserBillsQrHandler() { }
+
         public GetUserBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
             p_DbContext = dbContext;

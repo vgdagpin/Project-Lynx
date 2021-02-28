@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lynx.WebAPI.Controllers.User.Model
+namespace Lynx.Domain.ViewModels
 {
-    public class LoginRequest
+    public class LoginRequestVM
     {
-        public string EmailOrUsername { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
     }
 }

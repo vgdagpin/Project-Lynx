@@ -10,6 +10,9 @@ namespace Lynx.Domain.ViewModels
 {
     public class TrackBillVM : IMapFrom<TrackBill>
     {
+        public Guid ID { get; set; }
+
+
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
         public string AccountNumber { get; set; }

@@ -1,5 +1,5 @@
 ﻿using System;
-using Lynx.Infrastructure.Common.Constants;
+using Lynx.Constants;
 using Lynx.Interfaces;
 
 namespace Lynx.MobileApp.Common

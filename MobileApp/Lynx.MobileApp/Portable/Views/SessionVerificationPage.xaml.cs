@@ -22,17 +22,18 @@ namespace Lynx.MobileApp.Views
             BindingContext = ViewModel = App.ServiceProvider.GetService<SessionVerificationViewModel>();
         }
 
-        private bool isStarted = false;
-        protected override void LayoutChildren(double x, double y, double width, double height)
+        protected override void OnAppearing()
         {
-            base.LayoutChildren(x, y, width, height);
+            base.OnAppearing();
 
-            if (!isStarted)
+            Task.Run(() =>
             {
-                isStarted = true;
-
-                ViewModel.ValidateSession().Wait();
-            }
+                return ViewModel.ValidateSession()
+                    .ContinueWith(r =>
+                    {
+                        //Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                    });
+            });
         }
     }
 }

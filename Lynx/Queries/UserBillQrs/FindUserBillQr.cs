@@ -7,9 +7,9 @@ namespace Lynx.Queries.UserBillQrs
     /// <summary>
     /// Default handler: GetUserBillQrHandler
     /// </summary>
-    public class GetUserBillQr : ITasq<UserBillVM>
+    public class FindUserBillQr : ITasq<UserBillVM>
     {
-        public GetUserBillQr(Guid userBillID)
+        public FindUserBillQr(Guid userBillID)
         {
             UserBillID = userBillID;
         }

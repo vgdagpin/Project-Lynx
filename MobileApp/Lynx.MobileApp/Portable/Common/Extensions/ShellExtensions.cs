@@ -11,7 +11,12 @@ namespace Lynx.MobileApp
     {
         public static Task GoToUserBillDetailPage(this Shell shell, Guid userBillID)
         {
-            return shell.GoToAsync($"{nameof(UserBillDetailPage)}?{nameof(BillDetailViewModel.BillID)}={userBillID}");
+            return shell.GoToAsync($"{nameof(UserBillDetailPage)}?{nameof(UserBillDetailViewModel.BillID)}={userBillID}");
+        }
+
+        public static Task GoToManageBillPage(this Shell shell)
+        {
+            return shell.GoToAsync(nameof(ManageBillPage));
         }
 
         public static Task GoToTrackBillDetailPage(this Shell shell, Guid trackBillID)

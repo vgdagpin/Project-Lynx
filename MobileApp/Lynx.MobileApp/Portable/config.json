@@ -1,6 +1,6 @@
 {
-  "Lynx-API-Hostname-Prod": "http://project-lynx.azurewebsites.net/",
-  "Lynx-API-Hostname-Local": "http://192.168.254.104:14344/",
+  //"Lynx-API-Hostname": "http://project-lynx.azurewebsites.net/",
+  "Lynx-API-Hostname": "http://192.168.254.104:53795/",
   "ConnectionStrings": {
     "LynxDbContext_SQLiteFile": "" // put sqlite db full file path here if custom'd
   }

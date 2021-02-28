@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Lynx.WebAPI.Controllers.User.Model
+namespace Lynx.Domain.ViewModels
 {
-    public class RefreshTokenRequest
+    public class RefreshTokenRequestVM
     {
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }

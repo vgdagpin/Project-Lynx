@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
+using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common.ViewModels;
-using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
@@ -19,25 +16,37 @@ using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
 {
-    public class GetUserBillsQrAPIHandler : GetUserBillsQrHandler
+    public class GetUserBillQrHandler_API : FindUserBillQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
         private readonly IExceptionHandler p_ExceptionHandler;
-        private readonly HttpClient p_HttpClient;
+        private readonly ITasqR p_TasqR;
+        private readonly IAppUser p_AppUser;
+        
+        private HttpClient p_HttpClient;
 
-        public GetUserBillsQrAPIHandler(ILynxDbContext dbContext, IMapper mapper, IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler)
-            : base(dbContext, mapper)
+        public GetUserBillQrHandler_API(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler, ITasqR tasqR, IAppUser appUser)
         {
             p_ClientFactory = clientFactory;
             p_ExceptionHandler = exceptionHandler;
-            p_HttpClient = p_ClientFactory.LynxApiClient();
+            p_TasqR = tasqR;
+            p_AppUser = appUser;
         }
 
-        public override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public override Task InitializeAsync(FindUserBillQr request, CancellationToken cancellationToken)
+        {
+            return p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID))
+                .ContinueWith(result =>
+                {
+                    p_HttpClient = p_ClientFactory.LynxApiClient(result.Result);
+                });
+        }
+
+        public override Task<UserBillVM> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.UserBill);
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}/{process.UserBillID}");
 
                 return p_HttpClient.SendAsync(request, cancellationToken)
                     .ContinueWith(responseTask =>
@@ -46,7 +55,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
 
                         if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
                         {
-                            return Task.FromResult(UserBillSummaryVM.Empty());
+                            return Task.FromResult(UserBillVM.Null());
                         }
 
                         return response.Content.ReadAsStringAsync()
@@ -54,7 +63,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
                             {
                                 var json = jsonTask.Result;
 
-                                return JsonSerializer.Deserialize<IEnumerable<UserBillSummaryVM>>(json);
+                                return JsonSerializer.Deserialize<UserBillVM>(json);
                             });
                     })
                     .Unwrap();
@@ -63,7 +72,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return Task.FromResult(UserBillSummaryVM.Empty());
+                return Task.FromResult(UserBillVM.Null());
             }
         }
     }

@@ -63,6 +63,8 @@ namespace Lynx.WebAPI.Common
             {
                 Details = contextAccessor.HttpContext.User.GetUserData<UserVM>();
             }
+
+            UserID = Details.ID;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Lynx.Common.ViewModels;
 using Lynx.Queries.UserBillQrs;
 using TasqR;
@@ -9,14 +10,14 @@ using Xamarin.Forms.Xaml;
 namespace Lynx.MobileApp.ViewModels
 {
     [QueryProperty(nameof(BillID), nameof(BillID))]
-    public class BillDetailViewModel : BaseViewModel
+    public class UserBillDetailViewModel : BaseViewModel
     {
-        private readonly ITasqR p_TasqR;
 
+        #region BillID
         private Guid billID;
         public string BillID
         {
-            get { return billID.ToString(); }
+            get => billID.ToString();
             set
             {
                 billID = Guid.Parse(value);
@@ -24,36 +25,63 @@ namespace Lynx.MobileApp.ViewModels
                 LoadItemId(billID);
             }
         }
+        #endregion
 
+        #region IsLoaded
         private bool isLoaded;
         public bool IsLoaded
         {
-            get { return isLoaded; }
-            set { SetProperty(ref isLoaded, value); }
+            get => isLoaded;
+            set => SetProperty(ref isLoaded, value);
         }
+        #endregion
 
+        #region UserBill
         private UserBillVM userBill;
         public UserBillVM UserBill
         {
             get { return userBill; }
             set { SetProperty(ref userBill, value); }
         }
+        #endregion
 
-
-        public BillDetailViewModel()
+        #region IsPaid
+        private bool isPaid;
+        public bool IsPaid
         {
-            p_TasqR = App.ServiceProvider.GetService<ITasqR>();
+            get { return isPaid; }
+            set { SetProperty(ref isPaid, value); }
+        }
+        #endregion
+
+        public ICommand MarkAsPaidCommand { get; }
+
+
+
+
+        public UserBillDetailViewModel()
+        {
+            MarkAsPaidCommand = new Command(MarkAsPaidCommandAsync);
         }
 
-        private Task LoadItemId(Guid billID)
+
+        private void MarkAsPaidCommandAsync()
         {
-            return Task.Run(async () =>
+            Task.Run(() =>
+            {
+
+            });
+        }
+
+        private void LoadItemId(Guid billID)
+        {
+            Task.Run(async () =>
             {
                 try
                 {
                     IsBusy = true;
 
-                    UserBill = await p_TasqR.RunAsync(new GetUserBillQr(billID));
+                    UserBill = await TasqR.RunAsync(new FindUserBillQr(billID));
                 }
                 catch (Exception ex)
                 {

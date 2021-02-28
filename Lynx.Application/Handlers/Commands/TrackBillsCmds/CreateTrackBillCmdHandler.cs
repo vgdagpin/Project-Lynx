@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using Lynx.Commands.TrackBillCmds;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
@@ -77,8 +78,15 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
 
             var entityEntry = TrackBillDbSet.Add(newEntry);
 
+            if (newEntry.ProviderTypeID == ProviderTypeConstants.Scheduled)
+            {
+
+            }
+
             if (process.AutoSave)
             {
+
+
                 return BaseDbContext.SaveChangesAsync(cancellationToken)
                     .ContinueWith(result =>
                     {

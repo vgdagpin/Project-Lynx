@@ -5,7 +5,8 @@
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center">
-            <Label Text="Loading.. Blah Blah Blah"
+            <Label IsVisible="{Binding IsValidating}" 
+                Text="Verifying session.."
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             <Button Text="Login" Command="{Binding OnNavigateLoginCommand}" />

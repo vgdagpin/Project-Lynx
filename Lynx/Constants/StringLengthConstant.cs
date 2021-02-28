@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Lynx.Infrastructure
+namespace Lynx.Constants
 {
     public abstract class StringLengthConstant
     {

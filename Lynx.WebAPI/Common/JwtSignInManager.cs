@@ -45,8 +45,7 @@ namespace Lynx.WebAPI.Common
 
         public async Task<UserSessionVM> SignInAsync(string username, string password)
         {
-            var validate =
-                await p_TasqR.RunAsync(new ValidateUserLoginCmd(username, password));
+            var validate = await p_TasqR.RunAsync(new ValidateUserLoginCmd(username, password));
 
             if (!validate.IsSuccess)
                 throw validate.Error;

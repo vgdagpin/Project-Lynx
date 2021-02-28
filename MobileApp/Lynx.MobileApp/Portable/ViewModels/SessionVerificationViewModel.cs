@@ -16,6 +16,18 @@ namespace Lynx.MobileApp.ViewModels
     {
         private readonly ITasqR p_TasqR;
 
+
+        #region IsValidating
+        private bool isValidating;
+        public bool IsValidating
+        {
+            get { return isValidating; }
+            set { SetProperty(ref isValidating, value); }
+        }
+        #endregion
+
+
+
         public ICommand OnNavigateLoginCommand => new Command(async () => await GoToLogin());
         public ICommand OnNavigateMainPageCommand => new Command(() => GoToMainPage());
 
@@ -24,8 +36,16 @@ namespace Lynx.MobileApp.ViewModels
             p_TasqR = tasqR;
         }
 
-        public async Task ValidateSession()
+        public Task ValidateSession()
         {
+            return Task.Run(() =>
+            {
+                IsValidating = true;
+
+                Thread.Sleep(2000);
+
+                IsValidating = false;
+            });
             //var activeSession = p_TasqR.Run(new GetActiveUserSessionQr());
 
             //if (activeSession != null)

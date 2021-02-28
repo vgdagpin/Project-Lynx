@@ -16,46 +16,35 @@ namespace Lynx.MobileApp.ViewModels
     {
         public ObservableCollection<TrackBillSummaryVM> TrackedBills { get; protected set; } = new ObservableCollection<TrackBillSummaryVM>();
 
-
         public Command<TrackBillSummaryVM> ItemTapped { get; } = new Command<TrackBillSummaryVM>(trackBill => Shell.Current.GoToTrackBillDetailPage(trackBill.ID));
         public ICommand LoadData { get; }
         public ICommand TrackNewBill { get; } = new Command(() => Shell.Current.GoToPage<NewTrackBillPage>());
 
         public ManageBillViewModel()
         {
-            LoadData = new Command(LoadDataCommand);
-
-            LoadData.Execute(null);
+            LoadData = new Command(async () => await LoadDataCommand());
         }
 
-        private void LoadDataCommand()
+        private async Task LoadDataCommand()
         {
-            Task.Run(() =>
+            try
             {
-                try
+                var bills = await TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID));
+
+                TrackedBills.Clear();
+
+                foreach (var item in bills)
                 {
-                    IsBusy = true;
-
-                    TasqR.RunAsync(new GetUserTrackedBillsQr(AppUser.UserID))
-                        .ContinueWith(bills =>
-                        {
-                            TrackedBills.Clear();
-
-                            foreach (var item in bills.Result)
-                            {
-                                TrackedBills.Add(item);
-                            }
-
-                            IsBusy = false;
-                        });
-                }
-                catch (Exception ex)
-                {
-                    ExceptionHandler.LogError(ex);
+                    TrackedBills.Add(item);
                 }
 
                 IsBusy = false;
-            });
+            }
+            catch (Exception ex)
+            {
+
+                ExceptionHandler.LogError(ex);
+            }
         }
     }
 }

@@ -13,9 +13,9 @@ using TasqR;
 namespace Lynx.WebAPI.Controllers
 {
     [Route("[controller]")]
-    public class TrackBillController : LynxBaseController
+    public class TrackBillsController : LynxBaseController
     {
-        public TrackBillController(ITasqR tasqR, IAppUser appUser) : base(tasqR, appUser)
+        public TrackBillsController(ITasqR tasqR, IAppUser appUser) : base(tasqR, appUser)
         {
         }
 
@@ -31,10 +31,16 @@ namespace Lynx.WebAPI.Controllers
             return TasqR.RunAsync(new GetTrackBillQr(id));
         }
 
-        [HttpPut]
-        public Task<CreateResult<TrackBillVM>> Put(TrackBillVM newEntry, CancellationToken cancellationToken = default)
+        [HttpPost("Create")]
+        public Task<CreateResult<TrackBillVM>> Create(TrackBillVM newEntry, CancellationToken cancellationToken = default)
         {
-            return TasqR.RunAsync(new CreateTrackBillCmd(newEntry, false), cancellationToken);
+            return TasqR.RunAsync(new CreateTrackBillCmd(newEntry, true), cancellationToken);
+        }
+
+        [HttpDelete("{id}")]
+        public Task Delete(Guid id, CancellationToken cancellationToken = default)
+        {
+            return TasqR.RunAsync(new DeleteTrackBillCmd(id), cancellationToken);
         }
     }
 }

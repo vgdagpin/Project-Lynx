@@ -22,7 +22,7 @@ namespace Lynx.MobileApp
 
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new StartShell();
         }
 
         protected override void OnStart()

@@ -10,11 +10,12 @@ xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.Xa
     </ContentPage.BindingContext>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" />
+        <ToolbarItem Text="Save" Command="{Binding SaveChanges}" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">
+        <StackLayout Spacing="3" Padding="15">           
+            
             <telerikInput:RadListPicker 
                 Placeholder="{Binding BillsLoadIndicator}"
                 ItemsSource="{Binding Bills}" 
@@ -31,9 +32,15 @@ xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.Xa
             </telerikInput:RadListPicker>
 
             <Entry Placeholder="Name" Text="{Binding ShortDesc, Mode=TwoWay}" />
-            <Entry Placeholder="Account Number" />
-            <Entry Placeholder="Email Address" />
+            <Entry Placeholder="Account Number" Text="{Binding AccountNumber, Mode=TwoWay}" />
+            <Entry Placeholder="Email Address" Text="{Binding EmailAddress, Mode=TwoWay}" />
 
+            <ActivityIndicator  
+                IsRunning="True" 
+                IsVisible="{Binding IsBusy}" 
+                Color="Gray"
+                HorizontalOptions="CenterAndExpand" 
+                VerticalOptions="CenterAndExpand"/>
 
         </StackLayout>
     </ContentPage.Content>

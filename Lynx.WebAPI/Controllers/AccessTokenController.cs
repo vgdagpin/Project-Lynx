@@ -1,17 +1,18 @@
 ﻿using System.Threading.Tasks;
+using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
-using Lynx.WebAPI.Controllers.User.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TasqR;
 
 namespace Lynx.WebAPI.Controllers.Users
 {
-    public class UserController : LynxBaseController
+    [Route("[controller]")]
+    public class AccessTokenController : LynxBaseController
     {
         private readonly IJwtSignInManager p_SignInManager;
 
-        public UserController(ITasqR tasqR,
+        public AccessTokenController(ITasqR tasqR,
             IAppUser appUser,
             IJwtSignInManager signInManager)
             : base(tasqR, appUser)
@@ -20,10 +21,10 @@ namespace Lynx.WebAPI.Controllers.Users
         }
 
         [AllowAnonymous]
-        [HttpPost("Authenticate")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest data)
+        [HttpPost]
+        public async Task<IActionResult> Generate([FromBody] LoginRequestVM data)
         {
-            var _token = await p_SignInManager.SignInAsync(data.EmailOrUsername, data.Password);
+            var _token = await p_SignInManager.SignInAsync(data.Username, data.Password);
 
             if (_token == null)
             {
@@ -36,8 +37,8 @@ namespace Lynx.WebAPI.Controllers.Users
 
 
         [AllowAnonymous]
-        [HttpPost("Re-Authenticate")]
-        public async Task<IActionResult> ReLogin([FromBody] RefreshTokenRequest data)
+        [HttpPost("Regenerate")]
+        public async Task<IActionResult> Regenerate([FromBody] RefreshTokenRequestVM data)
         {
             var token = await p_SignInManager.RefreshUserTokenAsync(data.AccessToken, data.RefreshToken);
 

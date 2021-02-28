@@ -18,9 +18,9 @@ using TasqR;
 namespace Lynx.WebAPI.Controllers
 {
     [Route("[controller]")]
-    public class BillController : LynxBaseController
+    public class BillsController : LynxBaseController
     {
-        public BillController(ITasqR tasqR, IAppUser appUser) : base(tasqR, appUser)
+        public BillsController(ITasqR tasqR, IAppUser appUser) : base(tasqR, appUser)
         {
         }
 

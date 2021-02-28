@@ -10,7 +10,7 @@
     
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Total Due: 30,000.00" />
+        <ToolbarItem Text="{Binding TotalDue, StringFormat='Total Due: {0:n2}'}" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

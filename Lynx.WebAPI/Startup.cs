@@ -78,7 +78,8 @@ namespace Lynx.WebAPI
                 .AddJsonOptions(opt => 
                 {
                     opt.JsonSerializerOptions.PropertyNamingPolicy = null;
-                    opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    //opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 });
 
             services.AddSwaggerGen(c =>
