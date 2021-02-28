@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.Views;
-using Lynx.Queries.UserSessionCmds;
+using Lynx.Queries.UserSessionQrs;
 using TasqR;
 using Xamarin.Forms;
 
@@ -26,18 +26,18 @@ namespace Lynx.MobileApp.ViewModels
 
         public async Task ValidateSession()
         {
-            var activeSession = p_TasqR.Run(new GetActiveUserSessionQr());
+            //var activeSession = p_TasqR.Run(new GetActiveUserSessionQr());
 
-            if (activeSession != null)
-            {
-                Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = activeSession;
+            //if (activeSession != null)
+            //{
+            //    Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = activeSession;
 
-                GoToMainPage();
-            }
-            else
-            {
-                await GoToLogin();
-            }
+            //    GoToMainPage();
+            //}
+            //else
+            //{
+            //    await GoToLogin();
+            //}
         }
 
         private async Task GoToLogin()

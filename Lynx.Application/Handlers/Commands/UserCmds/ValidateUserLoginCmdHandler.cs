@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 
-namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
+namespace Lynx.Application.Handlers.Commands.UserCmds
 {
     public class ValidateUserLoginCmdHandler : TasqHandlerAsync<ValidateUserLoginCmd, LoginResultVM>
     {
@@ -23,8 +22,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
             p_PasswordHasher = passwordHasher;
         }
 
-        public async override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process, 
-            CancellationToken cancellationToken = default)
+        public async override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process, CancellationToken cancellationToken = default)
         {
             var userLogin = await p_DbContext.UserLogins
                 .SingleOrDefaultAsync(a => a.Username == process.Username);
@@ -52,5 +50,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
                 IsSuccess = true
             };
         }
+
+        
     }
 }

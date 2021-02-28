@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Lynx.Domain.Entities;
 using Lynx.Enums;
 using Lynx.Interfaces;
-using Lynx.Queries.UserSessionCmds;
+using Lynx.Queries.UserSessionQrs;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 

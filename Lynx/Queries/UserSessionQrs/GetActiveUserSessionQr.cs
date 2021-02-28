@@ -4,9 +4,10 @@ using System.Text;
 using Lynx.Domain.Entities;
 using TasqR;
 
-namespace Lynx.Queries.UserSessionCmds
+namespace Lynx.Queries.UserSessionQrs
 {
     public class GetActiveUserSessionQr : ITasq<UserSession>
     {
+      
     }
 }
