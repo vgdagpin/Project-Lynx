@@ -50,13 +50,13 @@ namespace Lynx.MobileApp.ViewModels
 
                 if (loginResult.IsSuccess)
                 {
-                    var newSessionCmd = new CreateSessionCmd(p_Username);
-                    var sessionResult = await p_TasqR.RunAsync(newSessionCmd);
+                    //var newSessionCmd = new CreateSessionCmd(p_Username);
+                    //var sessionResult = await p_TasqR.RunAsync(newSessionCmd);
 
-                    await p_BaseDbContext.SaveChangesAsync();
+                    //await p_BaseDbContext.SaveChangesAsync();
 
-                    Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
-                    Xamarin.Forms.Application.Current.MainPage = new AppShell();
+                    //Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
+                    //Xamarin.Forms.Application.Current.MainPage = new AppShell();
                 }
             }
             catch (Exception ex)

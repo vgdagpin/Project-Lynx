@@ -13,13 +13,8 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="FluentValidation" Version="9.5.1" />
-    <PackageReference Include="TasqR" Version="1.4.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.ComponentModel.Annotations">
-      <HintPath>..\..\..\..\Nuget Packages\system.componentmodel.annotations\5.0.0\ref\netstandard2.1\System.ComponentModel.Annotations.dll</HintPath>
-    </Reference>
+    <PackageReference Include="TasqR" Version="1.4.5" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

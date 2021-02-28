@@ -39,6 +39,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
             }
 
             // we need to revoke active sessions to prevent multiple logins
+            //TODO: this may cause performance problem in the future
             p_DbContext.UserSessions
                 .Where(a => a.Status == SessionStatus.Active 
                     && a.ExpiredOn >= p_DateTime.Now 

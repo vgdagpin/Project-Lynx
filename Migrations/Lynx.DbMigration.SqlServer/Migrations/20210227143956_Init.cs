@@ -217,10 +217,11 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 {
                     SessionID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Token = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Token = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpiredOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsExpired = table.Column<bool>(type: "bit", nullable: false, computedColumnSql: "CONVERT(BIT, (IIF(ExpiredOn IS NOT NULL AND GETUTCDATE() >= ExpiredOn, 1, 0)))"),
                     Remarks = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>

@@ -8,6 +8,11 @@ namespace Lynx.Queries.UserQrs
 {
     public class GetUserDetailQr : ITasq<User>
     {
+        public GetUserDetailQr(string emailOrUserName)
+        {
+            EmailOrUserName = emailOrUserName;
+        }
 
+        public string EmailOrUserName { get; }
     }
 }
