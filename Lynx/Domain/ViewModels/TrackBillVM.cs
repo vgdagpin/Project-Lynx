@@ -24,14 +24,5 @@ namespace Lynx.Domain.ViewModels
                 .ForMember(t => t.LongDesc, s => s.MapFrom(sprop => sprop.LongDesc ?? $"{sprop.N_Bill.LongDesc} - {sprop.N_ProviderType.LongDesc}"))
                 .ForMember(t => t.Bill, s => s.MapFrom(sprop => sprop.N_Bill));
         }
-    }
-
-    public class TrackBillVMValidator : AbstractValidator<TrackBillVM>
-    {
-        public TrackBillVMValidator()
-        {
-            RuleFor(a => a.Bill).NotNull();
-            RuleFor(a => a.BillProvider).NotNull();
-        }
-    }
+    }    
 }

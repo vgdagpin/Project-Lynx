@@ -251,3 +251,6 @@ dotnet_naming_style.camel_case.capitalization = camel_case
 
 # S101: Types should be named in PascalCase
 dotnet_diagnostic.S101.severity = none
+
+# S927: Parameter names should match base declaration and other partial definitions
+dotnet_diagnostic.S927.severity = none

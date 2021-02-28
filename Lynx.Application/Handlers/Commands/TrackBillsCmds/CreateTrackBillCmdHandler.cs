@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
@@ -27,16 +28,16 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
         protected DbSet<TrackBill> TrackBillDbSet => (DbSet<TrackBill>)DbContext.TrackBills;
 
 
-        public override Task InitializeAsync(CreateTrackBillCmd tasq, CancellationToken cancellationToken = default)
+        public override Task InitializeAsync(CreateTrackBillCmd tasq, CancellationToken cancellationToken)
         {
             var validationResult = tasq.Validator.ValidateUsing<TrackBillVMValidator>(tasq.Entry);
 
             if (!validationResult.IsValid)
             {
-                throw new ValidationException(validationResult.Errors);
+                throw new LynxException(new ValidationException(validationResult.Errors));
             }
 
-            return Task.FromResult(0);
+            return base.InitializeAsync(tasq, cancellationToken);
         }
 
         public override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
@@ -48,9 +49,18 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                 return Task.FromResult(new CreateResult<TrackBillVM>
                 {
                     IsCreated = false,
-                    Error = new LynxException("Parameter is null")
+                    Error = new LynxObjectNotFoundException<TrackBillVM>("Parameter is null")
                 });
             }
+
+            var bill = DbContext.Bills.SingleOrDefault(a => a.ID == process.Entry.Bill.ID);
+            var billProvider = DbContext.BillProviders
+                .Include(a => a.N_ProviderType)
+                .SingleOrDefault(a => a.BillID == process.Entry.Bill.ID 
+                    && a.ProviderTypeID == process.Entry.BillProvider.ProviderTypeID);
+
+            AssertObject.IsNotNull(bill);
+            AssertObject.IsNotNull(billProvider);
 
             var newEntry = new TrackBill
             {
@@ -83,9 +93,21 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                         return new CreateResult<TrackBillVM>
                         {
                             IsCreated = true,
-                            NewEntry = Mapper.Map<TrackBillVM>(process.Entry)
+                            NewEntry = Mapper.Map<TrackBillVM>(entityEntry.Entity)
                         };
                     });
+            }
+            else
+            {
+                var entry = Mapper.Map<TrackBillVM>(newEntry);
+
+                entry.Bill = Mapper.Map<BillVM>(bill);
+                entry.BillProvider = Mapper.Map<BillProviderVM>(billProvider);
+
+                retVal = Task.FromResult(new CreateResult<TrackBillVM>
+                {
+                    NewEntry = entry
+                });
             }
 
             return retVal;

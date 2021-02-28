@@ -20,14 +20,14 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="TasqR" Version="1.4.3" />
-    <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.3" />
+    <PackageReference Include="TasqR" Version="1.4.5" />
+    <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aerish.DbMigration.SqlServer\Lynx.DbMigration.SqlServer.csproj" />
+    <ProjectReference Include="..\Migrations\Lynx.DbMigration.SqlServer\Lynx.DbMigration.SqlServer.csproj" />
     <ProjectReference Include="..\Lynx.Application\Lynx.Application.csproj" />
-    <ProjectReference Include="..\Lynx.DbMigration.SQLite\Lynx.DbMigration.SQLite.csproj" />
+    <ProjectReference Include="..\Migrations\Lynx.DbMigration.SQLite\Lynx.DbMigration.SQLite.csproj" />
     <ProjectReference Include="..\Lynx.Infrastructure\Lynx.Infrastructure.csproj" />
     <ProjectReference Include="..\Lynx\Lynx.csproj" />
   </ItemGroup>

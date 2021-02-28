@@ -34,7 +34,7 @@ namespace Lynx.WebAPI.Controllers
         [HttpPut]
         public Task<CreateResult<TrackBillVM>> Put(TrackBillVM newEntry, CancellationToken cancellationToken = default)
         {
-            return TasqR.RunAsync(new CreateTrackBillCmd(newEntry, true), cancellationToken);
+            return TasqR.RunAsync(new CreateTrackBillCmd(newEntry, false), cancellationToken);
         }
     }
 }
