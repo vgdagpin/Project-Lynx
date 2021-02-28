@@ -111,7 +111,7 @@ namespace Lynx.WebAPI.Common
                 };
 
             //Configuration
-            var expireAt = p_DateTime.Now.AddMinutes(7); //7 Minutes
+            var expireAt = p_DateTime.Now.AddDays(7); //7 Minutes
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(p_Configuration["Jwt:Key"]);
