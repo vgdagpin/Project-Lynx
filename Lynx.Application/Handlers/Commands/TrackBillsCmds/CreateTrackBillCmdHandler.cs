@@ -14,6 +14,8 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
 {
     public class CreateTrackBillCmdHandler : TasqHandlerAsync<CreateTrackBillCmd, CreateResult<TrackBillVM>>
     {
+        protected CreateTrackBillCmdHandler() { }
+
         public CreateTrackBillCmdHandler(ILynxDbContext dbContext, IAppUser appUser, IMapper mapper)
         {
             DbContext = dbContext;

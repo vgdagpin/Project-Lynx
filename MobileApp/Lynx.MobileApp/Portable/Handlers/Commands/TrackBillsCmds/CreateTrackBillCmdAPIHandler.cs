@@ -7,32 +7,32 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Lynx.Application.Handlers.Queries.BillsQrs;
+using Lynx.Application.Handlers.Commands.TrackBillsCmds;
+using Lynx.Commands.TrackBillCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
-using Lynx.Queries.BillsQrs;
 
-namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
+namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
 {
-    public class GetBillsQrAPIHandler : GetBillsQrHandler
+    public class CreateTrackBillCmdAPIHandler : CreateTrackBillCmdHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
         private readonly IExceptionHandler p_ExceptionHandler;
         private readonly HttpClient p_HttpClient;
 
-        public GetBillsQrAPIHandler(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler)
+        public CreateTrackBillCmdAPIHandler(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler)
         {
             p_ClientFactory = clientFactory;
             p_ExceptionHandler = exceptionHandler;
             p_HttpClient = p_ClientFactory.LynxApiClient();
         }
 
-        public override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
+        public override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.Bill);
+                var request = new HttpRequestMessage(HttpMethod.Put, APIUriConstants.TrackBill);
 
                 return p_HttpClient.SendAsync(request, cancellationToken)
                     .ContinueWith(responseTask =>
@@ -41,7 +41,9 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
 
                         if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
                         {
-                            return Task.FromResult(BillSummaryVM.Empty());
+                            return Task.FromResult(new CreateResult<TrackBillVM>
+                            {
+                            });
                         }
 
                         return response.Content.ReadAsStringAsync()
@@ -49,7 +51,7 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
                             {
                                 var json = jsonTask.Result;
 
-                                return JsonSerializer.Deserialize<IEnumerable<BillSummaryVM>>(json);
+                                return JsonSerializer.Deserialize<CreateResult<TrackBillVM>>(json);
                             });
                     })
                     .Unwrap();
@@ -58,7 +60,9 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return Task.FromResult(BillSummaryVM.Empty());
+                return Task.FromResult(new CreateResult<TrackBillVM>
+                {
+                });
             }
         }
     }
