@@ -9,23 +9,55 @@
 			"name": "UserBills",
 			"item": [
 				{
-					"name": "GetUserBills",
+					"name": "Get User Bills",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{Domain}}/UserBills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GetUserBillByID",
+					"name": "Find User Bill",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{Domain}}/UserBills/00000000-0000-0000-0000-000000000001",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills",
+								"00000000-0000-0000-0000-000000000001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Bill as Paid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/UserBills/00000000-0000-0000-0000-000000000001/MarkBillAsPaid",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills",
+								"00000000-0000-0000-0000-000000000001",
+								"MarkBillAsPaid"
+							]
 						}
 					},
 					"response": []

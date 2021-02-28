@@ -33,7 +33,8 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
             return await p_DbContext.UserBills
                     .Include(a => a.N_TrackBill)
                     .ThenInclude(a => a.N_Bill)
-                    .Where(a => a.UserID == process.UserID)
+                    .Where(a => a.UserID == process.UserID && a.Status != BillPaymentStatus.Paid)
+                    .OrderByDescending(a => a.DueDate)
                     .ProjectTo<UserBillSummaryVM>(p_Mapper.ConfigurationProvider)
                     .ToListAsync();
         }
