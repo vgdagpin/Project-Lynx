@@ -22,5 +22,20 @@ namespace Lynx.Domain.ViewModels
             profile.CreateMap<Bill, BillSummaryVM>()
                 .ForMember(t => t.Providers, s => s.MapFrom(sprop => sprop.N_BillProviders));
         }
+
+        public static IEnumerable<BillSummaryVM> Empty()
+        {
+            return new List<BillSummaryVM>();
+        }
+
+        public static BillSummaryVM Null()
+        {
+            return null;
+        }
+
+        public override string ToString()
+        {
+            return ShortDesc ?? LongDesc;
+        }
     }
 }

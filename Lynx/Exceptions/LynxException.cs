@@ -24,6 +24,12 @@ namespace Lynx
         {
         }
 
+        public LynxException(Exception exception) 
+            : base(exception.InnermostException().Message)
+        {
+
+        }
+
         protected LynxException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {

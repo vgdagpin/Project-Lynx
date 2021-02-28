@@ -26,9 +26,9 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BillSummaryVM>> Get()
+        public async Task<IEnumerable<BillSummaryVM>> Get(CancellationToken cancellationToken = default)
         {
-            return await TasqR.RunAsync(new GetBillsQr());
+            return await TasqR.RunAsync(new GetBillsQr(), cancellationToken);
         }
     }
 }

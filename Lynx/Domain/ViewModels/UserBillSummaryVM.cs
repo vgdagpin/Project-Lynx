@@ -22,5 +22,15 @@ namespace Lynx.Domain.ViewModels
                 .ForMember(t => t.ShortDesc, s => s.MapFrom(sprop => sprop.N_TrackBill.ShortDesc ?? sprop.N_TrackBill.N_Bill.ShortDesc))
                 .ForMember(t => t.LongDesc, s => s.MapFrom(sprop => sprop.N_TrackBill.LongDesc ?? sprop.N_TrackBill.N_Bill.LongDesc));
         }
+
+        public static IEnumerable<UserBillSummaryVM> Empty()
+        {
+            return new List<UserBillSummaryVM>();
+        }
+
+        public static UserBillSummaryVM Null()
+        {
+            return null;
+        }
     }
 }

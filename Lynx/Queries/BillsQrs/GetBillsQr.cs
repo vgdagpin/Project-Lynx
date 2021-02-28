@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.ViewModels;
@@ -12,6 +13,11 @@ namespace Lynx.Queries.BillsQrs
     /// </summary>
     public class GetBillsQr : ITasq<IEnumerable<BillSummaryVM>>
     {
+        public GetBillsQr(bool cacheResult = true)
+        {
+            CacheResult = cacheResult;
+        }
 
+        public bool CacheResult { get; }
     }
 }
