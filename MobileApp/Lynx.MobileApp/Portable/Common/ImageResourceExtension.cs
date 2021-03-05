@@ -21,7 +21,7 @@ namespace Lynx.MobileApp.Portable.Common
 
             var imageSource = ImageSource.FromResource
                 (
-                    resource: $"Lynx.MobileApp.Portable.LoginScreenWithSocial1.Images.{this.BackgroundImage}", 
+                    resource: $"Lynx.MobileApp.Portable.Images.{this.BackgroundImage}", 
                     sourceAssembly: typeof(ImageResourceExtension).GetTypeInfo().Assembly
                 );
 

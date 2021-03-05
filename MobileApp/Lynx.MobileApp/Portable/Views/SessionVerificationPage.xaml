@@ -13,6 +13,8 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
+           
+
             <Grid x:Name="SocialButtonsGrid"
               VerticalOptions="Start"
               HorizontalOptions="Center"
@@ -29,11 +31,20 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Text="or login with:"
-                   Style="{StaticResource NormalLabelStyle}"
                    Grid.Row="0"
                    Grid.Column="1" />
 
-                <telerikPrimitives:RadBorder Style="{StaticResource SocialButtonBorderStyle}"
+                <Button Text="Login" Command="{Binding OnNavigateLoginCommand}" />
+                <Button Text="Main Page" Command="{Binding OnNavigateMainPageCommand}" />
+
+                <telerikPrimitives:RadBorder 
+                                         Grid.Column="0"
+                                         Grid.Row="1">
+                    <telerikInput:RadButton Command="{Binding OnNavigateLoginCommand}"
+                                        BackgroundImage="{local:ImageResource key.png}" />
+                </telerikPrimitives:RadBorder>
+
+                <!--<telerikPrimitives:RadBorder Style="{StaticResource SocialButtonBorderStyle}"
                                          Grid.Column="0"
                                          Grid.Row="1">
                     <telerikInput:RadButton Command="{Binding OnNavigateLoginCommand}"
@@ -48,7 +59,7 @@
                     <telerikInput:RadButton Command="{Binding OnNavigateMainPageCommand}"
                                         BackgroundImage="{local:ImageResource key.png}"
                                         Style="{StaticResource SocialButtonStyle}" />
-                </telerikPrimitives:RadBorder>
+                </telerikPrimitives:RadBorder>-->
             </Grid>
         </StackLayout>
     </ContentPage.Content>

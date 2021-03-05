@@ -23,6 +23,15 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="9.5.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
@@ -33,12 +42,6 @@
     <PackageReference Include="Telerik.UI.for.Xamarin" Version="2021.1.224.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Lynx.Application\Lynx.Application.csproj" />
-    <ProjectReference Include="..\..\..\Lynx.Infrastructure\Lynx.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\Lynx\Lynx.csproj" />
-    <ProjectReference Include="..\..\..\Migrations\Lynx.DbMigration.SQLite\Lynx.DbMigration.SQLite.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
@@ -110,6 +113,20 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Lynx">
+      <HintPath>..\..\..\Assemblies\Lynx\Lynx.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.Application">
+      <HintPath>..\..\..\Assemblies\Lynx\Lynx.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.DbMigration.SQLite">
+      <HintPath>..\..\..\Assemblies\Lynx\Lynx.DbMigration.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.Infrastructure">
+      <HintPath>..\..\..\Assemblies\Lynx\Lynx.Infrastructure.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Styles.xaml">
