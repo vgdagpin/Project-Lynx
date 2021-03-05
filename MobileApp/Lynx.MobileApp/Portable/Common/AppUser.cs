@@ -9,11 +9,16 @@ namespace Lynx.MobileApp.Common
         private readonly ILynxDbContext p_DbContext;
 
         public Guid UserID { get; } = Guid.Parse(UserIDConstants.Enteng);
-        public Guid SessionUID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public Guid SessionUID { get; }
 
         public AppUser(ILynxDbContext dbContext)
         {
             p_DbContext = dbContext;
+        }
+
+        public T GetUserDetail<T>() where T : class
+        {
+            throw new NotImplementedException();
         }
     }
 }

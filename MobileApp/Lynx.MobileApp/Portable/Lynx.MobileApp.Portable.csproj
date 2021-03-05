@@ -11,11 +11,13 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="config.json" />
+    <None Remove="Images\key.png" />
     <None Remove="Resources\Fonts\fontawesome-webfont.ttf" />
     <None Remove="Resources\Fonts\FontAwesome.otf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="config.json" />
+    <EmbeddedResource Include="Images\key.png" />
     <EmbeddedResource Include="Resources\Fonts\fontawesome-webfont.ttf" />
     <EmbeddedResource Include="Resources\Fonts\FontAwesome.otf" />
   </ItemGroup>
@@ -108,5 +110,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

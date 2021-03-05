@@ -37,3 +37,9 @@ https://docs.microsoft.com/en-us/ef/core/querying/single-split-queries
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0
 
 https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-binding-basics
+
+
+https://blog.mailtrap.io/setup-smtp-server/
+
+
+https://github.com/DigitalRuby/MailDemon

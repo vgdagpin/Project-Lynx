@@ -12,4 +12,8 @@
     <ProjectReference Include="..\..\Lynx.Infrastructure\Lynx.Infrastructure.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Assemblies\Lynx\$(TargetFileName)&quot;" />
+  </Target>
+
 </Project>

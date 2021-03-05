@@ -21,7 +21,7 @@ namespace Lynx.WebAPI.Controllers.Users
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("/AccessToken")]
         public async Task<IActionResult> Generate([FromBody] LoginRequestVM data)
         {
             var _token = await p_SignInManager.SignInAsync(data.Username, data.Password);
@@ -37,7 +37,7 @@ namespace Lynx.WebAPI.Controllers.Users
 
 
         [AllowAnonymous]
-        [HttpPost("Regenerate")]
+        [HttpPost("/AccessToken/Regenerate")]
         public async Task<IActionResult> Regenerate([FromBody] RefreshTokenRequestVM data)
         {
             var token = await p_SignInManager.RefreshUserTokenAsync(data.AccessToken, data.RefreshToken);

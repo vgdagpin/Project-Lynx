@@ -66,5 +66,10 @@ namespace Lynx.WebAPI.Common
 
             UserID = Details.ID;
         }
+
+        public T GetUserDetail<T>() where T : class
+        {
+            throw new NotImplementedException();
+        }
     }
 }

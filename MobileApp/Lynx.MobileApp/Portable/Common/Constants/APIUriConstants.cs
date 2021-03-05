@@ -6,8 +6,8 @@ namespace Lynx.MobileApp.Common.Constants
 {
     public abstract class APIUriConstants
     {
-        public const string UserBill = "UserBill";
-        public const string Bill = "Bill";
-        public const string TrackBill = "TrackBill";
+        public const string UserBill = "UserBills";
+        public const string Bill = "Bills";
+        public const string TrackBill = "TrackBills";
     }
 }

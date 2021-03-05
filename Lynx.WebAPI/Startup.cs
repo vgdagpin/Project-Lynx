@@ -28,6 +28,7 @@ using Lynx.Infrastructure.Common;
 using TasqR;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace Lynx.WebAPI
 {

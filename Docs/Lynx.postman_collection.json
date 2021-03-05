@@ -180,22 +180,14 @@
 		{
 			"name": "Generate Token",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
-				"header": [
-					{
-						"key": "EmailOrUsername",
-						"value": "vgdagpin",
-						"type": "text"
-					},
-					{
-						"key": "Password",
-						"value": "k4m0t3",
-						"type": "text"
-					}
-				],
+				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"EmailOrUsername\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
+					"raw": "{\r\n    \"Username\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -203,13 +195,42 @@
 					}
 				},
 				"url": {
-					"raw": "{{Domain}}/AccessToken/Generate",
+					"raw": "{{Domain}}/AccessToken",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Token Regenerate",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Domain}}/AccessToken/Regenerate",
 					"host": [
 						"{{Domain}}"
 					],
 					"path": [
 						"AccessToken",
-						"Generate"
+						"Regenerate"
 					]
 				}
 			},
