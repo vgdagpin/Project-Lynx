@@ -17,6 +17,8 @@ namespace Lynx.Application.Handlers.Queries.UserQrs
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
 
+        protected GetUserDetailQrHandler() { }
+
         public GetUserDetailQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
             p_DbContext = dbContext;

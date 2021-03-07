@@ -134,7 +134,7 @@ namespace Lynx.WebAPI.Common
             };
         }
 
-        private UserVM ExtractUserFromToken(string accessToken)
+        public UserVM ExtractUserFromToken(string accessToken)
         {
             var tokenValidationParam = Startup.TokenValidationParameters(p_Configuration);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -155,6 +155,33 @@ namespace Lynx.WebAPI.Common
                 Claim claimUserData = principle.FindFirst(ClaimTypes.UserData);
 
                 return JsonConvert.DeserializeObject<UserVM>(claimUserData?.Value);
+            }
+
+
+            return null;
+        }
+
+        public Guid? ExtractSessionIDFromToken(string accessToken)
+        {
+            var tokenValidationParam = Startup.TokenValidationParameters(p_Configuration);
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            #region Disabling this validation to check token validity
+            tokenValidationParam.ValidateLifetime = false;
+            #endregion
+
+            var principle = tokenHandler.ValidateToken(token: accessToken,
+                                validationParameters: tokenValidationParam,
+                                out SecurityToken securityToken);
+
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+
+
+            if (jwtSecurityToken != null && jwtSecurityToken.Header.Alg.Equals(JwtConstant.SecurityAlgo))
+            {
+                Claim claimUserData = principle.FindFirst(ClaimTypes.Sid);
+
+                return Guid.Parse(claimUserData?.Value);
             }
 
 

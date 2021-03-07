@@ -51,6 +51,9 @@
     <AndroidSupportedAbis>armeabi-v7a;arm64-v8a;x86;x86_64</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lynx.DbMigration.SQLite">
+      <HintPath>..\..\..\Assemblies\Lynx\Lynx.DbMigration.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="Mono.Android.Export" />
     <Reference Include="System" />

@@ -1,6 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Lynx.Commands.UserSessionCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
+using Lynx.WebAPI.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TasqR;
@@ -35,6 +38,22 @@ namespace Lynx.WebAPI.Controllers.Users
             return Ok(_token);
         }
 
+        [HttpPost("/AccessToken/VerifyValidity")]
+        public Task<TokenVerificationResult> VerifyValidity()
+        {
+            return Task.FromResult(new TokenVerificationResult
+            {
+                TokenStatus = TokenStatus.Active
+            });
+
+            string authorization = Request.Headers["Authorization"];
+            string token = authorization?.Split(' ').LastOrDefault();
+
+            var tokenMgr = (JwtSignInManager)p_SignInManager;
+            var sessionID = tokenMgr.ExtractSessionIDFromToken(token);
+
+            return TasqR.RunAsync(new VerifyTokenValidityCmd(sessionID.GetValueOrDefault()));
+        }
 
         [AllowAnonymous]
         [HttpPost("/AccessToken/Regenerate")]

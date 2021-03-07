@@ -257,3 +257,6 @@ dotnet_diagnostic.S927.severity = none
 
 # S1118: Utility classes should not have public constructors
 dotnet_diagnostic.S1118.severity = none
+
+# S3400: Methods should not return constants
+dotnet_diagnostic.S3400.severity = none

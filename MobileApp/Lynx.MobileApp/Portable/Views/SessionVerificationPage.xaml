@@ -6,16 +6,18 @@
              xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives"
              xmlns:local="clr-namespace:Lynx.MobileApp.Portable.Common"
              Shell.NavBarIsVisible="False">
+
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center">
-            <Label IsVisible="{Binding IsValidating}" 
-                Text="Verifying session.."
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="End">
+            <Button x:Name="btnLogin" Text="Login" Clicked="btnLogin_Clicked" />
+            <Button x:Name="btnMain" Text="Main Page" Clicked="btnMain_Clicked" />
+            
+            <Label Text="{Binding PreloadProgress}"
+                HorizontalOptions="FillAndExpand" Margin="20,0,0,20" />
 
            
 
-            <Grid x:Name="SocialButtonsGrid"
+            <!--<Grid x:Name="SocialButtonsGrid"
               VerticalOptions="Start"
               HorizontalOptions="Center"
               Grid.Row="1">
@@ -44,7 +46,7 @@
                                         BackgroundImage="{local:ImageResource key.png}" />
                 </telerikPrimitives:RadBorder>
 
-                <!--<telerikPrimitives:RadBorder Style="{StaticResource SocialButtonBorderStyle}"
+                --><!--<telerikPrimitives:RadBorder Style="{StaticResource SocialButtonBorderStyle}"
                                          Grid.Column="0"
                                          Grid.Row="1">
                     <telerikInput:RadButton Command="{Binding OnNavigateLoginCommand}"
@@ -59,8 +61,8 @@
                     <telerikInput:RadButton Command="{Binding OnNavigateMainPageCommand}"
                                         BackgroundImage="{local:ImageResource key.png}"
                                         Style="{StaticResource SocialButtonStyle}" />
-                </telerikPrimitives:RadBorder>-->
-            </Grid>
+                </telerikPrimitives:RadBorder>--><!--
+            </Grid>-->
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

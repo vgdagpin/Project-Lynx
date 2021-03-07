@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Lynx.MobileApp.Views.SettingPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid Margin="0, 5, 0, 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                    <ColumnDefinition Width="50*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="Test2Btn" Grid.Row="0" Grid.Column="0" Text="Re-create DB" Clicked="Test2Btn_Clicked"></Button>
+                <Button x:Name="Test3Btn" Grid.Row="0" Grid.Column="1" Text="DB Path" Clicked="Test3Btn_Clicked"></Button>
+            </Grid>
+            
+            <Label Text="Welcome to Xamarin.Forms!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

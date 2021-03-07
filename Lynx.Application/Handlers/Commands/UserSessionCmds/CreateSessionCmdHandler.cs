@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Lynx.Commands.UserSessionCmds;
 using Lynx.Domain.Entities;
@@ -24,7 +25,10 @@ namespace Lynx.Application.Handlers.Commands.SessionCmds
         }
         public async override Task<UserSession> RunAsync(CreateSessionCmd process, CancellationToken cancellationToken = default)
         {
-            var user = await p_TasqR.RunAsync(new GetUserDetailQr(emailOrUserName: process.Username));
+            var user = await p_DbContext.Users
+               .Include(a => a.UserLogin)
+               .Where(a => a.UserLogin.Username == process.Username)
+               .SingleOrDefaultAsync();
 
             var newSession = new UserSession
             {
