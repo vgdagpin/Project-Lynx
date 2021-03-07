@@ -37,6 +37,30 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_BillSettings; }
 			private set { db_BillSettings = (DbSet<BillSetting>)value; }
 		}
+		private DbSet<Email> db_Emails { get; set; }
+		public IQueryable<Email> Emails 
+		{ 
+			get { return db_Emails; }
+			private set { db_Emails = (DbSet<Email>)value; }
+		}
+		private DbSet<EmailAttachment> db_EmailAttachments { get; set; }
+		public IQueryable<EmailAttachment> EmailAttachments 
+		{ 
+			get { return db_EmailAttachments; }
+			private set { db_EmailAttachments = (DbSet<EmailAttachment>)value; }
+		}
+		private DbSet<EmailBody> db_EmailBodies { get; set; }
+		public IQueryable<EmailBody> EmailBodies 
+		{ 
+			get { return db_EmailBodies; }
+			private set { db_EmailBodies = (DbSet<EmailBody>)value; }
+		}
+		private DbSet<EmailHeader> db_EmailHeaders { get; set; }
+		public IQueryable<EmailHeader> EmailHeaders 
+		{ 
+			get { return db_EmailHeaders; }
+			private set { db_EmailHeaders = (DbSet<EmailHeader>)value; }
+		}
 		private DbSet<NotificationConfiguration> db_NotificationConfigurations { get; set; }
 		public IQueryable<NotificationConfiguration> NotificationConfigurations 
 		{ 
@@ -157,6 +181,10 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class Bill_Configuration : BaseConfiguration<Bill> { }
 	public partial class BillProvider_Configuration : BaseConfiguration<BillProvider> { }
 	public partial class BillSetting_Configuration : BaseConfiguration<BillSetting> { }
+	public partial class Email_Configuration : BaseConfiguration<Email> { }
+	public partial class EmailAttachment_Configuration : BaseConfiguration<EmailAttachment> { }
+	public partial class EmailBody_Configuration : BaseConfiguration<EmailBody> { }
+	public partial class EmailHeader_Configuration : BaseConfiguration<EmailHeader> { }
 	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
 	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
 	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }

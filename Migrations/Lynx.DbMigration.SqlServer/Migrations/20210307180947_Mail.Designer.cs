@@ -4,14 +4,16 @@ using Lynx.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Lynx.DbMigration.SqlServer.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
-    partial class LynxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210307180947_Mail")]
+    partial class Mail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,9 +188,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CC")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -206,64 +205,12 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<string>("Subject")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("To")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("ID");
 
                     b.ToTable("tbl_Email", "dbo");
                 });
 
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailAttachment", b =>
-                {
-                    b.Property<long>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<byte[]>("Content")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<long>("EmailID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<long>("Length")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("EmailID");
-
-                    b.ToTable("tbl_EmailAttachment", "dbo");
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
-                {
-                    b.Property<long>("ID")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("tbl_EmailBody", "dbo");
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailHeader", b =>
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailContent", b =>
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
@@ -285,7 +232,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
                     b.HasIndex("EmailID");
 
-                    b.ToTable("tbl_EmailHeader", "dbo");
+                    b.ToTable("tbl_EmailContent", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
@@ -1041,30 +988,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailAttachment", b =>
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailContent", b =>
                 {
                     b.HasOne("Lynx.Domain.Entities.Email", null)
-                        .WithMany("N_Attachments")
-                        .HasForeignKey("EmailID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
-                {
-                    b.HasOne("Lynx.Domain.Entities.Email", "N_Email")
-                        .WithOne("N_Body")
-                        .HasForeignKey("Lynx.Domain.Entities.EmailBody", "ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("N_Email");
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.EmailHeader", b =>
-                {
-                    b.HasOne("Lynx.Domain.Entities.Email", null)
-                        .WithMany("N_Headers")
+                        .WithMany("N_Content")
                         .HasForeignKey("EmailID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1257,11 +1184,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
             modelBuilder.Entity("Lynx.Domain.Entities.Email", b =>
                 {
-                    b.Navigation("N_Attachments");
-
-                    b.Navigation("N_Body");
-
-                    b.Navigation("N_Headers");
+                    b.Navigation("N_Content");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>

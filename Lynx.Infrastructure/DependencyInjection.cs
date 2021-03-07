@@ -19,7 +19,7 @@ namespace Lynx.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureUseSqlServer(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public static IServiceCollection AddInfrastructureUseSqlServer(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory = null)
         {
             services.AddDbContext<LynxDbContext>((svc, options) =>
             {
@@ -34,7 +34,10 @@ namespace Lynx.Infrastructure
                     }
                 );
 
-                options.UseLoggerFactory(loggerFactory);
+                if (loggerFactory != null)
+                {
+                    options.UseLoggerFactory(loggerFactory);
+                }
             });
 
             services.AddScoped<ILynxDbContext>(provider => provider.GetService<LynxDbContext>());
@@ -45,7 +48,7 @@ namespace Lynx.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory, string overridenFile = null)
+        public static IServiceCollection AddInfrastructureUseSQLite(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory = null, string overridenFile = null)
         {
             string appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -83,7 +86,10 @@ namespace Lynx.Infrastructure
                     }
                 );
 
-                options.UseLoggerFactory(loggerFactory);
+                if (loggerFactory != null)
+                {
+                    options.UseLoggerFactory(loggerFactory);
+                }
             });
 
             services.AddScoped<ILynxDbContext>(provider => provider.GetService<LynxDbContext>());

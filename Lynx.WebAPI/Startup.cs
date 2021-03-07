@@ -52,7 +52,7 @@ namespace Lynx.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructureUseSqlServer(Configuration, SampleLoggingFactory);
+            services.AddInfrastructureUseSqlServer(Configuration/*, SampleLoggingFactory*/);
 
             services.AddHttpContextAccessor();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
@@ -60,6 +60,8 @@ namespace Lynx.WebAPI
             services.AddScoped<IDataSecure, DataSecure>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IDateTime, AppDateTime>();
+
+            services.AddLogging();
 
             services.AddAuthentication(opt =>
             {
@@ -80,7 +82,6 @@ namespace Lynx.WebAPI
                 {
                     opt.JsonSerializerOptions.PropertyNamingPolicy = null;
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-                    //opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
                 });
 
             services.AddSwaggerGen(c =>

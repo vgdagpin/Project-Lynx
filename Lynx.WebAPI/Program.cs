@@ -17,22 +17,27 @@ namespace Lynx.WebAPI
 {
     public class Program
     {
-        static int port = 53795;
-        public static bool InsideIIS() => Environment.GetEnvironmentVariable("APP_POOL_ID") is string;
+        //static int port = 53795;
+        //public static bool InsideIIS => Environment.GetEnvironmentVariable("APP_POOL_ID") != null;
 
         public static void Main(string[] args)
         {
-            string url = $"http://{GetLocalIPAddress()}:{port}";
+            //Console.WriteLine("Is inside IIS: {0}", InsideIIS);
 
-            Console.Title = "Lynx Web API";
+            //if (!InsideIIS)
+            //{
+            //    string localIP = GetLocalIPAddress();
 
-            Console.WriteLine(url);
-            Console.WriteLine();
+            //    if (!string.IsNullOrWhiteSpace(localIP))
+            //    {
+            //        string url = $"http://{localIP}:{port}";
 
-            TextCopy.ClipboardService.SetText(url);
+            //        Console.Title = "Lynx Web API";
 
-            Console.WriteLine("Url copied to clipboard!");
-            Console.WriteLine();
+            //        Console.WriteLine(url);
+            //        Console.WriteLine();
+            //    }
+            //}            
 
             CreateHostBuilder(args).Build().Run();
         }
@@ -41,23 +46,33 @@ namespace Lynx.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls($"http://*:{port}");
-                    //webBuilder.UseContentRoot(Directory.GetCurrentDirectory());
-                    //webBuilder.UseIISIntegration();
+                    //if (!InsideIIS)
+                    //{
+                    //    webBuilder.UseUrls($"http://*:{port}");
+                    //}
+
                     webBuilder.UseStartup<Startup>();
                 });
 
-        public static string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("No network adapters with an IPv4 address in the system!");
-        }
+        //public static string GetLocalIPAddress()
+        //{
+        //    try
+        //    {
+        //        var host = Dns.GetHostEntry(Dns.GetHostName());
+        //        foreach (var ip in host.AddressList)
+        //        {
+        //            if (ip.AddressFamily == AddressFamily.InterNetwork)
+        //            {
+        //                return ip.ToString();
+        //            }
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        Console.WriteLine("No network adapters with an IPv4 address in the system!");
+        //    }
+
+        //    return null;
+        //}
     }
 }

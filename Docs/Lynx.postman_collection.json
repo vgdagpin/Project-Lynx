@@ -178,6 +178,96 @@
 			]
 		},
 		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/User",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mails",
+			"item": [
+				{
+					"name": "Parse",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Original-URL",
+								"value": "/Mail/Parse",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "from",
+									"value": "test@from.com",
+									"type": "text"
+								},
+								{
+									"key": "to",
+									"value": "test@to.com",
+									"type": "text"
+								},
+								{
+									"key": "cc",
+									"value": "test@cc.com",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "My Test Subject",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "The quick brown fox jumps over the lazy dog",
+									"type": "text"
+								},
+								{
+									"key": "References.txt",
+									"description": "Add test attachment here",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Domain}}/Mail/Parse",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"Mail",
+								"Parse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Generate Token",
 			"request": {
 				"auth": {
@@ -235,6 +325,44 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Verify Token Validity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Domain}}/AccessToken/VerifyValidity",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken",
+						"VerifyValidity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Domain}}/Ping",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"Ping"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -274,7 +402,17 @@
 		},
 		{
 			"key": "Domain",
-			"value": "http://localhost:53795"
+			"value": "http://project-lynx.azurewebsites.net",
+			"disabled": true
+		},
+		{
+			"key": "Domain",
+			"value": "http://192.168.15.1:53795",
+			"disabled": true
+		},
+		{
+			"key": "Domain",
+			"value": "http://localhost:5000"
 		}
 	]
 }

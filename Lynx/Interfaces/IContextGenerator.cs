@@ -19,6 +19,10 @@ namespace Lynx.Interfaces
 		IQueryable<Bill> Bills { get; }
 		IQueryable<BillProvider> BillProviders { get; }
 		IQueryable<BillSetting> BillSettings { get; }
+		IQueryable<Email> Emails { get; }
+		IQueryable<EmailAttachment> EmailAttachments { get; }
+		IQueryable<EmailBody> EmailBodies { get; }
+		IQueryable<EmailHeader> EmailHeaders { get; }
 		IQueryable<NotificationConfiguration> NotificationConfigurations { get; }
 		IQueryable<NotificationTemplate> NotificationTemplates { get; }
 		IQueryable<ProviderType> ProviderTypes { get; }
