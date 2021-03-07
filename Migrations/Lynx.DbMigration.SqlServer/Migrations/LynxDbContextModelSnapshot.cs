@@ -880,9 +880,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsExpired")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("bit")
-                        .HasComputedColumnSql("CONVERT(BIT, (IIF(ExpiredOn IS NOT NULL AND GETUTCDATE() >= ExpiredOn, 1, 0)))");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)

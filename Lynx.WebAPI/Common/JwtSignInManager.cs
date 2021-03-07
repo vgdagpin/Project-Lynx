@@ -66,8 +66,11 @@ namespace Lynx.WebAPI.Common
 
             var tokenObject = TokenBuilder(session);
 
+            tokenObject.SessionID = newSession;
+            tokenObject.CreatedOn = session.CreatedOn;
             tokenObject.RefreshToken = session.Token; //The session token as refresh token in JWT
             tokenObject.UserData = userVm;
+            tokenObject.Status = Enums.SessionStatus.Active;
 
             return tokenObject;
         }

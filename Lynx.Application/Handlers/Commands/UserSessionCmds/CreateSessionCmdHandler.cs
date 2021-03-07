@@ -14,12 +14,14 @@ namespace Lynx.Application.Handlers.Commands.SessionCmds
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly ITasqR p_TasqR;
+        private readonly IDateTime p_DateTime;
         private readonly DbContext p_DbContextBase;
 
-        public CreateSessionCmdHandler(ILynxDbContext dbContext, ITasqR tasqR)
+        public CreateSessionCmdHandler(ILynxDbContext dbContext, ITasqR tasqR, IDateTime dateTime)
         {
             p_DbContext = dbContext;
             p_TasqR = tasqR;
+            p_DateTime = dateTime;
             p_DbContextBase = p_DbContext as DbContext;
 
         }
@@ -36,7 +38,8 @@ namespace Lynx.Application.Handlers.Commands.SessionCmds
                 Status = Enums.SessionStatus.Active,
                 Token = process.Token,
                 ExpiredOn = process.Expiration,
-                UserID = user.ID
+                UserID = user.ID,
+                CreatedOn = p_DateTime.Now
             };
 
             p_DbContext.UserSessions.AsDbSet()

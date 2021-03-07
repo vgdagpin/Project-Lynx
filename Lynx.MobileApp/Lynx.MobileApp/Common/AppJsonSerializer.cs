@@ -12,14 +12,14 @@ namespace Lynx.MobileApp.Portable.Common
     {
         public T Deserialize<T>(string data)
         {
-            //var result = JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions
-            //{
-            //    Converters =
-            //    {
-            //        new JsonStringEnumConverter()
-            //    }
-            //});
-            var result = JsonConvert.DeserializeObject<T>(data);
+            var result = System.Text.Json.JsonSerializer.Deserialize<T>(data, new JsonSerializerOptions
+            {
+                Converters =
+                {
+                    new JsonStringEnumConverter()
+                }
+            });
+            //var result = JsonConvert.DeserializeObject<T>(data);
 
             return result;
         }

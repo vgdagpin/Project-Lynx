@@ -84,6 +84,6 @@
     </FlyoutItem>
 
     <FlyoutItem Title="Logout">
-        <ShellContent Title="Logout" ContentTemplate="{DataTemplate pages:SettingPage}"/>
+        <ShellContent Title="Logout" ContentTemplate="{DataTemplate pages:LogoutPage}"/>
     </FlyoutItem>
 </Shell>

@@ -20,8 +20,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(StringLengthConstant.Token);
 
-            builder.Property(a => a.IsExpired)
-              .HasComputedColumnSql("CONVERT(BIT, (IIF(ExpiredOn IS NOT NULL AND GETUTCDATE() >= ExpiredOn, 1, 0)))");
+            builder.Property(a => a.IsExpired);
 
             builder.Property(a => a.Remarks)
                 .HasMaxLength(StringLengthConstant.Remarks);

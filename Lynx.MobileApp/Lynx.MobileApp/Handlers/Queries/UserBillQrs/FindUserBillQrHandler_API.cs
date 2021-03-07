@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common.ViewModels;
-using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
@@ -20,7 +16,7 @@ using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
 {
-    public class GetUserBillsQrHandler_API : GetUserBillsQrHandler
+    public class FindUserBillQrHandler_API : FindUserBillQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
         private readonly IExceptionHandler p_ExceptionHandler;
@@ -29,7 +25,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
         private readonly IJsonSerializer p_JsonSerializer;
         private HttpClient p_HttpClient;
 
-        public GetUserBillsQrHandler_API
+        public FindUserBillQrHandler_API
             (
                 IHttpClientFactory clientFactory, 
                 IExceptionHandler exceptionHandler, 
@@ -45,38 +41,38 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             p_JsonSerializer = jsonSerializer;
         }
 
-        public async override Task InitializeAsync(GetUserBillsQr request, CancellationToken cancellationToken)
+        public async override Task InitializeAsync(FindUserBillQr request, CancellationToken cancellationToken)
         {
             var token = await p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID));
             p_HttpClient = p_ClientFactory.LynxApiClient(token);
         }
 
-        public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<UserBillVM> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var httpRequest = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.UserBill);
-                var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
+                var request = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}/{process.UserBillID}");
+                var httpResponse = await p_HttpClient.SendAsync(request, cancellationToken);
 
-                string jsonContent = await httpResponse.Content.ReadAsStringAsync();
+                var jsonContent = await httpResponse.Content.ReadAsStringAsync();
+
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    return UserBillVM.Null();
+                }
 
                 if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     throw new LynxUnauthorizedException();
                 }
 
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    return UserBillSummaryVM.Empty();
-                }
-
-                return p_JsonSerializer.Deserialize<IEnumerable<UserBillSummaryVM>>(jsonContent);
+                return p_JsonSerializer.Deserialize<UserBillVM>(jsonContent);
             }
             catch (Exception ex)
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return UserBillSummaryVM.Empty();
+                return UserBillVM.Null();
             }
         }
     }

@@ -21,21 +21,22 @@ namespace Lynx.MobileApp.Views
 
         private async void Test2Btn_Clicked(object sender, EventArgs e)
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 try
                 {
                     if (File.Exists(SQLiteConstants.FilePath))
                     {
                         File.Delete(SQLiteConstants.FilePath);
+                        await DisplayAlert("Done", "Deleted", "OK");
                     }
 
-                    App.ServiceProvider.GetService<DbContext>().Database.Migrate();
+                    //App.ServiceProvider.GetService<DbContext>().Database.Migrate();
 
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await DisplayAlert("Done", "Created", "OK");
-                    });
+                    //Device.BeginInvokeOnMainThread(async () =>
+                    //{
+                    //    await DisplayAlert("Done", "Created", "OK");
+                    //});
                 }
                 catch (Exception ex)
                 {

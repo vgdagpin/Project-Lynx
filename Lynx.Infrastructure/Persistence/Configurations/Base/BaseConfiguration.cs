@@ -60,6 +60,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
             ConfigureIndex(new BaseIndexBuilder<T>(builder));
             ConfigureRelationship(new BaseRelationshipBuilder<T>(builder));
             ConfigureEntity(builder);
+
             SeedData(new BaseSeeder<T>(builder));
         }
 

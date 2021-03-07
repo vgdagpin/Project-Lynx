@@ -45,45 +45,27 @@ namespace Lynx.MobileApp.Handlers.Queries.UserSessionQrs
             p_HttpClient = p_ClientFactory.LynxApiClient(p_CurrentSession);
         }
 
-        public override Task<UserSessionVM> RunAsync(GetActiveUserSessionQr request, CancellationToken cancellationToken = default)
+        public async override Task<UserSessionVM> RunAsync(GetActiveUserSessionQr request, CancellationToken cancellationToken = default)
         {
+            Console.WriteLine("Test 123");
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, "/AccessToken/VerifyValidity");
+            var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
 
-            return p_HttpClient.SendAsync(httpRequest, cancellationToken)
-                .ContinueWith(responseTask =>
-                {
-                    var response = responseTask.Result;
+            var jsonContent = await httpResponse.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
-                    {
-                        return Task.FromResult((UserSessionVM)null);
-                    }
+            if (!httpResponse.IsSuccessStatusCode)
+            {
+                return null;
+            }
 
-                    return response.Content.ReadAsStringAsync()
-                        .ContinueWith(jsonTask =>
-                        {
-                            try
-                            {
-                                var json = jsonTask.Result;
+            var verifResult = p_JsonSerializer.Deserialize<TokenVerificationResult>(jsonContent);
 
-                                var verifResult = p_JsonSerializer.Deserialize<TokenVerificationResult>(json);
+            if (verifResult.TokenStatus != TokenStatus.Active)
+            {
+                return null;
+            }
 
-                                switch (verifResult.TokenStatus)
-                                {
-                                    case TokenStatus.Active:
-                                        return Task.FromResult((UserSessionVM)null);
-                                        //return Task.FromResult(p_CurrentSession);
-                                    default:
-                                        return Task.FromResult((UserSessionVM)null);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                return Task.FromResult((UserSessionVM)null);
-                            }
-                        }).Unwrap();
-                })
-                .Unwrap();
+            return p_CurrentSession;
         }
     }
 }

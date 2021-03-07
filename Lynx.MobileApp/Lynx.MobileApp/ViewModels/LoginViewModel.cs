@@ -15,53 +15,59 @@ namespace Lynx.MobileApp.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-        private readonly ITasqR p_TasqR;
-        private readonly DbContext p_BaseDbContext;
-        private string p_Username;
+        #region Username
+        private string username;
         public string Username
         {
-            get { return p_Username; }
-            set { SetProperty(ref p_Username, value); }
+            get => username;
+            set => SetProperty(ref username, value);
         }
+        #endregion
 
-        private string p_Password;
+        #region Password
+        private string password;
         public string Password
         {
-            get { return p_Password; }
-            set { SetProperty(ref p_Password, value); }
+            get => password;
+            set => SetProperty(ref password, value);
         }
+        #endregion
+
+        #region ErrorMessage
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get => errorMessage;
+            set => SetProperty(ref errorMessage, value);
+        }
+        #endregion
+
 
 
         public ICommand LoginCommand => new Command(OnLoginClicked);
 
-        public LoginViewModel(ITasqR tasqR, DbContext baseDbContext)
-        {
-            p_TasqR = tasqR;
-            p_BaseDbContext = baseDbContext;
-        }
-
         private async void OnLoginClicked(object obj)
         {
-            try
+            if (IsBusy)
             {
-                var cmd = new ValidateUserLoginCmd(p_Username, p_Password);
-
-                var loginResult = await p_TasqR.RunAsync(cmd);
-
-                if (loginResult.IsSuccess)
-                {
-                    //var newSessionCmd = new CreateSessionCmd(p_Username);
-                    //var sessionResult = await p_TasqR.RunAsync(newSessionCmd);
-
-                    //await p_BaseDbContext.SaveChangesAsync();
-
-                    //Xamarin.Forms.Application.Current.Properties[TokenConstant.AppTokenKey] = sessionResult;
-                    //Xamarin.Forms.Application.Current.MainPage = new AppShell();
-                }
+                return;
             }
-            catch (Exception ex)
-            {
 
+            IsBusy = true;
+
+            var cmd = new ValidateUserLoginCmd(Username, Password);
+
+            var loginResult = await TasqR.RunAsync(cmd);
+
+            IsBusy = false;
+
+            if (loginResult.IsSuccess)
+            {
+                Xamarin.Forms.Application.Current.MainPage = new AppShell();
+            }
+            else
+            {
+                ErrorMessage = loginResult.Error?.Message;
             }
         }
     }
