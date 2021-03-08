@@ -1,0 +1,9 @@
+DECLARE @emailID BIGINT
+
+SELECT @emailID = MAX(ID) FROM tbl_Email
+
+SELECT * FROM tbl_Email WHERE ID = @emailID
+
+SELECT ID, PartType, [Name], [Value] FROM tbl_EmailPart WHERE EmailID = @emailID
+SELECT * FROM tbl_EmailBody WHERE ID = @emailID
+SELECT ID, ContentType, [FileName], [Length] FROM tbl_EmailAttachment WHERE EmailID = @emailID

@@ -49,7 +49,9 @@ namespace Lynx.Application.Handlers.Commands.EmailCmds
                     CreatedOn = p_DateTime.Now,
                     N_Body = new EmailBody
                     {
-                        Content = GetBody(request.Data)
+                        Html = GetBody(request.Data, true),
+                        Text = GetBody(request.Data, false),
+                        Raw = GetRaw(request.Data)
                     }
                 };
 
@@ -89,9 +91,19 @@ namespace Lynx.Application.Handlers.Commands.EmailCmds
             }
         }
 
-        protected virtual string GetBody(IEnumerable<MailPart> data)
+        protected virtual string GetRaw(IEnumerable<MailPart> data)
         {
             var value = data.FirstOrDefault(a => a.PartType == MailPartType.Form && a.Key == "email")
+                ?.Value["Value"];
+
+            return value?.ToString();
+        }
+
+        protected virtual string GetBody(IEnumerable<MailPart> data, bool isHtml = true)
+        {
+            string key = isHtml ? "html" : "text";
+
+            var value = data.FirstOrDefault(a => a.PartType == MailPartType.Form && a.Key == key)
                 ?.Value["Value"];
 
             return value?.ToString();

@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{AC4FD8F4-7
 	ProjectSection(SolutionItems) = preProject
 		Docs\Lynx.postman_collection.json = Docs\Lynx.postman_collection.json
 		Docs\Packages.txt = Docs\Packages.txt
+		Docs\QueryHelper.txt = Docs\QueryHelper.txt
 		Docs\References.txt = Docs\References.txt
 	EndProjectSection
 EndProject
