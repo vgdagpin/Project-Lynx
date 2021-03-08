@@ -75,9 +75,18 @@ namespace Lynx.WebAPI.Common
             return tokenObject;
         }
 
-        public Task SignOutAsync()
+        /// <summary>
+        /// Note: Pertaining to refresh_token issued by Lynx
+        /// </summary>
+        /// <param name="token"></param>
+        /// <exception cref="LynxSecurityException"></exception>
+        /// <returns></returns>
+        public async Task<bool> JwtSignOut(string token)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(token))
+                throw new LynxSecurityException("Parameter token is null or empty.");
+
+            return await p_TasqR.RunAsync(new ExpiringSessionCmd(token));
         }
 
         public async Task<UserSessionVM> RefreshUserTokenAsync(string token, string refreshToken)
