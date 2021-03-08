@@ -48,6 +48,7 @@ namespace Lynx.WebAPI.Controllers
         {
             var parameters = new List<MailPart>();
 
+            p_Logger.LogInformation("Header Count: {0}", Request.Headers.Count);
             foreach (var header in Request.Headers)
             {
                 parameters.Add(new MailPart
@@ -61,6 +62,8 @@ namespace Lynx.WebAPI.Controllers
                 });
             }
 
+
+            p_Logger.LogInformation("Form Count: {0}", Request.Form.Count);
             foreach (var formItem in Request.Form)
             {
                 parameters.Add(new MailPart
@@ -74,6 +77,7 @@ namespace Lynx.WebAPI.Controllers
                 });
             }
 
+            p_Logger.LogInformation("Files Count: {0}", Request.Form.Files.Count);
             foreach (IFormFile file in Request.Form.Files)
             {
                 if (file.Length == 0)

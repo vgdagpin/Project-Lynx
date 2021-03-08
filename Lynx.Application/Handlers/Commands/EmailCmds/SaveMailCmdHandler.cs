@@ -38,6 +38,8 @@ namespace Lynx.Application.Handlers.Commands.EmailCmds
         {
             try
             {
+                p_Logger.LogInformation("Data count: {0}", request.Data.Count());
+
                 Email email = new Email
                 {
                     From = GetFrom(request.Data),
