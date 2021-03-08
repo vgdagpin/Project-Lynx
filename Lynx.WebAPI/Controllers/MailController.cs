@@ -26,22 +26,6 @@ namespace Lynx.WebAPI.Controllers
             p_Logger = logger;
         }
 
-        //[HttpGet("/Mail/Parse")]
-        //[AllowAnonymous]
-        //public Task<long> ParseGet(CancellationToken cancellationToken = default)
-        //{
-        //    Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-        //    foreach (var header in Request.Headers)
-        //    {
-        //        parameters.Add(header.Key, header.Value);
-        //    }
-
-        //    p_Logger.LogInformation("Mail Parse - GET");
-
-        //    return TasqR.RunAsync(new SaveMailCmd("", parameters), cancellationToken);
-        //}
-
         [HttpPost("/Mail/Parse")]
         [AllowAnonymous]
         public Task<long> ParsePost(CancellationToken cancellationToken = default)

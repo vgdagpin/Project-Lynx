@@ -53,10 +53,12 @@ namespace Lynx.Application.Handlers.Commands.EmailCmds
                     }
                 };
 
-                foreach (var item in request.Data.Where(a => a.PartType == MailPartType.Header))
+                foreach (var item in request.Data
+                    .Where(a => a.PartType == MailPartType.Header || a.PartType == MailPartType.Form))
                 {
-                    email.N_Headers.Add(new EmailHeader
+                    email.N_Headers.Add(new EmailPart
                     {
+                        PartType = item.PartType,
                         Name = item.Key,
                         Value = item.Value["Value"]?.ToString()
                     });

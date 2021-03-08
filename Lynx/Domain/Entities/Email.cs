@@ -19,7 +19,7 @@ namespace Lynx.Domain.Entities
 
         public EmailBody N_Body { get; set; }
 
-        public ICollection<EmailHeader> N_Headers { get; set; } = new HashSet<EmailHeader>();
+        public ICollection<EmailPart> N_Headers { get; set; } = new HashSet<EmailPart>();
         public ICollection<EmailAttachment> N_Attachments { get; set; } = new HashSet<EmailAttachment>();
     }
 }
