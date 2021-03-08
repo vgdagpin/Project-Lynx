@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
-using Lynx.Infrastructure.Common.Constants;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
@@ -16,7 +16,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 
         protected override void ConfigureRelationship(BaseRelationshipBuilder<SchedulerEntry> builder)
         {
-            builder.HasOne<TrackBillScheduler>()
+            builder.HasOne<ProviderTypeConfigScheduler>()
                 .WithMany(a => a.N_ScheduleEntries)
                 .HasForeignKey(a => a.TrackBillSchedulerID);
         }

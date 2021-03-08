@@ -16,6 +16,7 @@ namespace Lynx.Application.Handlers.Queries.BillsQrs
 {
     public class GetBillsQrHandler : TasqHandlerAsync<GetBillsQr, IEnumerable<BillSummaryVM>>
     {
+        protected GetBillsQrHandler() { }
 
         public GetBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {

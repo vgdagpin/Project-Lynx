@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
 
 namespace Lynx.Infrastructure.Persistence.Configurations

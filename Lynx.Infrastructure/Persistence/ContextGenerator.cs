@@ -37,6 +37,30 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_BillSettings; }
 			private set { db_BillSettings = (DbSet<BillSetting>)value; }
 		}
+		private DbSet<Email> db_Emails { get; set; }
+		public IQueryable<Email> Emails 
+		{ 
+			get { return db_Emails; }
+			private set { db_Emails = (DbSet<Email>)value; }
+		}
+		private DbSet<EmailAttachment> db_EmailAttachments { get; set; }
+		public IQueryable<EmailAttachment> EmailAttachments 
+		{ 
+			get { return db_EmailAttachments; }
+			private set { db_EmailAttachments = (DbSet<EmailAttachment>)value; }
+		}
+		private DbSet<EmailBody> db_EmailBodies { get; set; }
+		public IQueryable<EmailBody> EmailBodies 
+		{ 
+			get { return db_EmailBodies; }
+			private set { db_EmailBodies = (DbSet<EmailBody>)value; }
+		}
+		private DbSet<EmailHeader> db_EmailHeaders { get; set; }
+		public IQueryable<EmailHeader> EmailHeaders 
+		{ 
+			get { return db_EmailHeaders; }
+			private set { db_EmailHeaders = (DbSet<EmailHeader>)value; }
+		}
 		private DbSet<NotificationConfiguration> db_NotificationConfigurations { get; set; }
 		public IQueryable<NotificationConfiguration> NotificationConfigurations 
 		{ 
@@ -55,6 +79,24 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_ProviderTypes; }
 			private set { db_ProviderTypes = (DbSet<ProviderType>)value; }
 		}
+		private DbSet<ProviderTypeConfigEmail> db_ProviderTypeConfigEmails { get; set; }
+		public IQueryable<ProviderTypeConfigEmail> ProviderTypeConfigEmails 
+		{ 
+			get { return db_ProviderTypeConfigEmails; }
+			private set { db_ProviderTypeConfigEmails = (DbSet<ProviderTypeConfigEmail>)value; }
+		}
+		private DbSet<ProviderTypeConfigScheduler> db_ProviderTypeConfigSchedulers { get; set; }
+		public IQueryable<ProviderTypeConfigScheduler> ProviderTypeConfigSchedulers 
+		{ 
+			get { return db_ProviderTypeConfigSchedulers; }
+			private set { db_ProviderTypeConfigSchedulers = (DbSet<ProviderTypeConfigScheduler>)value; }
+		}
+		private DbSet<ProviderTypeConfigWebService> db_ProviderTypeConfigWebServices { get; set; }
+		public IQueryable<ProviderTypeConfigWebService> ProviderTypeConfigWebServices 
+		{ 
+			get { return db_ProviderTypeConfigWebServices; }
+			private set { db_ProviderTypeConfigWebServices = (DbSet<ProviderTypeConfigWebService>)value; }
+		}
 		private DbSet<SchedulerEntry> db_SchedulerEntries { get; set; }
 		public IQueryable<SchedulerEntry> SchedulerEntries 
 		{ 
@@ -66,12 +108,6 @@ namespace Lynx.Infrastructure.Persistence
 		{ 
 			get { return db_TrackBills; }
 			private set { db_TrackBills = (DbSet<TrackBill>)value; }
-		}
-		private DbSet<TrackBillScheduler> db_TrackBillSchedulers { get; set; }
-		public IQueryable<TrackBillScheduler> TrackBillSchedulers 
-		{ 
-			get { return db_TrackBillSchedulers; }
-			private set { db_TrackBillSchedulers = (DbSet<TrackBillScheduler>)value; }
 		}
 		private DbSet<TrackBillSetting> db_TrackBillSettings { get; set; }
 		public IQueryable<TrackBillSetting> TrackBillSettings 
@@ -145,12 +181,18 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class Bill_Configuration : BaseConfiguration<Bill> { }
 	public partial class BillProvider_Configuration : BaseConfiguration<BillProvider> { }
 	public partial class BillSetting_Configuration : BaseConfiguration<BillSetting> { }
+	public partial class Email_Configuration : BaseConfiguration<Email> { }
+	public partial class EmailAttachment_Configuration : BaseConfiguration<EmailAttachment> { }
+	public partial class EmailBody_Configuration : BaseConfiguration<EmailBody> { }
+	public partial class EmailHeader_Configuration : BaseConfiguration<EmailHeader> { }
 	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
 	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
 	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }
+	public partial class ProviderTypeConfigEmail_Configuration : BaseConfiguration<ProviderTypeConfigEmail> { }
+	public partial class ProviderTypeConfigScheduler_Configuration : BaseConfiguration<ProviderTypeConfigScheduler> { }
+	public partial class ProviderTypeConfigWebService_Configuration : BaseConfiguration<ProviderTypeConfigWebService> { }
 	public partial class SchedulerEntry_Configuration : BaseConfiguration<SchedulerEntry> { }
 	public partial class TrackBill_Configuration : BaseConfiguration<TrackBill> { }
-	public partial class TrackBillScheduler_Configuration : BaseConfiguration<TrackBillScheduler> { }
 	public partial class TrackBillSetting_Configuration : BaseConfiguration<TrackBillSetting> { }
 	public partial class User_Configuration : BaseConfiguration<User> { }
 	public partial class UserBill_Configuration : BaseConfiguration<UserBill> { }

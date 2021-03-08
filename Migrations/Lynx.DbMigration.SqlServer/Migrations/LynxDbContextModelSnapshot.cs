@@ -179,6 +179,115 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.ToTable("tbl_BillSetting", "dbo");
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.Email", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("From")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<bool?>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("To")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("tbl_Email", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailAttachment", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<long>("EmailID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<long>("Length")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmailID");
+
+                    b.ToTable("tbl_EmailAttachment", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
+                {
+                    b.Property<long>("ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("tbl_EmailBody", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailHeader", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("EmailID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmailID");
+
+                    b.ToTable("tbl_EmailHeader", "dbo");
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
                 {
                     b.Property<Guid>("ID")
@@ -262,6 +371,128 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                             LongDesc = "Email",
                             ShortDesc = "Email"
                         });
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigEmail", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ClientEmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReceiverEmailAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("ID", "UserID")
+                        .IsUnique();
+
+                    b.ToTable("tbl_ProviderTypeConfigEmail", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("DECIMAL(20,6)");
+
+                    b.Property<short?>("DayFrequency")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Frequency")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("LongDesc")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShortDesc")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<short?>("SkipTimes")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("ID", "UserID")
+                        .IsUnique();
+
+                    b.ToTable("tbl_ProviderTypeConfigScheduler", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
+                            Amount = 21000m,
+                            DayFrequency = (short)23,
+                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
+                        },
+                        new
+                        {
+                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
+                            Amount = 14000m,
+                            DayFrequency = (short)28,
+                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
+                        },
+                        new
+                        {
+                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
+                            Amount = 15000m,
+                            DayFrequency = (short)13,
+                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
+                        });
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Indentity")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("ID", "UserID")
+                        .IsUnique();
+
+                    b.ToTable("tbl_ProviderTypeConfigWebService", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.SchedulerEntry", b =>
@@ -474,86 +705,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                             BillID = (short)4,
                             IsEnabled = true,
                             ProviderTypeID = (short)1
-                        });
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.TrackBillScheduler", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("DECIMAL(20,6)");
-
-                    b.Property<short?>("DayFrequency")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Frequency")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("LongDesc")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("ShortDesc")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<short?>("SkipTimes")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("TrackBillID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UserID");
-
-                    b.HasIndex("TrackBillID", "UserID");
-
-                    b.ToTable("tbl_TrackBillScheduler", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 21000m,
-                            DayFrequency = (short)23,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 14000m,
-                            DayFrequency = (short)28,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            Amount = 15000m,
-                            DayFrequency = (short)13,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
                         });
                 });
 
@@ -837,6 +988,9 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Property<DateTime?>("ExpiredOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsExpired")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
@@ -848,8 +1002,8 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
@@ -864,16 +1018,18 @@ namespace Lynx.DbMigration.SqlServer.Migrations
             modelBuilder.Entity("Lynx.Domain.Entities.BillProvider", b =>
                 {
                     b.HasOne("Lynx.Domain.Entities.Bill", null)
-                        .WithMany()
+                        .WithMany("N_BillProviders")
                         .HasForeignKey("BillID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Lynx.Domain.Entities.ProviderType", null)
+                    b.HasOne("Lynx.Domain.Entities.ProviderType", "N_ProviderType")
                         .WithMany()
                         .HasForeignKey("ProviderTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_ProviderType");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.BillSetting", b =>
@@ -881,6 +1037,35 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasOne("Lynx.Domain.Entities.Bill", null)
                         .WithMany("N_BillSettings")
                         .HasForeignKey("BillID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailAttachment", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Email", null)
+                        .WithMany("N_Attachments")
+                        .HasForeignKey("EmailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Email", "N_Email")
+                        .WithOne("N_Body")
+                        .HasForeignKey("Lynx.Domain.Entities.EmailBody", "ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("N_Email");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailHeader", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Email", null)
+                        .WithMany("N_Headers")
+                        .HasForeignKey("EmailID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -894,9 +1079,54 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Navigation("N_UserBillTracking");
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigEmail", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
+                        .WithOne("N_ProviderTypeConfigEmail")
+                        .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigEmail", "ID", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
+                        .WithOne("N_ProviderTypeConfigScheduler")
+                        .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigScheduler", "ID", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Lynx.Domain.Entities.TrackBill", null)
+                        .WithOne("N_ProviderTypeConfigWebService")
+                        .HasForeignKey("Lynx.Domain.Entities.ProviderTypeConfigWebService", "ID", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.SchedulerEntry", b =>
                 {
-                    b.HasOne("Lynx.Domain.Entities.TrackBillScheduler", null)
+                    b.HasOne("Lynx.Domain.Entities.ProviderTypeConfigScheduler", null)
                         .WithMany("N_ScheduleEntries")
                         .HasForeignKey("TrackBillSchedulerID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -926,25 +1156,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.Navigation("N_Bill");
 
                     b.Navigation("N_ProviderType");
-
-                    b.Navigation("N_User");
-                });
-
-            modelBuilder.Entity("Lynx.Domain.Entities.TrackBillScheduler", b =>
-                {
-                    b.HasOne("Lynx.Domain.Entities.User", "N_User")
-                        .WithMany()
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Lynx.Domain.Entities.TrackBill", "N_TrackBill")
-                        .WithMany()
-                        .HasForeignKey("TrackBillID", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("N_TrackBill");
 
                     b.Navigation("N_User");
                 });
@@ -1039,19 +1250,36 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
             modelBuilder.Entity("Lynx.Domain.Entities.Bill", b =>
                 {
+                    b.Navigation("N_BillProviders");
+
                     b.Navigation("N_BillSettings");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.Email", b =>
+                {
+                    b.Navigation("N_Attachments");
+
+                    b.Navigation("N_Body");
+
+                    b.Navigation("N_Headers");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
+                {
+                    b.Navigation("N_ScheduleEntries");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBill", b =>
                 {
                     b.Navigation("N_NotificationConfigurations");
 
-                    b.Navigation("N_TrackBillSettings");
-                });
+                    b.Navigation("N_ProviderTypeConfigEmail");
 
-            modelBuilder.Entity("Lynx.Domain.Entities.TrackBillScheduler", b =>
-                {
-                    b.Navigation("N_ScheduleEntries");
+                    b.Navigation("N_ProviderTypeConfigScheduler");
+
+                    b.Navigation("N_ProviderTypeConfigWebService");
+
+                    b.Navigation("N_TrackBillSettings");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.User", b =>

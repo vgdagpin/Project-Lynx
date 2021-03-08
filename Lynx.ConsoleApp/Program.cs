@@ -22,7 +22,7 @@ namespace Lynx.ConsoleApp
 
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddInfrastructureUseSqlServer(configuration, SampleLoggingFactory);
+            services.AddInfrastructureUseSQLite(configuration, SampleLoggingFactory);
             services.AddApplication();
 
             services.AddTasqR(Assembly.GetExecutingAssembly());

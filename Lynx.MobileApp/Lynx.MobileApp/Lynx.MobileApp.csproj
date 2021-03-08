@@ -1,0 +1,67 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="config.json" />
+    <None Remove="Handlers\Queries\UserBillQrs\FindUserBillQrHandler_API.cs~RF8f9da.TMP" />
+    <None Remove="Resources\Fonts\fontawesome-webfont.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="config.json" />
+    <EmbeddedResource Include="Resources\Fonts\fontawesome-webfont.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="9.5.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="TasqR" Version="1.4.7" />
+    <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.7" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />  
+    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lynx">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.Application">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.DbMigration.SQLite">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.DbMigration.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.DbMigration.SqlServer">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.DbMigration.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Lynx.Infrastructure">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\LogoutPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers\Commands\AuthenticationCmds\" />
+  </ItemGroup>
+</Project>

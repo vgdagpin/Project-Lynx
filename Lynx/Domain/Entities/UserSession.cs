@@ -16,6 +16,7 @@ namespace Lynx.Domain.Entities
 
         public DateTime CreatedOn { get; set; }
         public DateTime? ExpiredOn { get; set; }
+        public bool IsExpired { get; set; }
 
         public string Remarks { get; set; }
 

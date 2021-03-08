@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
@@ -16,7 +18,9 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             builder.Property(a => a.Token)
                 .IsRequired()
-                .HasMaxLength(StringLengthConstant.Name);
+                .HasMaxLength(StringLengthConstant.Token);
+
+            builder.Property(a => a.IsExpired);
 
             builder.Property(a => a.Remarks)
                 .HasMaxLength(StringLengthConstant.Remarks);

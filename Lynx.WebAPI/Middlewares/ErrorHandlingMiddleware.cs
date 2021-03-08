@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Lynx.WebAPI.Common.Extensions;
 
 namespace Lynx.WebAPI.Middlewares
 {
@@ -29,13 +30,7 @@ namespace Lynx.WebAPI.Middlewares
             }
             catch (Exception ex)
             {
-                if (context.Request.Headers["x-requested-with"] == "XMLHttpRequest")
-                {
-                    await HandleExceptionAsync(context, ex, env);
-                    return;
-                }
-
-                throw;
+                await HandleExceptionAsync(context, ex, env);
             }
         }
 
@@ -53,15 +48,15 @@ namespace Lynx.WebAPI.Middlewares
                 message = _message
             });
 
-            //if (env.IsDevelopment() || env.IsStaging())
-            //{
-            _result = JsonConvert.SerializeObject(new
+            if (env.IsDevelopment() || env.IsStaging())
             {
-                type = _exceptionType.Name,
-                message = _exception.Message,
-                stactTrace = _exception.StackTrace
-            });
-            //}
+                _result = JsonConvert.SerializeObject(new
+                {
+                    type = _exceptionType.Name,
+                    message = _exception.Message,
+                    stactTrace = _exception.StackTrace
+                });
+            }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

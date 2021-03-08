@@ -10,11 +10,13 @@ namespace Lynx.Queries.UserBillQrs
 {
     public class GetUserBillsQr : ITasq<IEnumerable<UserBillSummaryVM>>
     {
-        public GetUserBillsQr(Guid userID)
+        public GetUserBillsQr(Guid userID, int forecastDays)
         {
             UserID = userID;
+            ForecastDays = forecastDays;
         }
 
         public Guid UserID { get; }
+        public int ForecastDays { get; }
     }
 }

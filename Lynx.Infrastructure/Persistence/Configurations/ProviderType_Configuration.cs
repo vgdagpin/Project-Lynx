@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
-using Lynx.Infrastructure.Common.Constants;
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
@@ -37,7 +37,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 
             builder.HasData(new ProviderType
             {
-                ID = ProviderTypeConstants.API,
+                ID = ProviderTypeConstants.WebService,
                 ShortDesc = "API",
                 LongDesc = "API"
             });

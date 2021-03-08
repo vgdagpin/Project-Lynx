@@ -9,28 +9,410 @@
 			"name": "UserBills",
 			"item": [
 				{
-					"name": "GetUserBills",
+					"name": "Get User Bills",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{Domain}}/UserBills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GetUserBillByID",
+					"name": "Find User Bill",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": ""
+							"raw": "{{Domain}}/UserBills/00000000-0000-0000-0000-000000000001",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills",
+								"00000000-0000-0000-0000-000000000001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Bill as Paid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/UserBills/00000000-0000-0000-0000-000000000001/MarkBillAsPaid",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"UserBills",
+								"00000000-0000-0000-0000-000000000001",
+								"MarkBillAsPaid"
+							]
 						}
 					},
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "TrackBills",
+			"item": [
+				{
+					"name": "Create Track Bills",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-requested-with",
+								"value": "XMLHttpRequest",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ID\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n    \"ShortDesc\": \"string\",\r\n    \"LongDesc\": \"string\",\r\n    \"AccountNumber\": \"string\",\r\n    \"IsEnabled\": true,\r\n    \"Bill\": {\r\n        \"ID\": 3\r\n    },\r\n    \"BillProvider\": {\r\n        \"ProviderTypeID\": 1\r\n    },\r\n    \"ProviderTypeConfigScheduler\": {\r\n        \"ShortDesc\": \"string\",\r\n        \"LongDesc\": \"string\",\r\n        \"StartDate\": \"2021-02-27\",\r\n        \"Amount\": 100,\r\n        \"DayFrequency\": 35\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Domain}}/TrackBills/Create",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"Create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Tracked Bills",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Tracked Bill",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills/00000000-0000-0000-0000-000000000001",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"00000000-0000-0000-0000-000000000001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tracked Bill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/TrackBills/c1657fa0-f165-472e-8e6e-f0a4902d147e",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"TrackBills",
+								"c1657fa0-f165-472e-8e6e-f0a4902d147e"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bills",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/Bills",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"Bills"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get User Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Domain}}/User",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"User"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mails",
+			"item": [
+				{
+					"name": "Parse",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Original-URL",
+								"value": "/Mail/Parse",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "from",
+									"value": "test@from.com",
+									"type": "text"
+								},
+								{
+									"key": "to",
+									"value": "test@to.com",
+									"type": "text"
+								},
+								{
+									"key": "cc",
+									"value": "test@cc.com",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "My Test Subject",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "The quick brown fox jumps over the lazy dog",
+									"type": "text"
+								},
+								{
+									"key": "References.txt",
+									"description": "Add test attachment here",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{Domain}}/Mail/Parse",
+							"host": [
+								"{{Domain}}"
+							],
+							"path": [
+								"Mail",
+								"Parse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Generate Token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Domain}}/AccessToken",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Token Regenerate",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Username\" : \"vgdagpin\",\r\n    \"Password\" : \"k4m0t3\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Domain}}/AccessToken/Regenerate",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken",
+						"Regenerate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Verify Token Validity",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{Domain}}/AccessToken/VerifyValidity",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"AccessToken",
+						"VerifyValidity"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Domain}}/Ping",
+					"host": [
+						"{{Domain}}"
+					],
+					"path": [
+						"Ping"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{Token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwMDAwMDAwMC0wMDAwLTAwMDAtMDAwMC0wMDAwMDAwMDAwMDIiLCJ1bmlxdWVfbmFtZSI6IlZpbmNlbnQiLCJo..."
+		},
+		{
+			"key": "Domain",
+			"value": "http://project-lynx.azurewebsites.net",
+			"disabled": true
+		},
+		{
+			"key": "Domain",
+			"value": "http://192.168.15.1:53795",
+			"disabled": true
+		},
+		{
+			"key": "Domain",
+			"value": "http://localhost:5000"
 		}
 	]
 }

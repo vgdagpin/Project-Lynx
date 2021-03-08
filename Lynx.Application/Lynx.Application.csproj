@@ -12,8 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
-    <PackageReference Include="TasqR" Version="1.4.5" />
-    <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.5" />
+    <PackageReference Include="TasqR" Version="1.4.7" />
+    <PackageReference Include="TasqR.Extensions.Microsoft.DependencyInjection" Version="1.4.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,5 +23,9 @@
   <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(SolutionDir)Assemblies\Lynx\$(TargetFileName)&quot;" />
+  </Target>
 
 </Project>

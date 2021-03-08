@@ -1,3 +1,5 @@
+https://project-lynx.scm.azurewebsites.net/
+
 https://devblogs.microsoft.com/xamarin/shell-xamarin-forms-4-0-getting-started/
 
 https://docs.telerik.com/devtools/xamarin/getting-started/windows/first-steps
@@ -37,3 +39,6 @@ https://docs.microsoft.com/en-us/ef/core/querying/single-split-queries
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-requests?view=aspnetcore-5.0
 
 https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/xaml-basics/data-binding-basics
+
+
+https://app.sendgrid.com/settings/parse
