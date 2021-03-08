@@ -26,28 +26,13 @@ namespace Lynx.WebAPI.Controllers
             p_Logger = logger;
         }
 
-        //[HttpGet("/Mail/Parse")]
-        //[AllowAnonymous]
-        //public Task<long> ParseGet(CancellationToken cancellationToken = default)
-        //{
-        //    Dictionary<string, string> parameters = new Dictionary<string, string>();
-
-        //    foreach (var header in Request.Headers)
-        //    {
-        //        parameters.Add(header.Key, header.Value);
-        //    }
-
-        //    p_Logger.LogInformation("Mail Parse - GET");
-
-        //    return TasqR.RunAsync(new SaveMailCmd("", parameters), cancellationToken);
-        //}
-
         [HttpPost("/Mail/Parse")]
         [AllowAnonymous]
         public Task<long> ParsePost(CancellationToken cancellationToken = default)
         {
             var parameters = new List<MailPart>();
 
+            p_Logger.LogInformation("Header Count: {0}", Request.Headers.Count);
             foreach (var header in Request.Headers)
             {
                 parameters.Add(new MailPart
@@ -61,6 +46,8 @@ namespace Lynx.WebAPI.Controllers
                 });
             }
 
+
+            p_Logger.LogInformation("Form Count: {0}", Request.Form.Count);
             foreach (var formItem in Request.Form)
             {
                 parameters.Add(new MailPart
@@ -74,6 +61,7 @@ namespace Lynx.WebAPI.Controllers
                 });
             }
 
+            p_Logger.LogInformation("Files Count: {0}", Request.Form.Files.Count);
             foreach (IFormFile file in Request.Form.Files)
             {
                 if (file.Length == 0)

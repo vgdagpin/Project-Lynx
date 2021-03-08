@@ -55,11 +55,11 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_EmailBodies; }
 			private set { db_EmailBodies = (DbSet<EmailBody>)value; }
 		}
-		private DbSet<EmailHeader> db_EmailHeaders { get; set; }
-		public IQueryable<EmailHeader> EmailHeaders 
+		private DbSet<EmailPart> db_EmailParts { get; set; }
+		public IQueryable<EmailPart> EmailParts 
 		{ 
-			get { return db_EmailHeaders; }
-			private set { db_EmailHeaders = (DbSet<EmailHeader>)value; }
+			get { return db_EmailParts; }
+			private set { db_EmailParts = (DbSet<EmailPart>)value; }
 		}
 		private DbSet<NotificationConfiguration> db_NotificationConfigurations { get; set; }
 		public IQueryable<NotificationConfiguration> NotificationConfigurations 
@@ -184,7 +184,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class Email_Configuration : BaseConfiguration<Email> { }
 	public partial class EmailAttachment_Configuration : BaseConfiguration<EmailAttachment> { }
 	public partial class EmailBody_Configuration : BaseConfiguration<EmailBody> { }
-	public partial class EmailHeader_Configuration : BaseConfiguration<EmailHeader> { }
+	public partial class EmailPart_Configuration : BaseConfiguration<EmailPart> { }
 	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
 	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
 	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }
