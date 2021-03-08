@@ -213,5 +213,10 @@ namespace Lynx.WebAPI.Common
 
             return false;
         }
+
+        public Task SignOutAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
