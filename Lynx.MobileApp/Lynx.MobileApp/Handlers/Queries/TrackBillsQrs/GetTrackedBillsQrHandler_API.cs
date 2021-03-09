@@ -12,6 +12,7 @@ using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.TrackBillsQrs;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
@@ -19,12 +20,12 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
     public class GetTrackedBillsQrHandler_API : GetTrackedBillsQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly ITasqR p_TasqR;
         private readonly IAppUser p_AppUser;
         private HttpClient p_HttpClient;
 
-        public GetTrackedBillsQrHandler_API(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler, ITasqR tasqR, IAppUser appUser)
+        public GetTrackedBillsQrHandler_API(IHttpClientFactory clientFactory, ILogger<GetTrackedBillsQrHandler_API> exceptionHandler, ITasqR tasqR, IAppUser appUser)
         {
             p_ClientFactory = clientFactory;
             p_ExceptionHandler = exceptionHandler;
@@ -51,7 +52,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
 
                 if (response.IsSuccessStatusCode)
                 {
-                    using var responseStream = await response.Content.ReadAsStreamAsync();
+                    var responseStream = await response.Content.ReadAsStreamAsync();
 
                     return await JsonSerializer.DeserializeAsync<List<TrackBillSummaryVM>>(responseStream);
                 }

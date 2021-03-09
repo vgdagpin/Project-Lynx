@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class TrackBill : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserID { get; set; }
         public short BillID { get; set; }
         public short ProviderTypeID { get; set; }

@@ -6,7 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class Email : BaseEntity
     {
-        public new long ID { get; set; }
+        public long ID { get; set; }
         public string From { get; set; }
         public string To { get; set; }
         public string CC { get; set; }

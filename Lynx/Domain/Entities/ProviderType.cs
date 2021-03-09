@@ -6,7 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class ProviderType : BaseEntity
     {
-        public new short ID { get; set; }
+        public short ID { get; set; }
 
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }

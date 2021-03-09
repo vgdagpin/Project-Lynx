@@ -13,13 +13,14 @@ using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
 {
     public class ValidateUserLoginCmdHandler_API : TasqHandlerAsync<ValidateUserLoginCmd, LoginResultVM>
     {
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly ILynxDbContext p_DbContext;
         private readonly IJsonSerializer p_JsonSerializer;
         private readonly HttpClient p_HttpClient;
@@ -29,7 +30,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
         public ValidateUserLoginCmdHandler_API
             (
                 IHttpClientFactory clientFactory,
-                IExceptionHandler exceptionHandler,
+                ILogger<ValidateUserLoginCmdHandler_API> exceptionHandler,
                 ILynxDbContext dbContext,
                 IJsonSerializer jsonSerializer
             )

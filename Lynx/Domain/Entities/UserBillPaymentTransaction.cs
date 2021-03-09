@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class UserBillPaymentTransaction : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserBillPaymentID { get; set; }
 
         public TransactionStatus TransactionStatus { get; set; }

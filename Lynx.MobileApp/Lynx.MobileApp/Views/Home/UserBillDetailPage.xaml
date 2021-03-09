@@ -26,7 +26,7 @@
             <ActivityIndicator  
                 IsRunning="True" 
                 IsVisible="{Binding IsBusy}" 
-                Color="Gray"
+                Color="Red"
                 HorizontalOptions="CenterAndExpand" 
                 VerticalOptions="CenterAndExpand"/>
             

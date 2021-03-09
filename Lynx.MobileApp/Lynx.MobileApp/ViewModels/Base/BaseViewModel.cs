@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Models;
 using Lynx.MobileApp.Services;
+using Microsoft.Extensions.Logging;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,14 +14,14 @@ namespace Lynx.MobileApp.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        private IExceptionHandler p_ExceptionHandler;
-        protected IExceptionHandler ExceptionHandler
+        private ILogger p_ExceptionHandler;
+        protected ILogger ExceptionHandler
         {
             get
             {
                 if (p_ExceptionHandler == null)
                 {
-                    p_ExceptionHandler = GetService<IExceptionHandler>();
+                    p_ExceptionHandler = GetService<ILogger>();
                 }
 
                 return p_ExceptionHandler;
@@ -71,9 +72,9 @@ namespace Lynx.MobileApp.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
+        protected bool SetProperty<T>(ref T backingStore, T value,            
+            Action onChanged = null,
+            [CallerMemberName] string propertyName = "")
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;

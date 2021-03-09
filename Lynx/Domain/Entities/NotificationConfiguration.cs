@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class NotificationConfiguration : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserBillTrackingID { get; set; }
 
         public bool IsScheduled { get; set; }

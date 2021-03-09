@@ -16,6 +16,7 @@ using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
@@ -23,7 +24,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
     public class GetUserBillsQrHandler_API : GetUserBillsQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly ITasqR p_TasqR;
         private readonly IAppUser p_AppUser;
         private readonly IJsonSerializer p_JsonSerializer;
@@ -32,7 +33,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
         public GetUserBillsQrHandler_API
             (
                 IHttpClientFactory clientFactory, 
-                IExceptionHandler exceptionHandler, 
+                ILogger<GetUserBillsQrHandler_API> exceptionHandler, 
                 ITasqR tasqR, 
                 IAppUser appUser,
                 IJsonSerializer jsonSerializer

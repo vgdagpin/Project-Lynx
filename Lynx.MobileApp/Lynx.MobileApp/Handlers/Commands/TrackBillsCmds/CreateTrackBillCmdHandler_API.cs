@@ -13,6 +13,7 @@ using Lynx.Commands.TrackBillCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
@@ -20,7 +21,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
     public class CreateTrackBillCmdHandler_API : CreateTrackBillCmdHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly ITasqR p_TasqR;
         private readonly IAppUser p_AppUser;
         private readonly IJsonSerializer p_JsonSerializer;
@@ -29,7 +30,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
         public CreateTrackBillCmdHandler_API
             (
                 IHttpClientFactory clientFactory, 
-                IExceptionHandler exceptionHandler, 
+                ILogger<CreateTrackBillCmdHandler_API> exceptionHandler, 
                 ITasqR tasqR, 
                 IAppUser appUser, 
                 IJsonSerializer jsonSerializer
@@ -84,7 +85,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
             }
             catch (Exception ex)
             {
-                p_ExceptionHandler.LogError(ex);
+                p_ExceptionHandler.LogError(ex, ex.Message);
 
                 return Task.FromResult(new CreateResult<TrackBillVM>
                 {

@@ -13,6 +13,7 @@ using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.Queries.BillsQrs;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
@@ -20,13 +21,13 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
     public class GetBillsQrHandler_API : GetBillsQrHandler
     {
         private readonly IHttpClientFactory p_ClientFactory;
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly ITasqR p_TasqR;
         private readonly IAppUser p_AppUser;
         
         private HttpClient p_HttpClient;
 
-        public GetBillsQrHandler_API(IHttpClientFactory clientFactory, IExceptionHandler exceptionHandler, ITasqR tasqR, IAppUser appUser)
+        public GetBillsQrHandler_API(IHttpClientFactory clientFactory, ILogger<GetBillsQrHandler_API> exceptionHandler, ITasqR tasqR, IAppUser appUser)
         {
             p_ClientFactory = clientFactory;
             p_ExceptionHandler = exceptionHandler;

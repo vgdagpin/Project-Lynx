@@ -10,19 +10,20 @@ using Lynx.Commands.UtilitiesCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
+using Microsoft.Extensions.Logging;
 using TasqR;
 
 namespace Lynx.MobileApp.Portable.Handlers.Commands.UtilitiesCmds
 {
     public class PingAPICmdHandler_API : TasqHandlerAsync<PingAPICmd, APIPingResult>
     {
-        private readonly IExceptionHandler p_ExceptionHandler;
+        private readonly ILogger p_ExceptionHandler;
         private readonly HttpClient p_HttpClient;
 
         public PingAPICmdHandler_API
             (
                 IHttpClientFactory clientFactory,
-                IExceptionHandler exceptionHandler
+                ILogger<PingAPICmdHandler_API> exceptionHandler
             )
         {
             p_ExceptionHandler = exceptionHandler;

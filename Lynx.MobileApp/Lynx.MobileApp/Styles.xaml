@@ -8,6 +8,7 @@
     <Color x:Key="LightColor">#FFFFFF</Color>
     <Color x:Key="DarkTextColor">#FF444444</Color>
 
+    
     <Style x:Key="TitleLabelStyle"
            TargetType="Label">
         <Setter Property="TextColor"

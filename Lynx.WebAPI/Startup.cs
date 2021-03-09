@@ -29,6 +29,7 @@ using TasqR;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Lynx.DbMigration.SqlServer;
 
 namespace Lynx.WebAPI
 {
@@ -53,6 +54,7 @@ namespace Lynx.WebAPI
         {
             services.AddApplication();
             services.AddInfrastructureUseSqlServer(Configuration/*, SampleLoggingFactory*/);
+            services.AddInfrastructure(Configuration/*, SampleLoggingFactory*/);
 
             services.AddHttpContextAccessor();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);

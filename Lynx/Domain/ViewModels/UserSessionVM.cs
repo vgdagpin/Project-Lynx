@@ -22,7 +22,7 @@ namespace Lynx.Domain.ViewModels
 
         public string Remarks { get; set; }
 
-        void Mapping(Profile profile)
+        public void Mapping(Profile profile)
         {
             profile.CreateMap<UserSession, UserSessionVM>()
                 .ForMember(a => a.UserData, a => a.MapFrom(b => b.User))

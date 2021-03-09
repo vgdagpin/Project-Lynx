@@ -21,7 +21,8 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="Gray">          
+        <StackLayout BackgroundColor="Gray">                     
+            
             
             <ListView ItemsSource="{Binding Bills}" 
                       HasUnevenRows="False"
@@ -31,19 +32,27 @@
                       IsPullToRefreshEnabled="True" 
                       RefreshCommand="{Binding LoadData}" 
                       IsRefreshing="{Binding IsBusy}">
+
+                <ListView.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="TextColor" Value="Green" />
+                    </Style>
+
+                </ListView.Resources>
+                
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="100">
                             <ViewCell.View>
                                 <StackLayout Padding="10"
-                                             BackgroundColor="#EEB9B9"  
+                                             BackgroundColor="White"  
                                              VerticalOptions="FillAndExpand">									
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="Bill: "></Label>
                                         <Label Text="{Binding ShortDesc}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Due Date: " Style="{StaticResource TitleLabelStyle}"></Label>
+                                        <Label Text="Due Date: "></Label>
                                         <Label Text="{Binding DueDate, StringFormat='{0:MM/dd/yyyy}'}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using Lynx.Common;
+using Lynx.DbMigration.SQLite;
 using Lynx.Infrastructure;
 using Lynx.Infrastructure.Common;
 using Lynx.Interfaces;
@@ -51,14 +52,18 @@ namespace Lynx.MobileApp
                 config.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactory-Lynx");
             });
 
-            services.AddInfrastructureUseSQLite(configuration, loggerFactory, SQLiteConstants.FilePath);
+            services.AddInfrastructureUseSqlite(configuration, loggerFactory, SQLiteConstants.FilePath);
+
+            services.AddInfrastructure(configuration, loggerFactory);
+
             services.AddTasqR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IDateTime, AppDateTime>();
             services.AddSingleton<IGuid, AppGuid>();
             services.AddSingleton<IAppUser, AppUser>();
             services.AddSingleton<IJsonSerializer, AppJsonSerializer>();
-            services.AddSingleton<IExceptionHandler, ExceptionHandler>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+            services.AddLogging();
 
             services.AddTransient<SessionVerificationViewModel>();
             services.AddTransient<LoginViewModel>();

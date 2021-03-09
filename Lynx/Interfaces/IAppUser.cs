@@ -5,8 +5,8 @@ namespace Lynx.Interfaces
     public interface IAppUser
     {
         Guid UserID { get; }
-        public Guid SessionUID { get; }
+        Guid SessionUID { get; }
 
-        public T GetUserDetail<T>() where T : class;
+        T GetUserDetail<T>() where T : class;
     }
 }

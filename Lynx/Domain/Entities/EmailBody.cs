@@ -6,7 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class EmailBody : BaseEntity
     {
-        public new long ID { get; set; }
+        public long ID { get; set; }
 
         public string Html { get; set; }
         public string Text { get; set; }

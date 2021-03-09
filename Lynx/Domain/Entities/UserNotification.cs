@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class UserNotification : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserID { get; set; }
 
         public string Content { get; set; }

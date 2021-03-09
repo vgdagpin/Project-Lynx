@@ -1,4 +1,6 @@
 ﻿using Lynx.Application;
+using Lynx.DbMigration.SQLite;
+using Lynx.DbMigration.SqlServer;
 using Lynx.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +24,8 @@ namespace Lynx.ConsoleApp
 
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddInfrastructureUseSQLite(configuration, SampleLoggingFactory);
+            services.AddInfrastructureUseSqlite(configuration, SampleLoggingFactory);
+            services.AddInfrastructure(configuration, SampleLoggingFactory);
             services.AddApplication();
 
             services.AddTasqR(Assembly.GetExecutingAssembly());

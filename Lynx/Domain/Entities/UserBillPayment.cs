@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class UserBillPayment : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserBillID { get; set; }
 
         public decimal Amount { get; set; }

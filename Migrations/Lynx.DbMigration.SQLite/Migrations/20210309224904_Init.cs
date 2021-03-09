@@ -15,14 +15,14 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<short>(type: "INTEGER", nullable: false)
+                    ID = table.Column<short>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Code = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    ShortDesc = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    LongDesc = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AssemblyName = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    TypeName = table.Column<string>(type: "TEXT", maxLength: 400, nullable: false)
+                    Code = table.Column<string>(maxLength: 50, nullable: false),
+                    ShortDesc = table.Column<string>(maxLength: 50, nullable: false),
+                    LongDesc = table.Column<string>(maxLength: 100, nullable: false),
+                    IsEnabled = table.Column<bool>(nullable: false),
+                    AssemblyName = table.Column<string>(maxLength: 200, nullable: false),
+                    TypeName = table.Column<string>(maxLength: 400, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,13 +30,34 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_Email",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    From = table.Column<string>(maxLength: 255, nullable: true),
+                    To = table.Column<string>(nullable: true),
+                    CC = table.Column<string>(nullable: true),
+                    Subject = table.Column<string>(nullable: true),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    IsProcessed = table.Column<bool>(nullable: true),
+                    ProcessedOn = table.Column<DateTime>(nullable: true),
+                    Remarks = table.Column<string>(maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_Email", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_NotificationTemplate",
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TemplateCode = table.Column<string>(type: "TEXT", nullable: true),
-                    Content = table.Column<string>(type: "TEXT", nullable: true)
+                    ID = table.Column<Guid>(nullable: false),
+                    TemplateCode = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,9 +69,9 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<short>(type: "INTEGER", nullable: false),
-                    ShortDesc = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    LongDesc = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    ID = table.Column<short>(nullable: false),
+                    ShortDesc = table.Column<string>(maxLength: 50, nullable: false),
+                    LongDesc = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -62,9 +83,9 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FirstName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    ID = table.Column<Guid>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,9 +97,10 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    BillID = table.Column<short>(type: "INTEGER", nullable: false),
-                    Code = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Value = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false)
+                    BillID = table.Column<short>(nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    Value = table.Column<string>(maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,16 +115,87 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_EmailAttachment",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    EmailID = table.Column<long>(nullable: false),
+                    ContentType = table.Column<string>(maxLength: 100, nullable: false),
+                    FileName = table.Column<string>(maxLength: 255, nullable: false),
+                    Length = table.Column<long>(nullable: false),
+                    Content = table.Column<byte[]>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmailAttachment", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailAttachment_tbl_Email_EmailID",
+                        column: x => x.EmailID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_Email",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmailBody",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false),
+                    Html = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
+                    Raw = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmailBody", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailBody_tbl_Email_ID",
+                        column: x => x.ID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_Email",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_EmailPart",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    EmailID = table.Column<long>(nullable: false),
+                    PartType = table.Column<string>(maxLength: 20, nullable: false),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmailPart", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailPart_tbl_Email_EmailID",
+                        column: x => x.EmailID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_Email",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_BillProvider",
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<short>(type: "INTEGER", nullable: false)
+                    ID = table.Column<short>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    BillID = table.Column<short>(type: "INTEGER", nullable: false),
-                    ProviderTypeID = table.Column<short>(type: "INTEGER", nullable: false),
-                    ShortDesc = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    LongDesc = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
+                    BillID = table.Column<short>(nullable: false),
+                    ProviderTypeID = table.Column<short>(nullable: false),
+                    ShortDesc = table.Column<string>(maxLength: 50, nullable: true),
+                    LongDesc = table.Column<string>(maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,14 +221,14 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    BillID = table.Column<short>(type: "INTEGER", nullable: false),
-                    ProviderTypeID = table.Column<short>(type: "INTEGER", nullable: false),
-                    ShortDesc = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    LongDesc = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    AccountNumber = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    BillID = table.Column<short>(nullable: false),
+                    ProviderTypeID = table.Column<short>(nullable: false),
+                    ShortDesc = table.Column<string>(maxLength: 50, nullable: true),
+                    LongDesc = table.Column<string>(maxLength: 100, nullable: true),
+                    AccountNumber = table.Column<string>(maxLength: 100, nullable: false),
+                    IsEnabled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,12 +261,12 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Username = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    Salt = table.Column<byte[]>(type: "BLOB", nullable: true),
-                    Password = table.Column<byte[]>(type: "BLOB", nullable: true),
-                    IsTemporaryPassword = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TemporaryPassword = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false)
+                    ID = table.Column<Guid>(nullable: false),
+                    Username = table.Column<string>(maxLength: 100, nullable: false),
+                    Salt = table.Column<byte[]>(nullable: true),
+                    Password = table.Column<byte[]>(nullable: true),
+                    IsTemporaryPassword = table.Column<bool>(nullable: false),
+                    TemporaryPassword = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -192,11 +285,11 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Content = table.Column<string>(type: "TEXT", nullable: true),
-                    IsOpened = table.Column<bool>(type: "INTEGER", nullable: false),
-                    ReceivedOn = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    Content = table.Column<string>(nullable: true),
+                    IsOpened = table.Column<bool>(nullable: false),
+                    ReceivedOn = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -215,14 +308,15 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    SessionID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Token = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    ExpiredOn = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    IsExpired = table.Column<bool>(type: "INTEGER", nullable: false),
-                    Remarks = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true)
+                    SessionID = table.Column<Guid>(nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    Token = table.Column<string>(maxLength: 500, nullable: false),
+                    Status = table.Column<string>(maxLength: 20, nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ExpiredOn = table.Column<DateTime>(nullable: true),
+                    IsExpired = table.Column<bool>(nullable: false),
+                    Remarks = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -241,12 +335,12 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserBillTrackingID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    IsScheduled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    IsEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    N_UserBillTrackingID = table.Column<Guid>(type: "TEXT", nullable: true),
-                    N_UserBillTrackingUserID = table.Column<Guid>(type: "TEXT", nullable: true)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserBillTrackingID = table.Column<Guid>(nullable: false),
+                    IsScheduled = table.Column<bool>(nullable: false),
+                    IsEnabled = table.Column<bool>(nullable: false),
+                    N_UserBillTrackingID = table.Column<Guid>(nullable: true),
+                    N_UserBillTrackingUserID = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -265,14 +359,20 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClientEmailAddress = table.Column<string>(type: "TEXT", nullable: true),
-                    ReceiverEmailAddress = table.Column<string>(type: "TEXT", nullable: true)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    ClientEmailAddress = table.Column<string>(nullable: true),
+                    ReceiverEmailAddress = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_ProviderTypeConfigEmail", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_ProviderTypeConfigEmail_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_tbl_ProviderTypeConfigEmail_tbl_TrackBill_ID_UserID",
                         columns: x => new { x.ID, x.UserID },
@@ -280,12 +380,6 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         principalTable: "tbl_TrackBill",
                         principalColumns: new[] { "ID", "UserID" },
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_ProviderTypeConfigEmail_tbl_User_UserID",
-                        column: x => x.UserID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_User",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -293,20 +387,26 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ShortDesc = table.Column<string>(type: "TEXT", maxLength: 50, nullable: true),
-                    LongDesc = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    ShortDesc = table.Column<string>(maxLength: 50, nullable: true),
+                    LongDesc = table.Column<string>(maxLength: 100, nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: true),
                     Amount = table.Column<decimal>(type: "DECIMAL(20,6)", nullable: false),
-                    Frequency = table.Column<string>(type: "TEXT", maxLength: 20, nullable: true),
-                    DayFrequency = table.Column<short>(type: "INTEGER", nullable: true),
-                    SkipTimes = table.Column<short>(type: "INTEGER", nullable: true)
+                    Frequency = table.Column<string>(maxLength: 20, nullable: true),
+                    DayFrequency = table.Column<short>(nullable: true),
+                    SkipTimes = table.Column<short>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_ProviderTypeConfigScheduler", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_ProviderTypeConfigScheduler_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_tbl_ProviderTypeConfigScheduler_tbl_TrackBill_ID_UserID",
                         columns: x => new { x.ID, x.UserID },
@@ -314,12 +414,6 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         principalTable: "tbl_TrackBill",
                         principalColumns: new[] { "ID", "UserID" },
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_ProviderTypeConfigScheduler_tbl_User_UserID",
-                        column: x => x.UserID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_User",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -327,13 +421,19 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Indentity = table.Column<string>(type: "TEXT", nullable: true)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    Indentity = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_ProviderTypeConfigWebService", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_ProviderTypeConfigWebService_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_tbl_ProviderTypeConfigWebService_tbl_TrackBill_ID_UserID",
                         columns: x => new { x.ID, x.UserID },
@@ -341,12 +441,6 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         principalTable: "tbl_TrackBill",
                         principalColumns: new[] { "ID", "UserID" },
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_ProviderTypeConfigWebService_tbl_User_UserID",
-                        column: x => x.UserID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_User",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -354,10 +448,11 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    TrackBillID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Code = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
-                    Value = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false)
+                    TrackBillID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    Value = table.Column<string>(maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -376,16 +471,22 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TrackBillID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    TrackBillID = table.Column<Guid>(nullable: false),
+                    UserID = table.Column<Guid>(nullable: false),
+                    DueDate = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<decimal>(type: "DECIMAL(20,6)", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false)
+                    Status = table.Column<string>(maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_tbl_UserBill", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_UserBill_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID");
                     table.ForeignKey(
                         name: "FK_tbl_UserBill_tbl_TrackBill_TrackBillID_UserID",
                         columns: x => new { x.TrackBillID, x.UserID },
@@ -393,12 +494,6 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         principalTable: "tbl_TrackBill",
                         principalColumns: new[] { "ID", "UserID" },
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_tbl_UserBill_tbl_User_UserID",
-                        column: x => x.UserID,
-                        principalSchema: "dbo",
-                        principalTable: "tbl_User",
-                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -406,13 +501,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TrackBillSchedulerID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    TrackBillSchedulerID = table.Column<Guid>(nullable: false),
+                    DueDate = table.Column<DateTime>(nullable: false),
                     Amount = table.Column<decimal>(type: "DECIMAL(20,6)", nullable: false),
-                    IsGenerated = table.Column<bool>(type: "INTEGER", nullable: true),
-                    GeneratedUserBillID = table.Column<Guid>(type: "TEXT", nullable: true),
-                    Remarks = table.Column<string>(type: "TEXT", maxLength: 500, nullable: true)
+                    IsGenerated = table.Column<bool>(nullable: true),
+                    GeneratedUserBillID = table.Column<Guid>(nullable: true),
+                    Remarks = table.Column<string>(maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -431,8 +526,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserBillID = table.Column<Guid>(type: "TEXT", nullable: false)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserBillID = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -451,10 +546,10 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserBillID = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ID = table.Column<Guid>(nullable: false),
+                    UserBillID = table.Column<Guid>(nullable: false),
                     Amount = table.Column<decimal>(type: "DECIMAL(20,6)", nullable: false),
-                    PaidOn = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    PaidOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -473,11 +568,11 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    ID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    UserBillPaymentID = table.Column<Guid>(type: "TEXT", nullable: false),
-                    TransactionStatus = table.Column<byte>(type: "INTEGER", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Remarks = table.Column<string>(type: "TEXT", nullable: true)
+                    ID = table.Column<Guid>(nullable: false),
+                    UserBillPaymentID = table.Column<Guid>(nullable: false),
+                    TransactionStatus = table.Column<byte>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    Remarks = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -745,17 +840,22 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 column: "ProviderTypeID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmailAttachment_EmailID",
+                schema: "dbo",
+                table: "tbl_EmailAttachment",
+                column: "EmailID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmailPart_EmailID",
+                schema: "dbo",
+                table: "tbl_EmailPart",
+                column: "EmailID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_NotificationConfiguration_N_UserBillTrackingID_N_UserBillTrackingUserID",
                 schema: "dbo",
                 table: "tbl_NotificationConfiguration",
                 columns: new[] { "N_UserBillTrackingID", "N_UserBillTrackingUserID" });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbl_ProviderTypeConfigEmail_ID_UserID",
-                schema: "dbo",
-                table: "tbl_ProviderTypeConfigEmail",
-                columns: new[] { "ID", "UserID" },
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_ProviderTypeConfigEmail_UserID",
@@ -764,9 +864,9 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbl_ProviderTypeConfigScheduler_ID_UserID",
+                name: "IX_tbl_ProviderTypeConfigEmail_ID_UserID",
                 schema: "dbo",
-                table: "tbl_ProviderTypeConfigScheduler",
+                table: "tbl_ProviderTypeConfigEmail",
                 columns: new[] { "ID", "UserID" },
                 unique: true);
 
@@ -777,9 +877,9 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbl_ProviderTypeConfigWebService_ID_UserID",
+                name: "IX_tbl_ProviderTypeConfigScheduler_ID_UserID",
                 schema: "dbo",
-                table: "tbl_ProviderTypeConfigWebService",
+                table: "tbl_ProviderTypeConfigScheduler",
                 columns: new[] { "ID", "UserID" },
                 unique: true);
 
@@ -788,6 +888,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo",
                 table: "tbl_ProviderTypeConfigWebService",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_ProviderTypeConfigWebService_ID_UserID",
+                schema: "dbo",
+                table: "tbl_ProviderTypeConfigWebService",
+                columns: new[] { "ID", "UserID" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_SchedulerEntry_TrackBillSchedulerID",
@@ -814,16 +921,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 column: "UserID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_tbl_UserBill_TrackBillID_UserID",
-                schema: "dbo",
-                table: "tbl_UserBill",
-                columns: new[] { "TrackBillID", "UserID" });
-
-            migrationBuilder.CreateIndex(
                 name: "IX_tbl_UserBill_UserID",
                 schema: "dbo",
                 table: "tbl_UserBill",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_UserBill_TrackBillID_UserID",
+                schema: "dbo",
+                table: "tbl_UserBill",
+                columns: new[] { "TrackBillID", "UserID" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_UserBillAttachment_UserBillID",
@@ -874,6 +981,18 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "tbl_EmailAttachment",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmailBody",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmailPart",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "tbl_NotificationConfiguration",
                 schema: "dbo");
 
@@ -915,6 +1034,10 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_UserSession",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_Email",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

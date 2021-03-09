@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class ProviderTypeConfigScheduler : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid UserID { get; set; }
 
         public string ShortDesc { get; set; }

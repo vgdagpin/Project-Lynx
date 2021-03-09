@@ -6,6 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class SchedulerEntry : BaseEntity
     {
+        public Guid ID { get; set; }
         public Guid TrackBillSchedulerID { get; set; }
 
         public DateTime DueDate { get; set; }

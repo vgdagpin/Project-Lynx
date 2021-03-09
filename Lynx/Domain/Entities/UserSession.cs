@@ -7,6 +7,7 @@ namespace Lynx.Domain.Entities
 {
     public class UserSession
     {
+        public Guid ID { get; set; }
         public Guid SessionID { get; set; }
         public Guid UserID { get; set; }
 

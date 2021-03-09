@@ -6,7 +6,7 @@ namespace Lynx.Domain.Entities
 {
     public class EmailPart : BaseEntity
     {
-        public new long ID { get; set; }
+        public long ID { get; set; }
 
         public long EmailID { get; set; }
         public MailPartType PartType { get; set; }
