@@ -83,7 +83,8 @@ namespace Lynx.MobileApp.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    PreloadProgress = $"Initialize Error: {ex.Message}";
+                    var innerEx = ex.InnermostException();
+                    PreloadProgress = $"Initialize Error: {innerEx.Message}";
                 }
             });
         }

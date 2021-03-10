@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
         private ILogger p_ExceptionHandler;
         protected ILogger ExceptionHandler

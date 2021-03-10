@@ -7,7 +7,25 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp.Android", "L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp.iOS", "Lynx.MobileApp\Lynx.MobileApp.iOS\Lynx.MobileApp.iOS.csproj", "{FADCF3BA-3143-4940-8A53-5CBAF93556C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lynx.MobileApp", "Lynx.MobileApp\Lynx.MobileApp\Lynx.MobileApp.csproj", "{429674FE-4E06-47C8-8619-D717EBE8864A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lynx.MobileApp", "Lynx.MobileApp\Lynx.MobileApp\Lynx.MobileApp.csproj", "{429674FE-4E06-47C8-8619-D717EBE8864A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assemblies", "Assemblies", "{0A7E1A16-3C39-4737-819B-1B311353E7D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lynx", "Lynx", "{4DA1DF13-C5A0-408B-B28F-62AFEED4DB67}"
+	ProjectSection(SolutionItems) = preProject
+		Assemblies\Lynx\Lynx.Application.dll = Assemblies\Lynx\Lynx.Application.dll
+		Assemblies\Lynx\Lynx.DbMigration.SQLite.dll = Assemblies\Lynx\Lynx.DbMigration.SQLite.dll
+		Assemblies\Lynx\Lynx.dll = Assemblies\Lynx\Lynx.dll
+		Assemblies\Lynx\Lynx.Infrastructure.dll = Assemblies\Lynx\Lynx.Infrastructure.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C7228AA6-E492-4C72-A906-E076F49CDAD3}"
+	ProjectSection(SolutionItems) = preProject
+		Docs\Lynx.postman_collection.json = Docs\Lynx.postman_collection.json
+		Docs\Packages.txt = Docs\Packages.txt
+		Docs\QueryHelper.txt = Docs\QueryHelper.txt
+		Docs\References.txt = Docs\References.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -76,6 +94,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4DA1DF13-C5A0-408B-B28F-62AFEED4DB67} = {0A7E1A16-3C39-4737-819B-1B311353E7D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3C84E28-DDC2-4423-A175-6D1EE7136D24}

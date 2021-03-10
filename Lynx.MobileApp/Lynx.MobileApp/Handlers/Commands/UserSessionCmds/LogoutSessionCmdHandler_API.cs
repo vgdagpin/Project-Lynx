@@ -33,6 +33,8 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
 
         public async override Task RunAsync(LogoutSessionCmd request, CancellationToken cancellationToken = default)
         {
+            Thread.Sleep(2000);
+
             var token = await p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID));
 
             try

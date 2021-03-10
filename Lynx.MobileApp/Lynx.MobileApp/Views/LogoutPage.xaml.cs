@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lynx.Commands.UserSessionCmds;
+using Lynx.MobileApp.Common.Base;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -11,27 +12,28 @@ using Xamarin.Forms.Xaml;
 namespace Lynx.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LogoutPage : ContentPage
+    public partial class LogoutPage : BaseContentPage
     {
-        private ITasqR p_TasqR;
-        protected ITasqR TasqR
+        #region LogoutStatus
+        private string logoutStatus;
+        public string LogoutStatus
         {
-            get
-            {
-                if (p_TasqR == null)
-                {
-                    p_TasqR = App.ServiceProvider.GetService<ITasqR>();
-                }
-
-                return p_TasqR;
-            }
+            get => logoutStatus;
+            set => SetProperty(ref logoutStatus, value);
         }
+        #endregion
 
         public LogoutPage()
         {
             InitializeComponent();
 
-            TasqR.RunAsync(new LogoutSessionCmd());
+            LogoutStatus = "Logging out..";
+
+            TasqR.RunAsync(new LogoutSessionCmd())
+                .ContinueWith(t =>
+                {
+                    LogoutStatus = "Logged out";
+                });
         }
     }
 }

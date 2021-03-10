@@ -45,3 +45,7 @@ https://app.sendgrid.com/settings/parse
 
 JWT Knowledge Base
 https://www.c-sharpcorner.com/article/asp-net-core-web-api-creating-and-validating-jwt-json-web-token/
+
+
+Notification
+https://www.youtube.com/watch?v=Lqhg9Lf8JP4
