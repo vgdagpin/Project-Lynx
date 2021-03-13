@@ -6,6 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xamarin.Forms;
 
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Push;
+
 namespace Lynx.MobileApp
 {
     public partial class App : Xamarin.Forms.Application
@@ -27,7 +30,7 @@ namespace Lynx.MobileApp
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            AppCenter.Start("835c5c97-a574-4ee4-86b1-eb9ba239e835", typeof(Push));
         }
 
         protected override void OnSleep()

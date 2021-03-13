@@ -51,3 +51,9 @@ Notification
 https://www.youtube.com/watch?v=Lqhg9Lf8JP4
 
 https://www.youtube.com/watch?v=TT11e_YCRwI
+
+
+https://www.youtube.com/watch?v=4Plnlpqn4Gw
+
+https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-android-push-notification-google-fcm-get-started
+https://docs.microsoft.com/en-us/azure/notification-hubs/xamarin-notification-hubs-push-notifications-android-gcm
