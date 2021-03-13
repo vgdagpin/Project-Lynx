@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Lynx.Commands.BillCmds;
 using Lynx.Constants;
 using Lynx.Domain.Entities;
 
@@ -27,14 +26,6 @@ namespace Lynx.Infrastructure.Persistence.Configurations
             builder.Property(p => p.LongDesc)
                .IsRequired()
                .HasMaxLength(StringLengthConstant.LongDesc);
-
-            builder.Property(p => p.AssemblyName)
-                .IsRequired()
-                .HasMaxLength(StringLengthConstant.AssemblyName);
-
-            builder.Property(p => p.TypeName)
-                .IsRequired()
-                .HasMaxLength(StringLengthConstant.TypeName);
         }
 
         protected override void ConfigureIndex(BaseIndexBuilder<Bill> builder)
@@ -46,42 +37,42 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         {
             builder.HasData(new Bill
             {
-                ID = 1,
+                ID = BillIDConstants.Globe,
                 Code = "Globe",
                 ShortDesc = "Globe",
-                LongDesc = "Globe",
-                AssemblyName = typeof(GlobeBillCmd).Assembly.FullName,
-                TypeName = typeof(GlobeBillCmd).FullName
+                LongDesc = "Globe"
             });
 
             builder.HasData(new Bill
             {
-                ID = 2,
+                ID = BillIDConstants.Meralco,
                 Code = "Meralco",
                 ShortDesc = "Meralco",
-                LongDesc = "Meralco",
-                AssemblyName = typeof(MeralcoBillCmd).Assembly.FullName,
-                TypeName = typeof(MeralcoBillCmd).FullName
+                LongDesc = "Meralco"
             });
 
             builder.HasData(new Bill
             {
-                ID = 3,
-                Code = "House Loan Amortization",
-                ShortDesc = "House Loan Amortization",
-                LongDesc = "House Loan Amortization",
-                AssemblyName = typeof(HouseLoanAmortizationCmd).Assembly.FullName,
-                TypeName = typeof(HouseLoanAmortizationCmd).FullName
+                ID = BillIDConstants.HomeLoanAmort,
+                Code = "Home Loan Amortization",
+                ShortDesc = "Home Loan Amortization",
+                LongDesc = "Home Loan Amortization"
             });
 
             builder.HasData(new Bill
             {
-                ID = 4,
+                ID = BillIDConstants.CarLoanAmort,
                 Code = "Car Loan Amortization",
                 ShortDesc = "Car Loan Amortization",
-                LongDesc = "Car Loan Amortization",
-                AssemblyName = typeof(CarLoanAmortizationCmd).Assembly.FullName,
-                TypeName = typeof(CarLoanAmortizationCmd).FullName
+                LongDesc = "Car Loan Amortization"
+            });
+
+            builder.HasData(new Bill
+            {
+                ID = BillIDConstants.CreditCard,
+                Code = "Credit Card",
+                ShortDesc = "Credit Card",
+                LongDesc = "Credit Card"
             });
         }
     }

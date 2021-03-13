@@ -47,52 +47,52 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 .HasForeignKey(a => a.UserID);
         }
 
-        protected override void SeedData(BaseSeeder<TrackBill> builder)
-        {
-            builder.HasData(new TrackBill
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Globe),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                BillID = 1,
-                ProviderTypeID = ProviderTypeConstants.Email,
-                AccountNumber = "GLOBE-ACCT-NUM"
-            });
+        //protected override void SeedData(BaseSeeder<TrackBill> builder)
+        //{
+        //    builder.HasData(new TrackBill
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Globe),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        BillID = 1,
+        //        ProviderTypeID = ProviderTypeConstants.Email,
+        //        AccountNumber = "GLOBE-ACCT-NUM"
+        //    });
 
-            builder.HasData(new TrackBill
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Meralco),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                BillID = 2,
-                ProviderTypeID = ProviderTypeConstants.Email,
-                AccountNumber = "MERALCO-ACCT-NUM"
-            });
+        //    builder.HasData(new TrackBill
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Meralco),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        BillID = 2,
+        //        ProviderTypeID = ProviderTypeConstants.Email,
+        //        AccountNumber = "MERALCO-ACCT-NUM"
+        //    });
 
-            builder.HasData(new TrackBill
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Lancaster),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                BillID = 3,
-                ProviderTypeID = ProviderTypeConstants.Scheduled,
-                AccountNumber = "LANCASTER-ACCT-NUM"
-            });
+        //    builder.HasData(new TrackBill
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Lancaster),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        BillID = 3,
+        //        ProviderTypeID = ProviderTypeConstants.Scheduled,
+        //        AccountNumber = "LANCASTER-ACCT-NUM"
+        //    });
 
-            builder.HasData(new TrackBill
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Condo588),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                BillID = 3,
-                ProviderTypeID = ProviderTypeConstants.Scheduled,
-                AccountNumber = "588-ACCT-NUM"
-            });
+        //    builder.HasData(new TrackBill
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Condo588),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        BillID = 3,
+        //        ProviderTypeID = ProviderTypeConstants.Scheduled,
+        //        AccountNumber = "588-ACCT-NUM"
+        //    });
 
-            builder.HasData(new TrackBill
-            {
-                ID = Guid.Parse(TrackBillIDConstants.HondaBRV),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                BillID = 4,
-                ProviderTypeID = ProviderTypeConstants.Scheduled,
-                AccountNumber = "BRV-ACCT-NUM"
-            });
-        }
+        //    builder.HasData(new TrackBill
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.HondaBRV),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        BillID = 4,
+        //        ProviderTypeID = ProviderTypeConstants.Scheduled,
+        //        AccountNumber = "BRV-ACCT-NUM"
+        //    });
+        //}
     }
 }

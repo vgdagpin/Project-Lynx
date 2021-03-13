@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Lynx.Application.Common.Extensions;
 using Lynx.Domain.Entities;
 using Lynx.Interfaces;
 using Lynx.Queries.UserSessionQrs;

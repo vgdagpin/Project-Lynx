@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Lynx.Application.Common.Extensions;
 using Lynx.Commands.UserSessionCmds;
 using Lynx.Domain.Entities;
 using Lynx.Interfaces;

@@ -38,40 +38,40 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-        protected override void SeedData(BaseSeeder<ProviderTypeConfigScheduler> builder)
-        {
-            // lancaster
-            builder.HasData(new ProviderTypeConfigScheduler
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Lancaster),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                StartDate = new DateTime(2021, 2, 19),
-                EndDate = new DateTime(2021, 5, 19),
-                Amount = 21000,
-                DayFrequency = 23
-            });
+        //protected override void SeedData(BaseSeeder<ProviderTypeConfigScheduler> builder)
+        //{
+        //    // lancaster
+        //    builder.HasData(new ProviderTypeConfigScheduler
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Lancaster),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        StartDate = new DateTime(2021, 2, 19),
+        //        EndDate = new DateTime(2021, 5, 19),
+        //        Amount = 21000,
+        //        DayFrequency = 23
+        //    });
 
-            // 588
-            builder.HasData(new ProviderTypeConfigScheduler
-            {
-                ID = Guid.Parse(TrackBillIDConstants.Condo588),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                StartDate = new DateTime(2021, 2, 19),
-                EndDate = new DateTime(2021, 5, 19),
-                Amount = 14000,
-                DayFrequency = 28
-            });
+        //    // 588
+        //    builder.HasData(new ProviderTypeConfigScheduler
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.Condo588),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        StartDate = new DateTime(2021, 2, 19),
+        //        EndDate = new DateTime(2021, 5, 19),
+        //        Amount = 14000,
+        //        DayFrequency = 28
+        //    });
 
-            // brv
-            builder.HasData(new ProviderTypeConfigScheduler
-            {
-                ID = Guid.Parse(TrackBillIDConstants.HondaBRV),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                StartDate = new DateTime(2021, 2, 19),
-                EndDate = new DateTime(2021, 5, 19),
-                Amount = 15000,
-                DayFrequency = 13
-            });
-        }
+        //    // brv
+        //    builder.HasData(new ProviderTypeConfigScheduler
+        //    {
+        //        ID = Guid.Parse(TrackBillIDConstants.HondaBRV),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        StartDate = new DateTime(2021, 2, 19),
+        //        EndDate = new DateTime(2021, 5, 19),
+        //        Amount = 15000,
+        //        DayFrequency = 13
+        //    });
+        //}
     }
 }

@@ -20,9 +20,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     Code = table.Column<string>(maxLength: 50, nullable: false),
                     ShortDesc = table.Column<string>(maxLength: 50, nullable: false),
                     LongDesc = table.Column<string>(maxLength: 100, nullable: false),
-                    IsEnabled = table.Column<bool>(nullable: false),
-                    AssemblyName = table.Column<string>(maxLength: 200, nullable: false),
-                    TypeName = table.Column<string>(maxLength: 400, nullable: false)
+                    IsEnabled = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -331,6 +329,27 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_EmailWorker",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<short>(nullable: false),
+                    AssemblyName = table.Column<string>(maxLength: 200, nullable: false),
+                    TypeName = table.Column<string>(maxLength: 400, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmailWorker", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailWorker_tbl_BillProvider_ID",
+                        column: x => x.ID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_BillProvider",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_NotificationConfiguration",
                 schema: "dbo",
                 columns: table => new
@@ -589,26 +608,32 @@ namespace Lynx.DbMigration.SQLite.Migrations
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_Bill",
-                columns: new[] { "ID", "AssemblyName", "Code", "IsEnabled", "LongDesc", "ShortDesc", "TypeName" },
-                values: new object[] { (short)1, "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Globe", true, "Globe", "Globe", "Lynx.Commands.BillCmds.GlobeBillCmd" });
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)1, "Globe", true, "Globe", "Globe" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_Bill",
-                columns: new[] { "ID", "AssemblyName", "Code", "IsEnabled", "LongDesc", "ShortDesc", "TypeName" },
-                values: new object[] { (short)2, "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Meralco", true, "Meralco", "Meralco", "Lynx.Commands.BillCmds.MeralcoBillCmd" });
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)2, "Meralco", true, "Meralco", "Meralco" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_Bill",
-                columns: new[] { "ID", "AssemblyName", "Code", "IsEnabled", "LongDesc", "ShortDesc", "TypeName" },
-                values: new object[] { (short)3, "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "House Loan Amortization", true, "House Loan Amortization", "House Loan Amortization", "Lynx.Commands.BillCmds.HouseLoanAmortizationCmd" });
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)3, "Home Loan Amortization", true, "Home Loan Amortization", "Home Loan Amortization" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_Bill",
-                columns: new[] { "ID", "AssemblyName", "Code", "IsEnabled", "LongDesc", "ShortDesc", "TypeName" },
-                values: new object[] { (short)4, "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Car Loan Amortization", true, "Car Loan Amortization", "Car Loan Amortization", "Lynx.Commands.BillCmds.CarLoanAmortizationCmd" });
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)4, "Car Loan Amortization", true, "Car Loan Amortization", "Car Loan Amortization" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_Bill",
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)5, "Credit Card", true, "Credit Card", "Credit Card" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -666,33 +691,15 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-0000-0000-0000-000000000002"), "GLOBE-ACCT-NUM", (short)1, true, null, (short)3, null });
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)5, (short)5, "BDO", (short)3, "BDO" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), new Guid("00000000-0000-0000-0000-000000000002"), "MERALCO-ACCT-NUM", (short)2, true, null, (short)3, null });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000003"), new Guid("00000000-0000-0000-0000-000000000002"), "LANCASTER-ACCT-NUM", (short)3, true, null, (short)1, null });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000004"), new Guid("00000000-0000-0000-0000-000000000002"), "588-ACCT-NUM", (short)3, true, null, (short)1, null });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_TrackBill",
-                columns: new[] { "ID", "UserID", "AccountNumber", "BillID", "IsEnabled", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000005"), new Guid("00000000-0000-0000-0000-000000000002"), "BRV-ACCT-NUM", (short)4, true, null, (short)1, null });
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)6, (short)5, "Metrobank", (short)3, "Metrobank" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -708,117 +715,21 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_ProviderTypeConfigScheduler",
-                columns: new[] { "ID", "Amount", "DayFrequency", "EndDate", "Frequency", "LongDesc", "ShortDesc", "SkipTimes", "StartDate", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000003"), 21000m, (short)23, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") });
+                table: "tbl_EmailWorker",
+                columns: new[] { "ID", "AssemblyName", "TypeName" },
+                values: new object[] { (short)1, "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromGlobeEmailCmdHandler" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_ProviderTypeConfigScheduler",
-                columns: new[] { "ID", "Amount", "DayFrequency", "EndDate", "Frequency", "LongDesc", "ShortDesc", "SkipTimes", "StartDate", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000004"), 14000m, (short)28, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") });
+                table: "tbl_EmailWorker",
+                columns: new[] { "ID", "AssemblyName", "TypeName" },
+                values: new object[] { (short)5, "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromBDOCmdHandler" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "tbl_ProviderTypeConfigScheduler",
-                columns: new[] { "ID", "Amount", "DayFrequency", "EndDate", "Frequency", "LongDesc", "ShortDesc", "SkipTimes", "StartDate", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000005"), 15000m, (short)13, new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, null, new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_UserBill",
-                columns: new[] { "ID", "Amount", "DueDate", "Status", "TrackBillID", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 2100m, new DateTime(2021, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Active", new Guid("00000000-0000-0000-0000-000000000001"), new Guid("00000000-0000-0000-0000-000000000002") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_UserBill",
-                columns: new[] { "ID", "Amount", "DueDate", "Status", "TrackBillID", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), 2100m, new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "Active", new Guid("00000000-0000-0000-0000-000000000003"), new Guid("00000000-0000-0000-0000-000000000002") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_UserBill",
-                columns: new[] { "ID", "Amount", "DueDate", "Status", "TrackBillID", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000003"), 14000m, new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Active", new Guid("00000000-0000-0000-0000-000000000004"), new Guid("00000000-0000-0000-0000-000000000002") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_UserBill",
-                columns: new[] { "ID", "Amount", "DueDate", "Status", "TrackBillID", "UserID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000004"), 15000m, new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "Active", new Guid("00000000-0000-0000-0000-000000000005"), new Guid("00000000-0000-0000-0000-000000000002") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), 21000m, new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000002"), true, null, new Guid("00000000-0000-0000-0000-000000000003") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), 21000m, new DateTime(2021, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000003") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000003"), 21000m, new DateTime(2021, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000003") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000004"), 21000m, new DateTime(2021, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000003") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000005"), 14000m, new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000003"), true, null, new Guid("00000000-0000-0000-0000-000000000004") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000006"), 14000m, new DateTime(2021, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000004") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000007"), 14000m, new DateTime(2021, 4, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000004") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000008"), 14000m, new DateTime(2021, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000004") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-000000000009"), 15000m, new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("00000000-0000-0000-0000-000000000004"), true, null, new Guid("00000000-0000-0000-0000-000000000005") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-00000000000a"), 15000m, new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000005") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-00000000000b"), 15000m, new DateTime(2021, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000005") });
-
-            migrationBuilder.InsertData(
-                schema: "dbo",
-                table: "tbl_SchedulerEntry",
-                columns: new[] { "ID", "Amount", "DueDate", "GeneratedUserBillID", "IsGenerated", "Remarks", "TrackBillSchedulerID" },
-                values: new object[] { new Guid("00000000-0000-0000-0000-00000000000c"), 15000m, new DateTime(2021, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null, null, new Guid("00000000-0000-0000-0000-000000000005") });
+                table: "tbl_EmailWorker",
+                columns: new[] { "ID", "AssemblyName", "TypeName" },
+                values: new object[] { (short)6, "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromMetrobankCmdHandler" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_Bill_Code",
@@ -973,10 +884,6 @@ namespace Lynx.DbMigration.SQLite.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "tbl_BillProvider",
-                schema: "dbo");
-
-            migrationBuilder.DropTable(
                 name: "tbl_BillSetting",
                 schema: "dbo");
 
@@ -990,6 +897,10 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_EmailPart",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_EmailWorker",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -1038,6 +949,10 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_Email",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_BillProvider",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="FluentValidation" Version="9.5.1" />
-    <PackageReference Include="TasqR" Version="1.4.8" />
+    <PackageReference Include="FluentValidation" Version="9.5.2" />
+    <PackageReference Include="TasqR" Version="1.4.11" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 

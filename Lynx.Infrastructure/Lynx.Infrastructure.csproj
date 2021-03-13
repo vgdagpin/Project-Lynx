@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Lynx.Application\Lynx.Application.csproj" />
     <ProjectReference Include="..\Lynx\Lynx.csproj" />
   </ItemGroup>
 

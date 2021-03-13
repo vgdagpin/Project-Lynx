@@ -38,29 +38,47 @@ namespace Lynx.Infrastructure.Persistence.Configurations
             builder.HasData(new BillProvider
             {
                 ID = 1,
-                BillID = 1,
+                BillID = BillIDConstants.Globe,
                 ProviderTypeID = ProviderTypeConstants.Email
             });
 
             builder.HasData(new BillProvider
             {
                 ID = 2,
-                BillID = 2,
+                BillID = BillIDConstants.Meralco,
                 ProviderTypeID = ProviderTypeConstants.Email
             });
 
             builder.HasData(new BillProvider
             {
                 ID = 3,
-                BillID = 3,
+                BillID = BillIDConstants.HomeLoanAmort,
                 ProviderTypeID = ProviderTypeConstants.Scheduled
             });
 
             builder.HasData(new BillProvider
             {
                 ID = 4,
-                BillID = 4,
+                BillID = BillIDConstants.CarLoanAmort,
                 ProviderTypeID = ProviderTypeConstants.Scheduled
+            });
+
+            builder.HasData(new BillProvider
+            {
+                ID = 5,
+                ShortDesc = "BDO",
+                LongDesc = "BDO",
+                BillID = BillIDConstants.CreditCard,
+                ProviderTypeID = ProviderTypeConstants.Email
+            });
+
+            builder.HasData(new BillProvider
+            {
+                ID = 6,
+                ShortDesc = "Metrobank",
+                LongDesc = "Metrobank",
+                BillID = BillIDConstants.CreditCard,
+                ProviderTypeID = ProviderTypeConstants.Email
             });
         }
     }

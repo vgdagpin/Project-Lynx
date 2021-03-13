@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Lynx.Application.Common.Extensions;
 using Lynx.Commands.UserCmds;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;

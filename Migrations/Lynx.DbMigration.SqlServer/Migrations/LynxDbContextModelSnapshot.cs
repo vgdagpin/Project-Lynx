@@ -26,11 +26,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("smallint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AssemblyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -49,11 +44,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(400)")
-                        .HasMaxLength(400);
-
                     b.HasKey("ID");
 
                     b.HasIndex("Code")
@@ -65,42 +55,42 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         new
                         {
                             ID = (short)1,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Globe",
                             IsEnabled = true,
                             LongDesc = "Globe",
-                            ShortDesc = "Globe",
-                            TypeName = "Lynx.Commands.BillCmds.GlobeBillCmd"
+                            ShortDesc = "Globe"
                         },
                         new
                         {
                             ID = (short)2,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Meralco",
                             IsEnabled = true,
                             LongDesc = "Meralco",
-                            ShortDesc = "Meralco",
-                            TypeName = "Lynx.Commands.BillCmds.MeralcoBillCmd"
+                            ShortDesc = "Meralco"
                         },
                         new
                         {
                             ID = (short)3,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                            Code = "House Loan Amortization",
+                            Code = "Home Loan Amortization",
                             IsEnabled = true,
-                            LongDesc = "House Loan Amortization",
-                            ShortDesc = "House Loan Amortization",
-                            TypeName = "Lynx.Commands.BillCmds.HouseLoanAmortizationCmd"
+                            LongDesc = "Home Loan Amortization",
+                            ShortDesc = "Home Loan Amortization"
                         },
                         new
                         {
                             ID = (short)4,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Car Loan Amortization",
                             IsEnabled = true,
                             LongDesc = "Car Loan Amortization",
-                            ShortDesc = "Car Loan Amortization",
-                            TypeName = "Lynx.Commands.BillCmds.CarLoanAmortizationCmd"
+                            ShortDesc = "Car Loan Amortization"
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            Code = "Credit Card",
+                            IsEnabled = true,
+                            LongDesc = "Credit Card",
+                            ShortDesc = "Credit Card"
                         });
                 });
 
@@ -157,6 +147,22 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                             ID = (short)4,
                             BillID = (short)4,
                             ProviderTypeID = (short)1
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            BillID = (short)5,
+                            LongDesc = "BDO",
+                            ProviderTypeID = (short)3,
+                            ShortDesc = "BDO"
+                        },
+                        new
+                        {
+                            ID = (short)6,
+                            BillID = (short)5,
+                            LongDesc = "Metrobank",
+                            ProviderTypeID = (short)3,
+                            ShortDesc = "Metrobank"
                         });
                 });
 
@@ -300,6 +306,46 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasIndex("EmailID");
 
                     b.ToTable("tbl_EmailPart","dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailWorker", b =>
+                {
+                    b.Property<short>("ID")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("tbl_EmailWorker","dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = (short)1,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromGlobeEmailCmdHandler"
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromBDOCmdHandler"
+                        },
+                        new
+                        {
+                            ID = (short)6,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromMetrobankCmdHandler"
+                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
@@ -456,35 +502,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .IsUnique();
 
                     b.ToTable("tbl_ProviderTypeConfigScheduler","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 21000m,
-                            DayFrequency = (short)23,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 14000m,
-                            DayFrequency = (short)28,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            Amount = 15000m,
-                            DayFrequency = (short)13,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
@@ -539,98 +556,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasIndex("TrackBillSchedulerID");
 
                     b.ToTable("tbl_SchedulerEntry","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000006"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000007"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 4, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000008"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000009"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000a"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000b"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000c"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBill", b =>
@@ -673,53 +598,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("tbl_TrackBill","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "GLOBE-ACCT-NUM",
-                            BillID = (short)1,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)3
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "MERALCO-ACCT-NUM",
-                            BillID = (short)2,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)3
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "LANCASTER-ACCT-NUM",
-                            BillID = (short)3,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "588-ACCT-NUM",
-                            BillID = (short)3,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "BRV-ACCT-NUM",
-                            BillID = (short)4,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBillSetting", b =>
@@ -812,44 +690,6 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasIndex("TrackBillID", "UserID");
 
                     b.ToTable("tbl_UserBill","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Amount = 2100m,
-                            DueDate = new DateTime(2021, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            Amount = 2100m,
-                            DueDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillAttachment", b =>
@@ -1082,6 +922,15 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasOne("Lynx.Domain.Entities.Email", null)
                         .WithMany("N_Headers")
                         .HasForeignKey("EmailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailWorker", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.BillProvider", null)
+                        .WithOne("N_EmailWorker")
+                        .HasForeignKey("Lynx.Domain.Entities.EmailWorker", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

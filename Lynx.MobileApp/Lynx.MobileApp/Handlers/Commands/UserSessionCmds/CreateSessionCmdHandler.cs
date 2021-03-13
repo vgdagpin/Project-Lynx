@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Lynx.Application;
+using Lynx.Application.Common.Extensions;
 using Lynx.Commands.UserSessionCmds;
 using Lynx.Domain.Entities;
 using Lynx.Enums;
@@ -60,7 +61,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
                 Token = p_Guid.NewGuid().ToString("D"),
             };
 
-            p_DbContext.UserSessions.AsDbSet().Add(newSession);
+            p_DbContext.UserSessions.Add(newSession);
 
             return newSession;
         }

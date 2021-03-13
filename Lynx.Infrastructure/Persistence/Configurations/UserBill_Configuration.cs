@@ -33,47 +33,47 @@ namespace Lynx.Infrastructure.Persistence.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-        protected override void SeedData(BaseSeeder<UserBill> builder)
-        {
-            builder.HasData(new UserBill
-            {
-                ID = Guid.Empty.Increment(1),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.Globe),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                Status = BillPaymentStatus.Active,
-                Amount = 2100,
-                DueDate = new DateTime(2021, 2, 21)
-            });
+        //protected override void SeedData(BaseSeeder<UserBill> builder)
+        //{
+        //    builder.HasData(new UserBill
+        //    {
+        //        ID = Guid.Empty.Increment(1),
+        //        TrackBillID = Guid.Parse(TrackBillIDConstants.Globe),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        Status = BillPaymentStatus.Active,
+        //        Amount = 2100,
+        //        DueDate = new DateTime(2021, 2, 21)
+        //    });
 
-            builder.HasData(new UserBill
-            {
-                ID = Guid.Empty.Increment(2),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.Lancaster),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                Status = BillPaymentStatus.Active,
-                Amount = 2100,
-                DueDate = new DateTime(2021, 2, 23)
-            });
+        //    builder.HasData(new UserBill
+        //    {
+        //        ID = Guid.Empty.Increment(2),
+        //        TrackBillID = Guid.Parse(TrackBillIDConstants.Lancaster),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        Status = BillPaymentStatus.Active,
+        //        Amount = 2100,
+        //        DueDate = new DateTime(2021, 2, 23)
+        //    });
 
-            builder.HasData(new UserBill
-            {
-                ID = Guid.Empty.Increment(3),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.Condo588),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                Status = BillPaymentStatus.Active,
-                Amount = 14000,
-                DueDate = new DateTime(2021, 2, 28)
-            });
+        //    builder.HasData(new UserBill
+        //    {
+        //        ID = Guid.Empty.Increment(3),
+        //        TrackBillID = Guid.Parse(TrackBillIDConstants.Condo588),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        Status = BillPaymentStatus.Active,
+        //        Amount = 14000,
+        //        DueDate = new DateTime(2021, 2, 28)
+        //    });
 
-            builder.HasData(new UserBill
-            {
-                ID = Guid.Empty.Increment(4),
-                TrackBillID = Guid.Parse(TrackBillIDConstants.HondaBRV),
-                UserID = Guid.Parse(UserIDConstants.Enteng),
-                Status = BillPaymentStatus.Active,
-                Amount = 15000,
-                DueDate = new DateTime(2021, 2, 13)
-            });
-        }
+        //    builder.HasData(new UserBill
+        //    {
+        //        ID = Guid.Empty.Increment(4),
+        //        TrackBillID = Guid.Parse(TrackBillIDConstants.HondaBRV),
+        //        UserID = Guid.Parse(UserIDConstants.Enteng),
+        //        Status = BillPaymentStatus.Active,
+        //        Amount = 15000,
+        //        DueDate = new DateTime(2021, 2, 13)
+        //    });
+        //}
     }
 }

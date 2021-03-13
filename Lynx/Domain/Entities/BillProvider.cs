@@ -16,5 +16,7 @@ namespace Lynx.Domain.Entities
 
 
         public ProviderType N_ProviderType { get; set; }
+
+        public EmailWorker N_EmailWorker { get; set; }
     }
 }

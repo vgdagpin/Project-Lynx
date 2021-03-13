@@ -3,54 +3,48 @@ using System;
 using Lynx.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace Lynx.DbMigration.SQLite.Migrations
+namespace Lynx.DbMigration.SqlServer.Migrations
 {
     [DbContext(typeof(LynxDbContext))]
-    [Migration("20210309224904_Init")]
+    [Migration("20210313203825_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.13");
+                .HasAnnotation("ProductVersion", "3.1.13")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Lynx.Domain.Entities.Bill", b =>
                 {
                     b.Property<short>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AssemblyName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasColumnType("smallint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("LongDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("ShortDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<string>("TypeName")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(400);
 
                     b.HasKey("ID");
 
@@ -63,42 +57,42 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         new
                         {
                             ID = (short)1,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Globe",
                             IsEnabled = true,
                             LongDesc = "Globe",
-                            ShortDesc = "Globe",
-                            TypeName = "Lynx.Commands.BillCmds.GlobeBillCmd"
+                            ShortDesc = "Globe"
                         },
                         new
                         {
                             ID = (short)2,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Meralco",
                             IsEnabled = true,
                             LongDesc = "Meralco",
-                            ShortDesc = "Meralco",
-                            TypeName = "Lynx.Commands.BillCmds.MeralcoBillCmd"
+                            ShortDesc = "Meralco"
                         },
                         new
                         {
                             ID = (short)3,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
-                            Code = "House Loan Amortization",
+                            Code = "Home Loan Amortization",
                             IsEnabled = true,
-                            LongDesc = "House Loan Amortization",
-                            ShortDesc = "House Loan Amortization",
-                            TypeName = "Lynx.Commands.BillCmds.HouseLoanAmortizationCmd"
+                            LongDesc = "Home Loan Amortization",
+                            ShortDesc = "Home Loan Amortization"
                         },
                         new
                         {
                             ID = (short)4,
-                            AssemblyName = "Lynx, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             Code = "Car Loan Amortization",
                             IsEnabled = true,
                             LongDesc = "Car Loan Amortization",
-                            ShortDesc = "Car Loan Amortization",
-                            TypeName = "Lynx.Commands.BillCmds.CarLoanAmortizationCmd"
+                            ShortDesc = "Car Loan Amortization"
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            Code = "Credit Card",
+                            IsEnabled = true,
+                            LongDesc = "Credit Card",
+                            ShortDesc = "Credit Card"
                         });
                 });
 
@@ -106,20 +100,21 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<short>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<short>("BillID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<short>("ProviderTypeID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("ID");
@@ -154,24 +149,40 @@ namespace Lynx.DbMigration.SQLite.Migrations
                             ID = (short)4,
                             BillID = (short)4,
                             ProviderTypeID = (short)1
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            BillID = (short)5,
+                            LongDesc = "BDO",
+                            ProviderTypeID = (short)3,
+                            ShortDesc = "BDO"
+                        },
+                        new
+                        {
+                            ID = (short)6,
+                            BillID = (short)5,
+                            LongDesc = "Metrobank",
+                            ProviderTypeID = (short)3,
+                            ShortDesc = "Metrobank"
                         });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.BillSetting", b =>
                 {
                     b.Property<short>("BillID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("Code")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<Guid>("ID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.HasKey("BillID", "Code");
@@ -183,33 +194,34 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CC")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("From")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<bool?>("IsProcessed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("ProcessedOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("Subject")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("To")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -220,26 +232,27 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<byte[]>("Content")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<long>("EmailID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<long>("Length")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.HasKey("ID");
 
@@ -251,16 +264,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
             modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
                 {
                     b.Property<long>("ID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Html")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Raw")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Text")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -271,23 +284,24 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<long>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("EmailID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("PartType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -296,26 +310,66 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.ToTable("tbl_EmailPart","dbo");
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailWorker", b =>
+                {
+                    b.Property<short>("ID")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("AssemblyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(400)")
+                        .HasMaxLength(400);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("tbl_EmailWorker","dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = (short)1,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromGlobeEmailCmdHandler"
+                        },
+                        new
+                        {
+                            ID = (short)5,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromBDOCmdHandler"
+                        },
+                        new
+                        {
+                            ID = (short)6,
+                            AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
+                            TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromMetrobankCmdHandler"
+                        });
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsScheduled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("N_UserBillTrackingID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("N_UserBillTrackingUserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserBillTrackingID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -328,13 +382,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TemplateCode")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -344,16 +398,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderType", b =>
                 {
                     b.Property<short>("ID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("LongDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("ShortDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("ID");
@@ -385,16 +439,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ClientEmailAddress")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ReceiverEmailAddress")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -410,37 +464,37 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("DECIMAL(20,6)");
 
                     b.Property<short?>("DayFrequency")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("EndDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Frequency")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<short?>("SkipTimes")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -450,48 +504,19 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .IsUnique();
 
                     b.ToTable("tbl_ProviderTypeConfigScheduler","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 21000m,
-                            DayFrequency = (short)23,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 14000m,
-                            DayFrequency = (short)28,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            Amount = 15000m,
-                            DayFrequency = (short)13,
-                            EndDate = new DateTime(2021, 5, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 2, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Indentity")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -507,155 +532,63 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("DECIMAL(20,6)");
 
                     b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid?>("GeneratedUserBillID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool?>("IsGenerated")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<Guid>("TrackBillSchedulerID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
                     b.HasIndex("TrackBillSchedulerID");
 
                     b.ToTable("tbl_SchedulerEntry","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 3, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 4, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 21000m,
-                            DueDate = new DateTime(2021, 5, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000003")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000006"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000007"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 4, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000008"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000004")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000009"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GeneratedUserBillID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            IsGenerated = true,
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000a"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 3, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000b"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 4, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-00000000000c"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 5, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            TrackBillSchedulerID = new Guid("00000000-0000-0000-0000-000000000005")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBill", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<short>("BillID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<bool>("IsEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<short>("ProviderTypeID")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("smallint");
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.HasKey("ID", "UserID");
@@ -667,73 +600,26 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("tbl_TrackBill","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "GLOBE-ACCT-NUM",
-                            BillID = (short)1,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)3
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "MERALCO-ACCT-NUM",
-                            BillID = (short)2,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)3
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "LANCASTER-ACCT-NUM",
-                            BillID = (short)3,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "588-ACCT-NUM",
-                            BillID = (short)3,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            AccountNumber = "BRV-ACCT-NUM",
-                            BillID = (short)4,
-                            IsEnabled = true,
-                            ProviderTypeID = (short)1
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBillSetting", b =>
                 {
                     b.Property<Guid>("TrackBillID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Code")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
                     b.Property<Guid>("ID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.HasKey("TrackBillID", "UserID", "Code");
@@ -745,16 +631,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("ID");
@@ -780,24 +666,24 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("DECIMAL(20,6)");
 
                     b.Property<DateTime>("DueDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<Guid>("TrackBillID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -806,54 +692,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasIndex("TrackBillID", "UserID");
 
                     b.ToTable("tbl_UserBill","dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            Amount = 2100m,
-                            DueDate = new DateTime(2021, 2, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000001"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000002"),
-                            Amount = 2100m,
-                            DueDate = new DateTime(2021, 2, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000003"),
-                            Amount = 14000m,
-                            DueDate = new DateTime(2021, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        },
-                        new
-                        {
-                            ID = new Guid("00000000-0000-0000-0000-000000000004"),
-                            Amount = 15000m,
-                            DueDate = new DateTime(2021, 2, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Active",
-                            TrackBillID = new Guid("00000000-0000-0000-0000-000000000005"),
-                            UserID = new Guid("00000000-0000-0000-0000-000000000002")
-                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillAttachment", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserBillID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -866,16 +714,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("DECIMAL(20,6)");
 
                     b.Property<DateTime?>("PaidOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserBillID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -888,19 +736,19 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte>("TransactionStatus")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint");
 
                     b.Property<Guid>("UserBillPaymentID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -913,25 +761,25 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsTemporaryPassword")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<byte[]>("Password")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<byte[]>("Salt")
-                        .HasColumnType("BLOB");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("TemporaryPassword")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("ID");
@@ -966,19 +814,19 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsOpened")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ReceivedOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("ID");
 
@@ -991,36 +839,36 @@ namespace Lynx.DbMigration.SQLite.Migrations
                 {
                     b.Property<Guid>("SessionID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("ExpiredOn")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsExpired")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(20)")
                         .HasMaxLength(20);
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("TEXT")
+                        .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<Guid>("UserID")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("SessionID");
 
@@ -1076,6 +924,15 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasOne("Lynx.Domain.Entities.Email", null)
                         .WithMany("N_Headers")
                         .HasForeignKey("EmailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailWorker", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.BillProvider", null)
+                        .WithOne("N_EmailWorker")
+                        .HasForeignKey("Lynx.Domain.Entities.EmailWorker", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -23,6 +23,7 @@ namespace Lynx.Interfaces
 		IQueryable<EmailAttachment> EmailAttachments { get; }
 		IQueryable<EmailBody> EmailBodies { get; }
 		IQueryable<EmailPart> EmailParts { get; }
+		IQueryable<EmailWorker> EmailWorkers { get; }
 		IQueryable<NotificationConfiguration> NotificationConfigurations { get; }
 		IQueryable<NotificationTemplate> NotificationTemplates { get; }
 		IQueryable<ProviderType> ProviderTypes { get; }
