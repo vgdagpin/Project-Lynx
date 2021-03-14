@@ -55,6 +55,12 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_EmailBodies; }
 			private set { db_EmailBodies = (DbSet<EmailBody>)value; }
 		}
+		private DbSet<EmailExtract> db_EmailExtracts { get; set; }
+		public IQueryable<EmailExtract> EmailExtracts 
+		{ 
+			get { return db_EmailExtracts; }
+			private set { db_EmailExtracts = (DbSet<EmailExtract>)value; }
+		}
 		private DbSet<EmailPart> db_EmailParts { get; set; }
 		public IQueryable<EmailPart> EmailParts 
 		{ 
@@ -66,6 +72,12 @@ namespace Lynx.Infrastructure.Persistence
 		{ 
 			get { return db_EmailWorkers; }
 			private set { db_EmailWorkers = (DbSet<EmailWorker>)value; }
+		}
+		private DbSet<FirebaseToken> db_FirebaseTokens { get; set; }
+		public IQueryable<FirebaseToken> FirebaseTokens 
+		{ 
+			get { return db_FirebaseTokens; }
+			private set { db_FirebaseTokens = (DbSet<FirebaseToken>)value; }
 		}
 		private DbSet<NotificationConfiguration> db_NotificationConfigurations { get; set; }
 		public IQueryable<NotificationConfiguration> NotificationConfigurations 
@@ -190,8 +202,10 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class Email_Configuration : BaseConfiguration<Email> { }
 	public partial class EmailAttachment_Configuration : BaseConfiguration<EmailAttachment> { }
 	public partial class EmailBody_Configuration : BaseConfiguration<EmailBody> { }
+	public partial class EmailExtract_Configuration : BaseConfiguration<EmailExtract> { }
 	public partial class EmailPart_Configuration : BaseConfiguration<EmailPart> { }
 	public partial class EmailWorker_Configuration : BaseConfiguration<EmailWorker> { }
+	public partial class FirebaseToken_Configuration : BaseConfiguration<FirebaseToken> { }
 	public partial class NotificationConfiguration_Configuration : BaseConfiguration<NotificationConfiguration> { }
 	public partial class NotificationTemplate_Configuration : BaseConfiguration<NotificationTemplate> { }
 	public partial class ProviderType_Configuration : BaseConfiguration<ProviderType> { }

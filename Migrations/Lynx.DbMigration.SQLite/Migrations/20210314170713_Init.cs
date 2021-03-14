@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Lynx.DbMigration.SqlServer.Migrations
+namespace Lynx.DbMigration.SQLite.Migrations
 {
     public partial class Init : Migration
     {
@@ -16,7 +16,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<short>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Sqlite:Autoincrement", true),
                     Code = table.Column<string>(maxLength: 50, nullable: false),
                     ShortDesc = table.Column<string>(maxLength: 50, nullable: false),
                     LongDesc = table.Column<string>(maxLength: 100, nullable: false),
@@ -33,13 +33,14 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    From = table.Column<string>(maxLength: 255, nullable: true),
-                    To = table.Column<string>(nullable: true),
-                    CC = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(nullable: true),
+                        .Annotation("Sqlite:Autoincrement", true),
+                    From = table.Column<string>(maxLength: 500, nullable: true),
+                    To = table.Column<string>(maxLength: 500, nullable: true),
+                    CC = table.Column<string>(maxLength: 500, nullable: true),
+                    Subject = table.Column<string>(maxLength: 200, nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false),
-                    IsProcessed = table.Column<bool>(nullable: true),
+                    Status = table.Column<string>(maxLength: 20, nullable: false),
+                    ExtractedOn = table.Column<DateTime>(nullable: true),
                     ProcessedOn = table.Column<DateTime>(nullable: true),
                     Remarks = table.Column<string>(maxLength: 500, nullable: true)
                 },
@@ -118,7 +119,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Sqlite:Autoincrement", true),
                     EmailID = table.Column<long>(nullable: false),
                     ContentType = table.Column<string>(maxLength: 100, nullable: false),
                     FileName = table.Column<string>(maxLength: 255, nullable: false),
@@ -165,7 +166,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Sqlite:Autoincrement", true),
                     EmailID = table.Column<long>(nullable: false),
                     PartType = table.Column<string>(maxLength: 20, nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
@@ -189,7 +190,7 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 columns: table => new
                 {
                     ID = table.Column<short>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                        .Annotation("Sqlite:Autoincrement", true),
                     BillID = table.Column<short>(nullable: false),
                     ProviderTypeID = table.Column<short>(nullable: false),
                     ShortDesc = table.Column<string>(maxLength: 50, nullable: true),
@@ -212,6 +213,28 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         principalTable: "tbl_ProviderType",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_FirebaseToken",
+                schema: "dbo",
+                columns: table => new
+                {
+                    ID = table.Column<long>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Token = table.Column<string>(maxLength: 300, nullable: false),
+                    UserID = table.Column<Guid>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_FirebaseToken", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_FirebaseToken_tbl_User_UserID",
+                        column: x => x.UserID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_User",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -285,9 +308,12 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 {
                     ID = table.Column<Guid>(nullable: false),
                     UserID = table.Column<Guid>(nullable: false),
-                    Content = table.Column<string>(nullable: true),
-                    IsOpened = table.Column<bool>(nullable: false),
-                    ReceivedOn = table.Column<DateTime>(nullable: false)
+                    Title = table.Column<string>(nullable: true),
+                    Body = table.Column<string>(nullable: true),
+                    IsSent = table.Column<bool>(nullable: true),
+                    ProcessedOn = table.Column<DateTime>(nullable: true),
+                    OpenedOn = table.Column<DateTime>(nullable: true),
+                    Remarks = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -380,8 +406,8 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 {
                     ID = table.Column<Guid>(nullable: false),
                     UserID = table.Column<Guid>(nullable: false),
-                    ClientEmailAddress = table.Column<string>(nullable: true),
-                    ReceiverEmailAddress = table.Column<string>(nullable: true)
+                    ClientEmailAddress = table.Column<string>(maxLength: 100, nullable: false),
+                    ReceiverEmailAddress = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -516,6 +542,35 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_EmailExtract",
+                schema: "dbo",
+                columns: table => new
+                {
+                    EmailID = table.Column<long>(nullable: false),
+                    EmailWorkerID = table.Column<short>(nullable: false),
+                    Key = table.Column<string>(maxLength: 100, nullable: false),
+                    Value = table.Column<string>(maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_EmailExtract", x => new { x.EmailID, x.EmailWorkerID, x.Key });
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailExtract_tbl_Email_EmailID",
+                        column: x => x.EmailID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_Email",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_tbl_EmailExtract_tbl_EmailWorker_EmailWorkerID",
+                        column: x => x.EmailWorkerID,
+                        principalSchema: "dbo",
+                        principalTable: "tbl_EmailWorker",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "tbl_SchedulerEntry",
                 schema: "dbo",
                 columns: table => new
@@ -609,59 +664,109 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo",
                 table: "tbl_Bill",
                 columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
-                values: new object[,]
-                {
-                    { (short)1, "Globe", true, "Globe", "Globe" },
-                    { (short)2, "Meralco", true, "Meralco", "Meralco" },
-                    { (short)3, "Home Loan Amortization", true, "Home Loan Amortization", "Home Loan Amortization" },
-                    { (short)4, "Car Loan Amortization", true, "Car Loan Amortization", "Car Loan Amortization" },
-                    { (short)5, "Credit Card", true, "Credit Card", "Credit Card" }
-                });
+                values: new object[] { (short)1, "Globe", true, "Globe", "Globe" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_Bill",
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)2, "Meralco", true, "Meralco", "Meralco" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_Bill",
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)3, "Home Loan Amortization", true, "Home Loan Amortization", "Home Loan Amortization" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_Bill",
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)4, "Car Loan Amortization", true, "Car Loan Amortization", "Car Loan Amortization" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_Bill",
+                columns: new[] { "ID", "Code", "IsEnabled", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)5, "Credit Card", true, "Credit Card", "Credit Card" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_ProviderType",
                 columns: new[] { "ID", "LongDesc", "ShortDesc" },
-                values: new object[,]
-                {
-                    { (short)1, "Scheduled", "Scheduled" },
-                    { (short)2, "API", "API" },
-                    { (short)3, "Email", "Email" }
-                });
+                values: new object[] { (short)1, "Scheduled", "Scheduled" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_ProviderType",
+                columns: new[] { "ID", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)2, "API", "API" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_ProviderType",
+                columns: new[] { "ID", "LongDesc", "ShortDesc" },
+                values: new object[] { (short)3, "Email", "Email" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_User",
                 columns: new[] { "ID", "FirstName", "LastName" },
-                values: new object[,]
-                {
-                    { new Guid("00000000-0000-0000-0000-000000000001"), "Admin", "Admin" },
-                    { new Guid("00000000-0000-0000-0000-000000000002"), "Vincent", "Dagpin" }
-                });
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), "Admin", "Admin" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_User",
+                columns: new[] { "ID", "FirstName", "LastName" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), "Vincent", "Dagpin" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_BillProvider",
                 columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
-                values: new object[,]
-                {
-                    { (short)3, (short)3, null, (short)1, null },
-                    { (short)4, (short)4, null, (short)1, null },
-                    { (short)1, (short)1, null, (short)3, null },
-                    { (short)2, (short)2, null, (short)3, null },
-                    { (short)5, (short)5, "BDO", (short)3, "BDO" },
-                    { (short)6, (short)5, "Metrobank", (short)3, "Metrobank" }
-                });
+                values: new object[] { (short)3, (short)3, null, (short)1, null });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)4, (short)4, null, (short)1, null });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)1, (short)1, null, (short)3, null });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)2, (short)2, null, (short)3, null });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)5, (short)5, "BDO", (short)3, "BDO" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_BillProvider",
+                columns: new[] { "ID", "BillID", "LongDesc", "ProviderTypeID", "ShortDesc" },
+                values: new object[] { (short)6, (short)5, "Metrobank", (short)3, "Metrobank" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "tbl_UserLogin",
                 columns: new[] { "ID", "IsTemporaryPassword", "Password", "Salt", "TemporaryPassword", "Username" },
-                values: new object[,]
-                {
-                    { new Guid("00000000-0000-0000-0000-000000000001"), true, new byte[] { 217, 202, 150, 25, 117, 221, 121, 108, 37, 105, 80, 196, 244, 39, 65, 219, 215, 163, 50, 198, 193, 228, 162, 123, 181, 60, 246, 155, 163, 199, 37, 50 }, new byte[] { 48, 48, 48, 48, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 49 }, "k4m0t3", "admin" },
-                    { new Guid("00000000-0000-0000-0000-000000000002"), true, new byte[] { 9, 238, 26, 39, 21, 0, 163, 101, 247, 77, 240, 232, 43, 49, 198, 12, 240, 157, 218, 92, 107, 1, 52, 133, 11, 6, 230, 247, 114, 49, 127, 182 }, new byte[] { 48, 48, 48, 48, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 50 }, "k4m0t3", "vgdagpin" }
-                });
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000001"), true, new byte[] { 217, 202, 150, 25, 117, 221, 121, 108, 37, 105, 80, 196, 244, 39, 65, 219, 215, 163, 50, 198, 193, 228, 162, 123, 181, 60, 246, 155, 163, 199, 37, 50 }, new byte[] { 48, 48, 48, 48, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 49 }, "k4m0t3", "admin" });
+
+            migrationBuilder.InsertData(
+                schema: "dbo",
+                table: "tbl_UserLogin",
+                columns: new[] { "ID", "IsTemporaryPassword", "Password", "Salt", "TemporaryPassword", "Username" },
+                values: new object[] { new Guid("00000000-0000-0000-0000-000000000002"), true, new byte[] { 9, 238, 26, 39, 21, 0, 163, 101, 247, 77, 240, 232, 43, 49, 198, 12, 240, 157, 218, 92, 107, 1, 52, 133, 11, 6, 230, 247, 114, 49, 127, 182 }, new byte[] { 48, 48, 48, 48, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 45, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 50 }, "k4m0t3", "vgdagpin" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -707,10 +812,29 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 column: "EmailID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_EmailExtract_EmailWorkerID",
+                schema: "dbo",
+                table: "tbl_EmailExtract",
+                column: "EmailWorkerID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_EmailPart_EmailID",
                 schema: "dbo",
                 table: "tbl_EmailPart",
                 column: "EmailID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_FirebaseToken_Token",
+                schema: "dbo",
+                table: "tbl_FirebaseToken",
+                column: "Token",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_FirebaseToken_UserID",
+                schema: "dbo",
+                table: "tbl_FirebaseToken",
+                column: "UserID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tbl_NotificationConfiguration_N_UserBillTrackingID_N_UserBillTrackingUserID",
@@ -846,11 +970,15 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
+                name: "tbl_EmailExtract",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
                 name: "tbl_EmailPart",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "tbl_EmailWorker",
+                name: "tbl_FirebaseToken",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -898,11 +1026,11 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "tbl_Email",
+                name: "tbl_EmailWorker",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "tbl_BillProvider",
+                name: "tbl_Email",
                 schema: "dbo");
 
             migrationBuilder.DropTable(
@@ -911,6 +1039,10 @@ namespace Lynx.DbMigration.SqlServer.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_UserBillPayment",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "tbl_BillProvider",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

@@ -20,7 +20,12 @@ namespace Lynx.MobileApp
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddMobileAppPortable(this IServiceCollection services, ILoggerFactory loggerFactory)
+        public static IServiceCollection AddMobileAppPortable
+            (
+                this IServiceCollection services, 
+                Action<IServiceCollection> additionalServices = null, 
+                ILoggerFactory loggerFactory = null
+            )
         {
             var embeddedResourceStream = Assembly.GetExecutingAssembly()
                 .GetManifestResourceStream("Lynx.MobileApp.config.json");
@@ -55,6 +60,11 @@ namespace Lynx.MobileApp
             services.AddInfrastructureUseSqlite(configuration, loggerFactory, SQLiteConstants.FilePath);
 
             services.AddInfrastructure(configuration, loggerFactory);
+
+            if (additionalServices != null)
+            {
+                additionalServices.Invoke(services);
+            }
 
             services.AddTasqR(Assembly.GetExecutingAssembly());
             services.AddSingleton<IDateTime, AppDateTime>();

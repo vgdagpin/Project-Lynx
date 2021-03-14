@@ -48,7 +48,7 @@ namespace Lynx.DbMigration.SQLite
                     {
                         opt.MigrationsAssembly("Lynx.DbMigration.SQLite");
                     }
-                );
+                );                
 
                 options.EnableSensitiveDataLogging();
 

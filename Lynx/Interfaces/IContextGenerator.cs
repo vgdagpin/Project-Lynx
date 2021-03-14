@@ -22,8 +22,10 @@ namespace Lynx.Interfaces
 		IQueryable<Email> Emails { get; }
 		IQueryable<EmailAttachment> EmailAttachments { get; }
 		IQueryable<EmailBody> EmailBodies { get; }
+		IQueryable<EmailExtract> EmailExtracts { get; }
 		IQueryable<EmailPart> EmailParts { get; }
 		IQueryable<EmailWorker> EmailWorkers { get; }
+		IQueryable<FirebaseToken> FirebaseTokens { get; }
 		IQueryable<NotificationConfiguration> NotificationConfigurations { get; }
 		IQueryable<NotificationTemplate> NotificationTemplates { get; }
 		IQueryable<ProviderType> ProviderTypes { get; }

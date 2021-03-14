@@ -13,7 +13,6 @@ using Lynx.MobileApp.Common.Interfaces;
 using Lynx.MobileApp.Droid.Common;
 using Xamarin.Forms;
 
-[assembly:Dependency(typeof(NotificationReceiver))]
 namespace Lynx.MobileApp.Droid.Common
 {
     public class NotificationReceiver : INotificationReceiver

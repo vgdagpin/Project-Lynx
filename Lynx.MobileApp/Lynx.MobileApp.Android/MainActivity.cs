@@ -8,6 +8,8 @@ using Lynx.MobileApp.Common.Interfaces;
 using Android.Gms.Common;
 using Xamarin.Forms;
 using AndroidX.Core.App;
+using Microsoft.Extensions.DependencyInjection;
+using Lynx.MobileApp.Droid.Common;
 
 namespace Lynx.MobileApp.Droid
 {
@@ -22,9 +24,12 @@ namespace Lynx.MobileApp.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App());
+            LoadApplication(new App((services) =>
+            {
+                services.AddTransient<INotificationReceiver, NotificationReceiver>();
+            }));
 
-            var receiver = DependencyService.Get<INotificationReceiver>();
+            var receiver = LynxDependencyService.Get<INotificationReceiver>();
             receiver.RaiseNotificationReceived("Registering..");
 
             if (IsPlayServicesAvailable(receiver))

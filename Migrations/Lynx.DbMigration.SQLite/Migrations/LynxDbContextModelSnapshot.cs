@@ -190,17 +190,18 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CC")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("ExtractedOn")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("From")
                         .HasColumnType("TEXT")
-                        .HasMaxLength(255);
-
-                    b.Property<bool?>("IsProcessed")
-                        .HasColumnType("INTEGER");
+                        .HasMaxLength(500);
 
                     b.Property<DateTime?>("ProcessedOn")
                         .HasColumnType("TEXT");
@@ -209,11 +210,18 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("TEXT")
                         .HasMaxLength(500);
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(20);
+
                     b.Property<string>("Subject")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(200);
 
                     b.Property<string>("To")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(500);
 
                     b.HasKey("ID");
 
@@ -269,6 +277,29 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("tbl_EmailBody","dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
+                {
+                    b.Property<long>("EmailID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<short>("EmailWorkerID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(255);
+
+                    b.HasKey("EmailID", "EmailWorkerID", "Key");
+
+                    b.HasIndex("EmailWorkerID");
+
+                    b.ToTable("tbl_EmailExtract","dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailPart", b =>
@@ -338,6 +369,30 @@ namespace Lynx.DbMigration.SQLite.Migrations
                             AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromMetrobankCmdHandler"
                         });
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.FirebaseToken", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(300);
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("tbl_FirebaseToken","dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
@@ -432,10 +487,14 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ClientEmailAddress")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ReceiverEmailAddress")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(100);
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("TEXT");
@@ -806,13 +865,22 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Body")
                         .HasColumnType("TEXT");
 
-                    b.Property<bool>("IsOpened")
+                    b.Property<bool?>("IsSent")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("ReceivedOn")
+                    b.Property<DateTime?>("OpenedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserID")
@@ -909,6 +977,21 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Email", null)
+                        .WithMany("N_Extracts")
+                        .HasForeignKey("EmailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lynx.Domain.Entities.EmailWorker", null)
+                        .WithMany()
+                        .HasForeignKey("EmailWorkerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.EmailPart", b =>
                 {
                     b.HasOne("Lynx.Domain.Entities.Email", null)
@@ -925,6 +1008,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("Lynx.Domain.Entities.EmailWorker", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.FirebaseToken", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>

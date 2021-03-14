@@ -13,13 +13,17 @@ namespace Lynx.Domain.Entities
         public string Subject { get; set; }
         public DateTime CreatedOn { get; set; }
 
-        public bool? IsProcessed { get; set; }
+        public EmailStatus Status { get; set; }
+
+        public DateTime? ExtractedOn { get; set; }
         public DateTime? ProcessedOn { get; set; }
+
         public string Remarks { get; set; }
 
         public EmailBody N_Body { get; set; }
 
         public ICollection<EmailPart> N_Headers { get; set; } = new HashSet<EmailPart>();
         public ICollection<EmailAttachment> N_Attachments { get; set; } = new HashSet<EmailAttachment>();
+        public ICollection<EmailExtract> N_Extracts { get; private set; } = new HashSet<EmailExtract>();
     }
 }

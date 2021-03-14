@@ -8,6 +8,8 @@ using Xamarin.Forms;
 
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
+using TasqR;
+using Lynx.MobileApp.Common;
 
 namespace Lynx.MobileApp
 {
@@ -17,13 +19,15 @@ namespace Lynx.MobileApp
 
         public static IServiceProvider ServiceProvider { get; private set; }
 
-        public App()
+        public App(Action<IServiceCollection> additionalServices = null)
         {
             ServiceProvider = new ServiceCollection()
-                .AddMobileAppPortable(SampleLoggingFactory)
+                .AddMobileAppPortable(additionalServices, SampleLoggingFactory)
                 .BuildServiceProvider();
 
-            InitializeComponent();
+            InitializeComponent();            
+
+            DependencyService.Register<FirebaseTokenManager>();
 
             MainPage = new StartShell();
         }

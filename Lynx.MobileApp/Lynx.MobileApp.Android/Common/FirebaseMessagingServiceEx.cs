@@ -10,7 +10,13 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Firebase.Messaging;
+using Lynx.Commands.FirebaseTokenCmds;
+using Lynx.MobileApp.Common;
 using Lynx.MobileApp.Common.Interfaces;
+using Lynx.MobileApp.Handlers.Commands.FirebaseTokenCmds;
+using TasqR;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.Droid.Common
 {
@@ -18,20 +24,28 @@ namespace Lynx.MobileApp.Droid.Common
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class FirebaseMessagingServiceEx : FirebaseMessagingService
     {
-        public override void OnNewToken(string p0)
+        public override void OnNewToken(string token)
         {
-            base.OnNewToken(p0);
+            base.OnNewToken(token);
 
-            System.Diagnostics.Debug.WriteLine(p0);
+            var tasqR = LynxDependencyService.Get<ITasqR>();
+
+            tasqR.UsingAsHandler(typeof(SaveFirebaseTokenCmdHandler_Local))
+                .Run(new SaveFirebaseTokenCmd(token));
         }
 
-        public override void OnMessageReceived(RemoteMessage p0)
+        public override void OnMessageReceived(RemoteMessage messageData)
         {
-            base.OnMessageReceived(p0);
+            base.OnMessageReceived(messageData);
 
-            string msg = p0.Data["body"];
+            string msg = messageData.Data["body"];
 
-            var notifReceiver = Xamarin.Forms.DependencyService.Get<INotificationReceiver>();
+            var tasqR = LynxDependencyService.Get<ITasqR>();
+
+            tasqR.UsingAsHandler(typeof(SaveFirebaseTokenCmdHandler_Local))
+                .Run(new SaveFirebaseTokenCmd(msg));
+
+            var notifReceiver = LynxDependencyService.Get<INotificationReceiver>();
 
             notifReceiver.RaiseNotificationReceived(msg);
         }

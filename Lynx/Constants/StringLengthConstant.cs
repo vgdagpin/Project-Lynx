@@ -8,6 +8,7 @@ namespace Lynx.Constants
     {
         public const int Name = 100;
         public const int Password = 100;
+        public const int Email = 100;
         public const int Token = 500;
         public const int Remarks = 500;
 

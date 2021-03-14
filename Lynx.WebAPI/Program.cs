@@ -17,28 +17,57 @@ namespace Lynx.WebAPI
 {
     public class Program
     {
-        //static int port = 53795;
-        //public static bool InsideIIS => Environment.GetEnvironmentVariable("APP_POOL_ID") != null;
-
+#if DEBUG
+        static int port = 53795;
         public static void Main(string[] args)
         {
-            //Console.WriteLine("Is inside IIS: {0}", InsideIIS);
+            string localIP = GetLocalIPAddress();
 
-            //if (!InsideIIS)
-            //{
-            //    string localIP = GetLocalIPAddress();
+            if (!string.IsNullOrWhiteSpace(localIP))
+            {
+                string url = $"http://{localIP}:{port}";
 
-            //    if (!string.IsNullOrWhiteSpace(localIP))
-            //    {
-            //        string url = $"http://{localIP}:{port}";
+                Console.Title = "Lynx Web API";
 
-            //        Console.Title = "Lynx Web API";
+                Console.WriteLine(url);
+                Console.WriteLine();
+            }
 
-            //        Console.WriteLine(url);
-            //        Console.WriteLine();
-            //    }
-            //}            
+            CreateHostBuilder(args).Build().Run();
+        }
 
+        public static string GetLocalIPAddress()
+        {
+            try
+            {
+                var host = Dns.GetHostEntry(Dns.GetHostName());
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return ip.ToString();
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("No network adapters with an IPv4 address in the system!");
+            }
+
+            return null;
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseUrls($"http://*:{port}");
+                    webBuilder.UseStartup<Startup>();
+                });
+        
+#else
+        public static void Main(string[] args)
+        {
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -46,33 +75,8 @@ namespace Lynx.WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    //if (!InsideIIS)
-                    //{
-                    //    webBuilder.UseUrls($"http://*:{port}");
-                    //}
-
                     webBuilder.UseStartup<Startup>();
                 });
-
-        //public static string GetLocalIPAddress()
-        //{
-        //    try
-        //    {
-        //        var host = Dns.GetHostEntry(Dns.GetHostName());
-        //        foreach (var ip in host.AddressList)
-        //        {
-        //            if (ip.AddressFamily == AddressFamily.InterNetwork)
-        //            {
-        //                return ip.ToString();
-        //            }
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        Console.WriteLine("No network adapters with an IPv4 address in the system!");
-        //    }
-
-        //    return null;
-        //}
+#endif
     }
 }

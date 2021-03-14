@@ -49,6 +49,9 @@
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Lynx">
+      <HintPath>..\..\Assemblies\Lynx\Lynx.dll</HintPath>
+    </Reference>
     <Reference Include="Lynx.DbMigration.SQLite">
       <HintPath>..\..\Assemblies\Lynx\Lynx.DbMigration.SQLite.dll</HintPath>
     </Reference>

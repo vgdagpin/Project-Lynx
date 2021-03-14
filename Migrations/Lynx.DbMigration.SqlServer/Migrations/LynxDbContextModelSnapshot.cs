@@ -196,17 +196,18 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CC")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("From")
-                        .HasColumnType("nvarchar(255)")
-                        .HasMaxLength(255);
+                    b.Property<DateTime?>("ExtractedOn")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool?>("IsProcessed")
-                        .HasColumnType("bit");
+                    b.Property<string>("From")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime?>("ProcessedOn")
                         .HasColumnType("datetime2");
@@ -215,11 +216,18 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
                     b.Property<string>("Subject")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<string>("To")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.HasKey("ID");
 
@@ -276,6 +284,29 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("tbl_EmailBody","dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
+                {
+                    b.Property<long>("EmailID")
+                        .HasColumnType("bigint");
+
+                    b.Property<short>("EmailWorkerID")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
+
+                    b.HasKey("EmailID", "EmailWorkerID", "Key");
+
+                    b.HasIndex("EmailWorkerID");
+
+                    b.ToTable("tbl_EmailExtract","dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailPart", b =>
@@ -346,6 +377,31 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                             AssemblyName = "Lynx.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null",
                             TypeName = "Lynx.Application.Handlers.Commands.EmailWorkerCmds.ReadUserBillFromMetrobankCmdHandler"
                         });
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.FirebaseToken", b =>
+                {
+                    b.Property<long>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<Guid?>("UserID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Token")
+                        .IsUnique();
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("tbl_FirebaseToken","dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
@@ -440,10 +496,14 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ClientEmailAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("ReceiverEmailAddress")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
@@ -814,14 +874,23 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Content")
+                    b.Property<string>("Body")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsOpened")
+                    b.Property<bool?>("IsSent")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("ReceivedOn")
+                    b.Property<DateTime?>("OpenedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ProcessedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("uniqueidentifier");
@@ -917,6 +986,21 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Email", null)
+                        .WithMany("N_Extracts")
+                        .HasForeignKey("EmailID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Lynx.Domain.Entities.EmailWorker", null)
+                        .WithMany()
+                        .HasForeignKey("EmailWorkerID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.EmailPart", b =>
                 {
                     b.HasOne("Lynx.Domain.Entities.Email", null)
@@ -933,6 +1017,13 @@ namespace Lynx.DbMigration.SqlServer.Migrations
                         .HasForeignKey("Lynx.Domain.Entities.EmailWorker", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.FirebaseToken", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
