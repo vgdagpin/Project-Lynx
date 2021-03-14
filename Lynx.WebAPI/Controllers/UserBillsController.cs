@@ -26,9 +26,9 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<UserBillSummaryVM>> Get()
+        public Task<IEnumerable<UserBillSummaryVM>> Get(int forecastDays = 30)
         {
-            return TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID, 30));
+            return TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID, forecastDays));
         }
 
         [HttpGet("{id}")]

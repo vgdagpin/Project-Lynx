@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Lynx.MobileApp.ViewModels.Manage;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,6 +15,8 @@ namespace Lynx.MobileApp.Views.Manage
         public NewTrackBillPage()
         {
             InitializeComponent();
+
+            ((NewTrackBillViewModel)BindingContext).LoadBillsCommand.Execute(null);
         }
     }
 }

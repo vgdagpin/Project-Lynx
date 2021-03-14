@@ -25,5 +25,17 @@ namespace Lynx.Application.Common.Extensions
 
             return dbSet.Add(entry);
         }
+
+        public static EntityEntry<T> Remove<T>(this IQueryable<T> collection, T entry) where T  :class
+        {
+            DbSet<T> dbSet = (DbSet<T>)collection;
+
+            if (dbSet == null)
+            {
+                throw new LynxException("Collection is not dbset");
+            }
+
+            return dbSet.Remove(entry);
+        }
     }
 }

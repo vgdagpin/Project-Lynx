@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Commands.UtilitiesCmds;
 using Lynx.Domain.ViewModels;
+using Lynx.MobileApp.Common;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.Portable.Common.Enums;
 using Lynx.MobileApp.Views;
@@ -43,7 +44,7 @@ namespace Lynx.MobileApp.ViewModels
             {
                 try
                 {
-                    PreloadProgress += "\nPinging API..";
+                    PreloadProgress += "\nPinging API: " + App.Configuration["Lynx-API-Hostname"];
 
                     var ping = TasqR.Run(new PingAPICmd());
 
@@ -62,6 +63,8 @@ namespace Lynx.MobileApp.ViewModels
                         PreloadProgress += "\nCreating Database..";
                         GetService<DbContext>().Database.Migrate();
                         PreloadProgress += "\nDatabase Created";
+
+                        LynxDependencyService.Get<FirebaseTokenManager>().SaveToken();
 
                         OnVerificationCompleteEvent?.Invoke(SessionVerificationResult.NeedLogin, this);
                     }

@@ -13,6 +13,7 @@ using Lynx.Domain.ViewModels;
 using Lynx.Enums;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
+using Lynx.Queries.FirebaseTokenCmds;
 using Lynx.Queries.UserQrs;
 using Lynx.Queries.UserSessionQrs;
 using Microsoft.EntityFrameworkCore;
@@ -47,8 +48,13 @@ namespace Lynx.MobileApp.Handlers.Queries.UserSessionQrs
 
         public async override Task<UserSessionVM> RunAsync(GetActiveUserSessionQr request, CancellationToken cancellationToken = default)
         {
-            Console.WriteLine("Test 123");
-            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "/AccessToken/VerifyValidity");
+            string firebaseToken = p_TasqR.Run(new FindMyFirebaseTokenQr());
+
+            var httpRequest = new HttpRequestMessage(HttpMethod.Post, "/AccessToken/VerifyValidity")
+            {
+                Content = new JsonContent<string>(firebaseToken)
+            };
+
             var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
 
             var jsonContent = await httpResponse.Content.ReadAsStringAsync();

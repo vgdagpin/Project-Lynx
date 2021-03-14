@@ -6,8 +6,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Commands.TrackBillCmds;
+using Lynx.Constants;
 using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
+using Lynx.MobileApp.Handlers.Queries.BillsQrs;
 using Lynx.Queries.BillsQrs;
 using Lynx.Queries.TrackBillsQrs;
 using Xamarin.Forms;
@@ -41,6 +43,8 @@ namespace Lynx.MobileApp.ViewModels.Manage
                 {
                     BillProviders.Add(provider);
                 }
+
+                BillsProviderLoadIndicator = "Select bill provider";
             }
         }
         #endregion
@@ -86,10 +90,70 @@ namespace Lynx.MobileApp.ViewModels.Manage
         public BillProviderVM SelectedBillProvider
         {
             get { return selectedBillProvider; }
-            set { SetProperty(ref selectedBillProvider, value); }
+            set 
+            {
+                SetProperty(ref selectedBillProvider, value);
+
+                if (selectedBillProvider != null)
+                {
+                    switch (selectedBillProvider.ProviderTypeID)
+                    {
+                        case ProviderTypeConstants.Scheduled:
+                            LoadScheduledProviderOptions();
+                            break;
+                        case ProviderTypeConstants.Email:
+                            LoadEmailProviderOptions();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
+                {
+                    ClearProviderOptions();
+                }
+                
+            }
         }
         #endregion
 
+
+        #region BillsLoaded
+        private bool billsLoaded;
+        public bool BillsLoaded
+        {
+            get => billsLoaded;
+            set => SetProperty(ref billsLoaded, value);
+        }
+        #endregion
+
+        #region BillsProviderLoadIndicator
+        private string billsProviderLoadIndicator;
+        public string BillsProviderLoadIndicator
+        {
+            get => billsProviderLoadIndicator;
+            set => SetProperty(ref billsProviderLoadIndicator, value);
+        }
+        #endregion
+
+
+        #region IsEmailProviderOption
+        private bool isEmailProviderOption;
+        public bool IsEmailProviderOption
+        {
+            get => isEmailProviderOption;
+            set => SetProperty(ref isEmailProviderOption, value);
+        }
+        #endregion
+
+        #region IsScheduledProviderOption
+        private bool isScheduledProviderOption;
+        public bool IsScheduledProviderOption
+        {
+            get => isScheduledProviderOption;
+            set => SetProperty(ref isScheduledProviderOption, value);
+        }
+        #endregion
 
 
 
@@ -97,15 +161,14 @@ namespace Lynx.MobileApp.ViewModels.Manage
         public ObservableCollection<BillSummaryVM> Bills { get; protected set; } = new ObservableCollection<BillSummaryVM>();
         public ObservableCollection<BillProviderVM> BillProviders { get; protected set; } = new ObservableCollection<BillProviderVM>();
 
-
+        public ICommand LoadBillsCommand { get; }
 
         public ICommand SaveChanges { get; }
 
         public NewTrackBillViewModel()
         {
             SaveChanges = new Command(async () => await SaveChangesAsync());
-
-            LoadBills();
+            LoadBillsCommand = new Command(async () => await LoadBills());
         }
 
         private Task SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -150,39 +213,63 @@ namespace Lynx.MobileApp.ViewModels.Manage
                 });
         }
 
-        private void LoadBills()
+        private Task LoadBills()
         {
-            Task.Run(() =>
+            return Task.Run(async () =>
             {
                 try
                 {
                     IsBusy = true;
+                    BillsLoaded = false;
                     BillsLoadIndicator = "Loading Bills..";
+                    BillsProviderLoadIndicator = "Loading Bills..";
 
-                    TasqR.RunAsync(new GetBillsQr())
-                        .ContinueWith(bills =>
+                    var bills = await TasqR
+                        .UsingAsHandler<GetBillsQrHandler_API>()
+                        .RunAsync(new GetBillsQr());
+
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Bills.Clear();
+
+                        foreach (var item in bills)
                         {
-                            Bills.Clear();
+                            Bills.Add(item);
+                        }
 
-                            foreach (var item in bills.Result)
-                            {
-                                Bills.Add(item);
-                            }
-
-                            IsBusy = false;
-                            BillsLoadIndicator = "Select Bills to Track";
-                        });
+                        BillsLoadIndicator = "Select Bills to Track";
+                        BillsProviderLoadIndicator = "No bill selected";
+                    });
                 }
                 catch (Exception ex)
                 {
                     BillsLoadIndicator = "Bills Loading Error";
-                    ExceptionHandler.LogError(ex);
+                    BillsProviderLoadIndicator = "Bills Loading Error";
+                    LogError(ex);
                 }
 
                 IsBusy = false;
+                BillsLoaded = true;
             });
         }
 
+        private void ClearProviderOptions()
+        {
+            IsScheduledProviderOption = false;
+            IsEmailProviderOption = false;
+        }
 
+        private void LoadScheduledProviderOptions()
+        {
+            IsScheduledProviderOption = true;
+            IsEmailProviderOption = false;
+        }
+
+        private void LoadEmailProviderOptions()
+        {
+            IsScheduledProviderOption = false;
+            IsEmailProviderOption = true;
+        }
     }
 }

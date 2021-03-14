@@ -1,9 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:Lynx.MobileApp.ViewModels.Manage"
-             x:Class="Lynx.MobileApp.Views.Manage.NewTrackBillPage">-->
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:Lynx.MobileApp.ViewModels.Manage"
@@ -17,27 +12,83 @@ xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.Xa
         <ToolbarItem Text="Save" Command="{Binding SaveChanges}" />
     </ContentPage.ToolbarItems>
 
-    <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">           
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="FormLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Subtitle" />
+                <Setter Property="Margin" Value="5,0,0,0" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Spacing="3" Padding="15">
+
+            <Label Text="Bill"  Style="{StaticResource FormLabelStyle}" />
+            <Picker Title="{Binding BillsLoadIndicator}" 
+                    IsEnabled="{Binding BillsLoaded}" 
+                    ItemsSource="{Binding Bills}" 
+                    SelectedItem="{Binding SelectedBill}"
+                    ItemDisplayBinding="{Binding ShortDesc}" />
+
+            <Label Text="Provider Type"  Style="{StaticResource FormLabelStyle}" />
+            <Picker Title="{Binding BillsProviderLoadIndicator}" 
+                    IsEnabled="{Binding BillProviderLoaded}" 
+                    ItemsSource="{Binding BillProviders}" 
+                    SelectedItem="{Binding SelectedBillProvider}"
+                    ItemDisplayBinding="{Binding ShortDesc}" />
+
+            <StackLayout IsVisible="{Binding IsEmailProviderOption}" Margin="0,30,0,0">
+                <Label Text="Name (Optional)" Style="{StaticResource FormLabelStyle}" />
+                <Entry Text="{Binding ShortDesc, Mode=TwoWay}" />
+
+                <Label Text="Account Number"  Style="{StaticResource FormLabelStyle}" />
+                <Entry Text="{Binding AccountNumber, Mode=TwoWay}" />
+
+                <Label Text="Email Address"  Style="{StaticResource FormLabelStyle}" />
+                <Entry Text="{Binding EmailAddress, Mode=TwoWay}" />
+            </StackLayout>
             
-            <!--<telerikInput:RadListPicker 
-                Placeholder="{Binding BillsLoadIndicator}"
-                ItemsSource="{Binding Bills}" 
-                DisplayMemberPath="ShortDesc"
-                SelectedItem="{Binding SelectedBill}">
-            </telerikInput:RadListPicker>
+            <StackLayout IsVisible="{Binding IsScheduledProviderOption}" Margin="0,30,0,0">
+                <Label Text="Name (Optional)" Style="{StaticResource FormLabelStyle}" />
+                <Entry Text="{Binding ShortDesc, Mode=TwoWay}" />
 
-            <telerikInput:RadListPicker 
-                Placeholder="Select bill provider"
-                ItemsSource="{Binding BillProviders}" 
-                DisplayMemberPath="ShortDesc"
-                IsEnabled="{Binding BillProviderLoaded}"
-                SelectedItem="{Binding SelectedBillProvider}">
-            </telerikInput:RadListPicker>-->
+                <Label Text="Account Number" Style="{StaticResource FormLabelStyle}" />
+                <Entry Text="{Binding AccountNumber, Mode=TwoWay}" />
 
-            <Entry Placeholder="Name" Text="{Binding ShortDesc, Mode=TwoWay}" />
-            <Entry Placeholder="Account Number" Text="{Binding AccountNumber, Mode=TwoWay}" />
-            <Entry Placeholder="Email Address" Text="{Binding EmailAddress, Mode=TwoWay}" />
+                <Label Text="Billing Start Date" Style="{StaticResource FormLabelStyle}" />
+                <DatePicker />
+
+                <Label Text="Billing End Date" Style="{StaticResource FormLabelStyle}" />
+                <DatePicker />
+
+                <Label Text="Amount" Style="{StaticResource FormLabelStyle}" />
+                <Entry Keyboard="Numeric" />
+
+                <Label Text="Frequency" Style="{StaticResource FormLabelStyle}" />
+                <Picker>
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Every Sunday</x:String>
+                            <x:String>Every Monday</x:String>
+                            <x:String>Every Tuesday</x:String>
+                            <x:String>Every Wednesday</x:String>
+                            <x:String>Every Thursday</x:String>
+                            <x:String>Every Friday</x:String>
+                            <x:String>Every Saturday</x:String>
+                            <x:String>Daily</x:String>
+                            <x:String>Every First of the Month</x:String>
+                            <x:String>Every End of the Month</x:String>
+                            <x:String>Monthly</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+
+                <Label Text="Day of the month (1-31)" Style="{StaticResource FormLabelStyle}" />
+                <Entry Keyboard="Numeric" />
+            </StackLayout>
+
 
             <ActivityIndicator  
                 IsRunning="True" 
@@ -47,6 +98,5 @@ xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.Xa
                 VerticalOptions="CenterAndExpand"/>
 
         </StackLayout>
-    </ContentPage.Content>
-
+    </ScrollView>
 </ContentPage>

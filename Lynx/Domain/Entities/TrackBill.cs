@@ -30,5 +30,6 @@ namespace Lynx.Domain.Entities
 
         public ICollection<NotificationConfiguration> N_NotificationConfigurations { get; private set; } = new HashSet<NotificationConfiguration>();
         public ICollection<TrackBillSetting> N_TrackBillSettings { get; set; } = new HashSet<TrackBillSetting>();
+        public ICollection<UserBill> N_UserBills { get; private set; } = new HashSet<UserBill>();
     }
 }

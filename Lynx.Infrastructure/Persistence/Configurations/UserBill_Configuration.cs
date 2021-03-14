@@ -20,7 +20,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
         protected override void ConfigureRelationship(BaseRelationshipBuilder<UserBill> builder)
         {
             builder.HasOne(a => a.N_TrackBill)
-                .WithMany()
+                .WithMany(a => a.N_UserBills)
                 .HasForeignKey(a => new
                 {
                     a.TrackBillID,

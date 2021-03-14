@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Domain.ViewModels;
+using Lynx.MobileApp.Handlers.Queries.TrackBillsQrs;
 using Lynx.MobileApp.Views;
 using Lynx.MobileApp.Views.Manage;
 using Lynx.Queries.TrackBillsQrs;
@@ -29,7 +30,9 @@ namespace Lynx.MobileApp.ViewModels
         {
             try
             {
-                var bills = await TasqR.RunAsync(new GetTrackBillsQr(AppUser.UserID));
+                var bills = await TasqR
+                    .UsingAsHandler<GetTrackedBillsQrHandler_API>()
+                    .RunAsync(new GetTrackBillsQr(AppUser.UserID));
 
                 TrackedBills.Clear();
 
@@ -43,7 +46,7 @@ namespace Lynx.MobileApp.ViewModels
             catch (Exception ex)
             {
 
-                ExceptionHandler.LogError(ex);
+                LogError(ex);
             }
         }
     }

@@ -12,6 +12,7 @@ using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
+using Lynx.Queries.FirebaseTokenCmds;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TasqR;
@@ -23,6 +24,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
         private readonly ILogger p_ExceptionHandler;
         private readonly ILynxDbContext p_DbContext;
         private readonly IJsonSerializer p_JsonSerializer;
+        private readonly ITasqR p_TasqR;
         private readonly HttpClient p_HttpClient;
         private readonly DbSet<UserSession> p_UserSessionDbSet;
         private readonly DbContext p_BaseDbContext;
@@ -32,12 +34,14 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
                 IHttpClientFactory clientFactory,
                 ILogger<ValidateUserLoginCmdHandler_API> exceptionHandler,
                 ILynxDbContext dbContext,
-                IJsonSerializer jsonSerializer
+                IJsonSerializer jsonSerializer,
+                ITasqR tasqR
             )
         {
             p_ExceptionHandler = exceptionHandler;
             p_DbContext = dbContext;
             p_JsonSerializer = jsonSerializer;
+            p_TasqR = tasqR;
             p_HttpClient = clientFactory.LynxApiClient();
             p_BaseDbContext = dbContext as DbContext;
             p_UserSessionDbSet = (DbSet<UserSession>)dbContext.UserSessions;
@@ -48,7 +52,9 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
         {
             try
             {
-                var loginRequest = new LoginRequestVM { Username = process.Username, Password = process.Password };
+                string firebaseToken = p_TasqR.Run(new FindMyFirebaseTokenQr());
+
+                var loginRequest = new LoginRequestVM { Username = process.Username, Password = process.Password, FirebaseToken = firebaseToken };
                 var httpRequest = new HttpRequestMessage(HttpMethod.Post, APIUriConstants.AccessToken)
                 {
                     Content = new JsonContent<LoginRequestVM>(loginRequest)

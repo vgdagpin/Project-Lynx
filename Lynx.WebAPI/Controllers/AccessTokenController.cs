@@ -39,7 +39,7 @@ namespace Lynx.WebAPI.Controllers.Users
         }
 
         [HttpPost("/AccessToken/VerifyValidity")]
-        public Task<TokenVerificationResult> VerifyValidity()
+        public Task<TokenVerificationResult> VerifyValidity([FromBody]string firebaseToken)
         {
             return Task.FromResult(new TokenVerificationResult
             {

@@ -18,9 +18,10 @@ namespace Lynx.WebAPI.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
+#if DEBUG
             // this helps the development of responsiveness of the UI
-            // Thread.Sleep(2000);
-
+            Thread.Sleep(3000);
+#endif           
             await next(context);
         }
     }

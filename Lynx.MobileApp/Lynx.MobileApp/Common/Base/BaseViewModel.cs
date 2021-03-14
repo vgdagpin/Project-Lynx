@@ -14,20 +14,6 @@ namespace Lynx.MobileApp.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        private ILogger p_ExceptionHandler;
-        protected ILogger ExceptionHandler
-        {
-            get
-            {
-                if (p_ExceptionHandler == null)
-                {
-                    p_ExceptionHandler = GetService<ILogger>();
-                }
-
-                return p_ExceptionHandler;
-            }
-        }
-
         private ITasqR p_TasqR;
         protected ITasqR TasqR
         {
@@ -59,14 +45,14 @@ namespace Lynx.MobileApp.ViewModels
         public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
 
         bool isBusy = false;
-        public bool IsBusy
+        public virtual bool IsBusy
         {
             get { return isBusy; }
             set { SetProperty(ref isBusy, value); }
         }
 
         string title = string.Empty;
-        public string Title
+        public virtual string Title
         {
             get { return title; }
             set { SetProperty(ref title, value); }
@@ -101,5 +87,19 @@ namespace Lynx.MobileApp.ViewModels
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        protected void LogError(Exception ex)
+        {
+            ILogger p_ExceptionHandler = GetService<ILogger>();
+
+            if (p_ExceptionHandler != null)
+            {
+                p_ExceptionHandler.LogError(ex);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine(ex.InnermostException().Message);
+            }
+        }
     }
 }

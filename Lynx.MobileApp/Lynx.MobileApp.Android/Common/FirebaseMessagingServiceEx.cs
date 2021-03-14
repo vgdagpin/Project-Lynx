@@ -28,10 +28,7 @@ namespace Lynx.MobileApp.Droid.Common
         {
             base.OnNewToken(token);
 
-            var tasqR = LynxDependencyService.Get<ITasqR>();
-
-            tasqR.UsingAsHandler(typeof(SaveFirebaseTokenCmdHandler_Local))
-                .Run(new SaveFirebaseTokenCmd(token));
+            LynxDependencyService.Get<FirebaseTokenManager>().OnNewToken(token);
         }
 
         public override void OnMessageReceived(RemoteMessage messageData)

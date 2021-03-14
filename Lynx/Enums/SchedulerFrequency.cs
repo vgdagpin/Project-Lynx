@@ -13,7 +13,9 @@ namespace Lynx
         EveryThursday = 5, 
         EveryFriday = 6,
         EverySaturday = 7,
+        Daily = 10,
         EveryFirstOfTheMonth = 20,
-        EveryEndOfTheMonth = 21
+        EveryEndOfTheMonth = 21,
+        Monthly = 22
     }
 }

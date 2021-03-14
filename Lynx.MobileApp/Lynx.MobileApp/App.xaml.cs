@@ -10,6 +10,10 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Push;
 using TasqR;
 using Lynx.MobileApp.Common;
+using Microsoft.Extensions.Configuration;
+using System.Reflection;
+using System.IO;
+using Xamarin.Essentials;
 
 namespace Lynx.MobileApp
 {
@@ -18,16 +22,37 @@ namespace Lynx.MobileApp
         static readonly ILoggerFactory SampleLoggingFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
 
         public static IServiceProvider ServiceProvider { get; private set; }
+        public static IConfiguration Configuration { get; private set; }
 
         public App(Action<IServiceCollection> additionalServices = null)
         {
+            var embeddedResourceStream = Assembly.GetExecutingAssembly()
+               .GetManifestResourceStream("Lynx.MobileApp.config.json");
+
+            if (embeddedResourceStream != null)
+            {
+                using (var streamReader = new StreamReader(embeddedResourceStream))
+                {
+                    Configuration = new ConfigurationBuilder().AddJsonStream(streamReader.BaseStream)
+                        .Build();
+
+                    try
+                    {
+                        Configuration["AppDataDirectory"] = FileSystem.AppDataDirectory;
+                    }
+                    catch (Exception ex)
+                    {
+                        SampleLoggingFactory.CreateLogger("Dependency Injection")
+                            .LogError(ex, ex.Message);
+                    }
+                }
+            }
+
             ServiceProvider = new ServiceCollection()
-                .AddMobileAppPortable(additionalServices, SampleLoggingFactory)
+                .AddMobileAppPortable(Configuration, additionalServices, SampleLoggingFactory)
                 .BuildServiceProvider();
 
-            InitializeComponent();            
-
-            DependencyService.Register<FirebaseTokenManager>();
+            InitializeComponent();
 
             MainPage = new StartShell();
         }

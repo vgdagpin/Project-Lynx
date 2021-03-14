@@ -33,6 +33,11 @@ namespace Lynx.WebAPI
                 Console.WriteLine();
             }
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("All requests will be delayed by 3 seconds -- see MockDelayResponseMiddleware");
+            Console.ResetColor();
+            Console.WriteLine();
+
             CreateHostBuilder(args).Build().Run();
         }
 

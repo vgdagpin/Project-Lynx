@@ -22,34 +22,12 @@ namespace Lynx.MobileApp
     {
         public static IServiceCollection AddMobileAppPortable
             (
-                this IServiceCollection services, 
+                this IServiceCollection services,
+                IConfiguration configuration = null,
                 Action<IServiceCollection> additionalServices = null, 
                 ILoggerFactory loggerFactory = null
             )
         {
-            var embeddedResourceStream = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("Lynx.MobileApp.config.json");
-
-            IConfiguration configuration = null;
-
-            if (embeddedResourceStream != null)
-            {
-                using (var streamReader = new StreamReader(embeddedResourceStream))
-                {
-                    configuration = new ConfigurationBuilder().AddJsonStream(streamReader.BaseStream)
-                        .Build();
-
-                    try
-                    {
-                        configuration["AppDataDirectory"] = FileSystem.AppDataDirectory;
-                    }
-                    catch (Exception ex)
-                    {
-                        loggerFactory.CreateLogger("Dependency Injection").LogError(ex, ex.Message);
-                    }
-                }
-            }
-
             services.AddHttpClient("lynx-api", (provider, config) =>
             {
                 config.BaseAddress = new Uri(configuration["Lynx-API-Hostname"]);
@@ -77,6 +55,8 @@ namespace Lynx.MobileApp
 
             services.AddTransient<SessionVerificationViewModel>();
             services.AddTransient<LoginViewModel>();
+
+            services.AddSingleton<FirebaseTokenManager>();
 
 
             return services;

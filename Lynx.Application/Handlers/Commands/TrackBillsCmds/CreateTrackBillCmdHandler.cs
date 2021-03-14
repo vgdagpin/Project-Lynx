@@ -114,6 +114,13 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                             Amount = request.Entry.ProviderTypeConfigScheduler.Amount,
                             DueDate = date
                         });
+
+                        newEntry.N_UserBills.Add(new UserBill
+                        {
+                            Amount = request.Entry.ProviderTypeConfigScheduler.Amount,
+                            DueDate = date,
+                            Status = BillPaymentStatus.Pending
+                        });
                     }
                 }
             }

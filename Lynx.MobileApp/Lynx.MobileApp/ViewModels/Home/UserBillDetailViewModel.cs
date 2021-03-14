@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
+using Lynx.MobileApp.Handlers.Queries.UserBillQrs;
 using Lynx.Queries.UserBillQrs;
 using TasqR;
 using Xamarin.Forms;
@@ -81,11 +82,13 @@ namespace Lynx.MobileApp.ViewModels
                 {
                     IsBusy = true;
 
-                    UserBill = await TasqR.RunAsync(new FindUserBillQr(billID));
+                    UserBill = await TasqR
+                        .UsingAsHandler<FindUserBillQrHandler_API>()
+                        .RunAsync(new FindUserBillQr(billID));
                 }
                 catch (Exception ex)
                 {
-                    ExceptionHandler.LogError(ex);
+                    LogError(ex);
                 }
 
                 IsLoaded = true;

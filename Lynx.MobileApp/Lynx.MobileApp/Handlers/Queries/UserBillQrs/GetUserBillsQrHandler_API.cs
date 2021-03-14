@@ -56,7 +56,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
         {
             try
             {
-                var httpRequest = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.UserBill);
+                var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}?forecastDays={process.ForecastDays}");
                 var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
 
                 string jsonContent = await httpResponse.Content.ReadAsStringAsync();

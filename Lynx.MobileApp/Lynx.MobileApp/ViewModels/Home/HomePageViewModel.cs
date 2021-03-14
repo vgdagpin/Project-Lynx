@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.ViewModels;
+using Lynx.MobileApp.Handlers.Queries.BillsQrs;
+using Lynx.MobileApp.Handlers.Queries.UserBillQrs;
 using Lynx.Queries.UserBillQrs;
 using Xamarin.Forms;
 
@@ -45,7 +47,9 @@ namespace Lynx.MobileApp.ViewModels
 
             try
             {
-                var bills = await TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID, 30));
+                var bills = await TasqR
+                    .UsingAsHandler<GetUserBillsQrHandler_API>()
+                    .RunAsync(new GetUserBillsQr(AppUser.UserID, 30));
 
                 Bills.Clear();
 
@@ -58,7 +62,7 @@ namespace Lynx.MobileApp.ViewModels
             }
             catch (Exception ex)
             {
-                ExceptionHandler.LogError(ex);
+                LogError(ex);
             }
 
             IsBusy = false;
