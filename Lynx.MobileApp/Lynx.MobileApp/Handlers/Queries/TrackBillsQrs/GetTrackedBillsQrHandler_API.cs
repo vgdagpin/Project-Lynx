@@ -33,29 +33,28 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
             p_AppUser = appUser;
         }
 
-        public override Task InitializeAsync(GetTrackBillsQr request, CancellationToken cancellationToken)
+        public async override Task InitializeAsync(GetTrackBillsQr request, CancellationToken cancellationToken)
         {
-            return p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID))
-                .ContinueWith(result =>
-                {
-                    p_HttpClient = p_ClientFactory.LynxApiClient(result.Result);
-                });
+            var session = await p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID));
+            p_HttpClient = p_ClientFactory.LynxApiClient(session);
         }
 
         public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.TrackBill);
+                var httpRequest = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.TrackBill);
 
-                var response = await p_HttpClient.SendAsync(request);
+                var httpResponse = await p_HttpClient.SendAsync(httpRequest);
 
-                if (response.IsSuccessStatusCode)
+                if (!httpResponse.IsSuccessStatusCode)
                 {
-                    var responseStream = await response.Content.ReadAsStreamAsync();
-
-                    return await JsonSerializer.DeserializeAsync<List<TrackBillSummaryVM>>(responseStream);
+                    throw new LynxHttpException(httpResponse);
                 }
+
+                var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+
+                return await JsonSerializer.DeserializeAsync<List<TrackBillSummaryVM>>(responseStream);
             }
             catch (Exception ex)
             {

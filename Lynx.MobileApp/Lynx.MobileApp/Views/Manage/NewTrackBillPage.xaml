@@ -58,13 +58,13 @@
                 <Entry Text="{Binding AccountNumber, Mode=TwoWay}" />
 
                 <Label Text="Billing Start Date" Style="{StaticResource FormLabelStyle}" />
-                <DatePicker />
+                <DatePicker Date="{Binding StartDate}"  />
 
                 <Label Text="Billing End Date" Style="{StaticResource FormLabelStyle}" />
-                <DatePicker />
+                <DatePicker Date="{Binding EndDate}" />
 
                 <Label Text="Amount" Style="{StaticResource FormLabelStyle}" />
-                <Entry Keyboard="Numeric" />
+                <Entry Text="{Binding Amount}" Keyboard="Numeric" />
 
                 <Label Text="Frequency" Style="{StaticResource FormLabelStyle}" />
                 <Picker>
@@ -86,7 +86,7 @@
                 </Picker>
 
                 <Label Text="Day of the month (1-31)" Style="{StaticResource FormLabelStyle}" />
-                <Entry Keyboard="Numeric" />
+                <Entry Text="{Binding DayFrequency}" Keyboard="Numeric" />
             </StackLayout>
 
 

@@ -29,10 +29,10 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
 
         public CreateTrackBillCmdHandler_API
             (
-                IHttpClientFactory clientFactory, 
-                ILogger<CreateTrackBillCmdHandler_API> exceptionHandler, 
-                ITasqR tasqR, 
-                IAppUser appUser, 
+                IHttpClientFactory clientFactory,
+                ILogger<CreateTrackBillCmdHandler_API> exceptionHandler,
+                ITasqR tasqR,
+                IAppUser appUser,
                 IJsonSerializer jsonSerializer
             )
         {
@@ -52,44 +52,34 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
                 });
         }
 
-        public override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
+        public async override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Put, APIUriConstants.TrackBill)
+                var httpRequest = new HttpRequestMessage(HttpMethod.Post, $"{APIUriConstants.TrackBill}/Create")
                 {
                     Content = new StringContent(p_JsonSerializer.Serialize(process.Entry), Encoding.UTF8, "application/json")
-                };                
+                };
 
-                return p_HttpClient.SendAsync(request, cancellationToken)
-                    .ContinueWith(responseTask =>
-                    {
-                        var response = responseTask.Result;
+                var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
+                string json = await httpResponse.Content.ReadAsStringAsync();
 
-                        if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.NoContent)
-                        {
-                            return Task.FromResult(new CreateResult<TrackBillVM>
-                            {
-                            });
-                        }
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    throw new LynxHttpException(httpResponse);
+                }
 
-                        return response.Content.ReadAsStringAsync()
-                            .ContinueWith(jsonTask =>
-                            {
-                                var json = jsonTask.Result;
-
-                                return JsonSerializer.Deserialize<CreateResult<TrackBillVM>>(json);
-                            });
-                    })
-                    .Unwrap();
+                return JsonSerializer.Deserialize<CreateResult<TrackBillVM>>(json);
             }
             catch (Exception ex)
             {
                 p_ExceptionHandler.LogError(ex, ex.Message);
 
-                return Task.FromResult(new CreateResult<TrackBillVM>
+                return new CreateResult<TrackBillVM>
                 {
-                });
+                    IsCreated = false,
+                    Error = ex
+                };
             }
         }
     }

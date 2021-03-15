@@ -28,6 +28,8 @@ namespace Lynx.MobileApp.ViewModels
 
         private async Task LoadDataCommand()
         {
+            IsBusy = true;
+
             try
             {
                 var bills = await TasqR
@@ -40,14 +42,14 @@ namespace Lynx.MobileApp.ViewModels
                 {
                     TrackedBills.Add(item);
                 }
-
-                IsBusy = false;
             }
             catch (Exception ex)
             {
 
                 LogError(ex);
             }
+
+            IsBusy = false;
         }
     }
 }

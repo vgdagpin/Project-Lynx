@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Lynx.Common.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.UserBillQrs;
 using Lynx.Queries.UserBillQrs;
+using Newtonsoft.Json;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -55,6 +56,17 @@ namespace Lynx.MobileApp.ViewModels
         }
         #endregion
 
+        #region UserBillJson
+        private string userBillJson;
+        public string UserBillJson
+        {
+            get => userBillJson;
+            set => SetProperty(ref userBillJson, value);
+        }
+        #endregion
+
+
+
         public ICommand MarkAsPaidCommand { get; }
 
 
@@ -76,15 +88,19 @@ namespace Lynx.MobileApp.ViewModels
 
         private void LoadItemId(Guid billID)
         {
+            IsBusy = true;
+            IsLoaded = false;
+
             Task.Run(async () =>
             {
                 try
                 {
-                    IsBusy = true;
 
                     UserBill = await TasqR
                         .UsingAsHandler<FindUserBillQrHandler_API>()
                         .RunAsync(new FindUserBillQr(billID));
+
+                    UserBillJson = JsonConvert.SerializeObject(UserBill, Formatting.Indented);
                 }
                 catch (Exception ex)
                 {

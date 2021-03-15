@@ -37,7 +37,6 @@
                     <Style TargetType="Label">
                         <Setter Property="TextColor" Value="Green" />
                     </Style>
-
                 </ListView.Resources>
                 
                 <ListView.ItemTemplate>

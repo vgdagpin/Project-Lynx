@@ -34,5 +34,10 @@ namespace Lynx.Domain.ViewModels
                 .ForMember(t => t.ProviderTypeConfigScheduler, s => s.MapFrom(sprop => sprop.N_ProviderTypeConfigScheduler))
                 .ForMember(t => t.ProviderTypeConfigWebService, s => s.MapFrom(sprop => sprop.N_ProviderTypeConfigWebService));
         }
+
+        public static TrackBillVM Null()
+        {
+            return null;
+        }
     }    
 }

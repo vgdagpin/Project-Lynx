@@ -10,6 +10,7 @@ using Lynx.Constants;
 using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.BillsQrs;
+using Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds;
 using Lynx.Queries.BillsQrs;
 using Lynx.Queries.TrackBillsQrs;
 using Xamarin.Forms;
@@ -156,6 +157,45 @@ namespace Lynx.MobileApp.ViewModels.Manage
         #endregion
 
 
+        #region StartDate
+        private DateTime startDate;
+        public DateTime StartDate
+        {
+            get => startDate;
+            set => SetProperty(ref startDate, value);
+        }
+        #endregion
+
+        #region EndDate
+        private DateTime? endDate;
+        public DateTime? EndDate
+        {
+            get => endDate;
+            set => SetProperty(ref endDate, value);
+        }
+        #endregion
+
+        #region Amount
+        private decimal? amount;
+        public decimal? Amount
+        {
+            get => amount;
+            set => SetProperty(ref amount, value);
+        }
+        #endregion
+
+        #region DayFrequency
+        private short? dayFrequency;
+        public short? DayFrequency
+        {
+            get => dayFrequency;
+            set => SetProperty(ref dayFrequency, value);
+        }
+        #endregion
+
+
+        public delegate void RecordCreateResult(CreateResult<TrackBillVM> createResult, object sender);
+        public event RecordCreateResult OnRecordCreateResultEvent;        
 
 
         public ObservableCollection<BillSummaryVM> Bills { get; protected set; } = new ObservableCollection<BillSummaryVM>();
@@ -169,6 +209,10 @@ namespace Lynx.MobileApp.ViewModels.Manage
         {
             SaveChanges = new Command(async () => await SaveChangesAsync());
             LoadBillsCommand = new Command(async () => await LoadBills());
+
+
+            StartDate = DateTime.Now;
+            EndDate = DateTime.Now.AddYears(1);
         }
 
         private Task SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -200,16 +244,38 @@ namespace Lynx.MobileApp.ViewModels.Manage
                 }
             };
 
-            CreateTrackBillCmd cmd = new CreateTrackBillCmd(entry);
+            switch (entry.BillProvider.ProviderTypeID)
+            {
+                case ProviderTypeConstants.Scheduled:
+                    entry.ProviderTypeConfigScheduler = new ProviderTypeConfigSchedulerVM
+                    {
+                        Amount = Amount.GetValueOrDefault(),
+                        ShortDesc = ShortDesc,
+                        LongDesc = ShortDesc,
+                        StartDate = StartDate,
+                        EndDate = EndDate,
+                        DayFrequency = DayFrequency                        
+                    };
+                    break;
+                case ProviderTypeConstants.Email:
+                    entry.ProviderTypeConfigEmail = new ProviderTypeConfigEmailVM
+                    {
+                        ClientEmailAddress = EmailAddress
+                    };
+                    break;
+                default:
+                    break;
+            }
 
-            return TasqR.RunAsync(cmd, cancellationToken)
+
+            return TasqR
+                .UsingAsHandler<CreateTrackBillCmdHandler_API>()
+                .RunAsync(new CreateTrackBillCmd(entry), cancellationToken)
                 .ContinueWith(res =>
                 {
                     IsBusy = false;
 
-                    var createResult = res.Result;
-
-                    return Shell.Current.Navigation.PopAsync();
+                    OnRecordCreateResultEvent?.Invoke(res.Result, this);                    
                 });
         }
 

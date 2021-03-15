@@ -29,10 +29,12 @@
                 Color="Red"
                 HorizontalOptions="CenterAndExpand" 
                 VerticalOptions="CenterAndExpand"/>
-            
-            
 
-            <Label Text="{Binding Path=UserBill.ShortDesc}"
+
+
+            <Editor Text="{Binding UserBillJson}"
+                    FontSize="Micro"
+                    IsReadOnly="True"
                    IsVisible="{Binding IsLoaded}" />
 
             

@@ -14,6 +14,7 @@
 
     <ContentPage.Content>
         <StackLayout BackgroundColor="Gray">
+            
             <ListView ItemsSource="{Binding TrackedBills}" 
                       HasUnevenRows="False"
                       HeightRequest="300"
@@ -22,12 +23,19 @@
                       IsPullToRefreshEnabled="True" 
                       RefreshCommand="{Binding LoadData}" 
                       IsRefreshing="{Binding IsBusy}">
+
+                <ListView.Resources>
+                    <Style TargetType="Label">
+                        <Setter Property="TextColor" Value="Green" />
+                    </Style>
+                </ListView.Resources>
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell Height="100">
                             <ViewCell.View>
                                 <StackLayout Padding="10"
-                                             BackgroundColor="#EEB9B9"  
+                                             BackgroundColor="White"  
                                              VerticalOptions="FillAndExpand">
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="Bill: "></Label>
@@ -37,6 +45,11 @@
                                         <Label Text="Account Number: "></Label>
                                         <Label Text="{Binding AccountNumber}" />
                                     </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Type: "></Label>
+                                        <Label Text="{Binding ProviderType.ShortDesc}" />
+                                    </StackLayout>
+
 
                                     <StackLayout.GestureRecognizers>
                                         <TapGestureRecognizer
@@ -50,7 +63,9 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+                
             </ListView>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

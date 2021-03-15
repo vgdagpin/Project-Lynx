@@ -13,8 +13,21 @@
     </ContentPage.ToolbarItems>
     
     <ContentPage.Content>
-        <StackLayout Spacing="3" Padding="15">
-            <Label Text="Hahaa" FontSize="Medium" />
+        <StackLayout Padding="15">
+            
+            <ActivityIndicator  
+                IsRunning="True" 
+                IsVisible="{Binding IsBusy}" 
+                Color="Red"
+                HorizontalOptions="CenterAndExpand" 
+                VerticalOptions="CenterAndExpand"/>
+
+
+
+            <Editor Text="{Binding TrackBillJson}"
+                    FontSize="Micro"
+                    IsReadOnly="True"
+                   IsVisible="{Binding IsLoaded}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
