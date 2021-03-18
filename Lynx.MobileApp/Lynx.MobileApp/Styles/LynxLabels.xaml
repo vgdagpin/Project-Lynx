@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    x:Class="Lynx.MobileApp.Portable.Styles">
+                    x:Class="Lynx.MobileApp.Portable.LynxLabels">
 
     <Color x:Key="MediumBlueColor">#2699FB</Color>
     <Color x:Key="LightBlueColor">#BCE0FD</Color>
@@ -22,5 +22,13 @@
         <Setter Property="Margin"
                 Value="0,30" />
     </Style>
-    
+
+    <Style TargetType="Label" x:Key="Form-Label">
+        <Setter Property="FontSize" Value="Small" />
+    </Style>
+
+    <Style TargetType="Label" x:Key="Form-Value">
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
 </ResourceDictionary>

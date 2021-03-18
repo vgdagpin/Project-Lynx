@@ -17,6 +17,7 @@ namespace Lynx.Interfaces
 	{
 		#region Entities
 		IQueryable<Bill> Bills { get; }
+		IQueryable<BillPaymentStepsTemplate> BillPaymentStepsTemplates { get; }
 		IQueryable<BillProvider> BillProviders { get; }
 		IQueryable<BillSetting> BillSettings { get; }
 		IQueryable<Email> Emails { get; }

@@ -14,15 +14,11 @@ namespace Lynx.MobileApp
 
 
             Routing.RegisterRoute(nameof(UserBillDetailPage), typeof(UserBillDetailPage));
+            Routing.RegisterRoute(nameof(PayByMyselfPage), typeof(PayByMyselfPage));
+            Routing.RegisterRoute(nameof(PayWithLynxPage), typeof(PayWithLynxPage));
+
             Routing.RegisterRoute(nameof(NewTrackBillPage), typeof(NewTrackBillPage));
             Routing.RegisterRoute(nameof(TrackBillPage), typeof(TrackBillPage));
-            //Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            //Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-        }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            //await Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }

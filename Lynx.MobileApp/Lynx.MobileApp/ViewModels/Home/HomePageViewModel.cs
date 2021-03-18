@@ -44,6 +44,7 @@ namespace Lynx.MobileApp.ViewModels
         private async Task LoadDataCommand()
         {
             IsBusy = true;
+            IsLoaded = false;
 
             try
             {
@@ -65,6 +66,7 @@ namespace Lynx.MobileApp.ViewModels
                 LogError(ex);
             }
 
+            IsLoaded = true;
             IsBusy = false;
         }
     }

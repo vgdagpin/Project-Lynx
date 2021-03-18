@@ -11,13 +11,13 @@ using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    [QueryProperty(nameof(BillID), nameof(BillID))]
+    [QueryProperty(nameof(UserBillID), nameof(UserBillID))]
     public class UserBillDetailViewModel : BaseViewModel
     {
 
-        #region BillID
+        #region UserBillID
         private Guid billID;
-        public string BillID
+        public string UserBillID
         {
             get => billID.ToString();
             set
@@ -26,15 +26,6 @@ namespace Lynx.MobileApp.ViewModels
 
                 LoadItemId(billID);
             }
-        }
-        #endregion
-
-        #region IsLoaded
-        private bool isLoaded;
-        public bool IsLoaded
-        {
-            get => isLoaded;
-            set => SetProperty(ref isLoaded, value);
         }
         #endregion
 
@@ -67,23 +58,16 @@ namespace Lynx.MobileApp.ViewModels
 
 
 
-        public ICommand MarkAsPaidCommand { get; }
+        public ICommand PayWithLynx { get; }
+        public ICommand PayByMyself { get; }
 
 
 
 
         public UserBillDetailViewModel()
         {
-            MarkAsPaidCommand = new Command(MarkAsPaidCommandAsync);
-        }
-
-
-        private void MarkAsPaidCommandAsync()
-        {
-            Task.Run(() =>
-            {
-
-            });
+            PayWithLynx = new Command(async () => await Shell.Current.GoToPayWithLynxPage(billID));
+            PayByMyself = new Command(async () => await Shell.Current.GoToPayByMyselfPage(billID));
         }
 
         private void LoadItemId(Guid billID)

@@ -56,6 +56,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\Home\PayByMyselfPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Home\PayWithLynxPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\LogoutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -63,5 +69,20 @@
 
   <ItemGroup>
     <Folder Include="Handlers\Commands\AuthenticationCmds\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Styles\LynxButtons.xaml.cs">
+      <DependentUpon>LynxButtons.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Styles\LynxLabels.xaml.cs">
+      <DependentUpon>LynxLabels.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Home\PayByMyselfPage.xaml.cs">
+      <DependentUpon>PayByMyselfPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Home\PayWithLynxPage.xaml.cs">
+      <DependentUpon>PayWithLynxPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

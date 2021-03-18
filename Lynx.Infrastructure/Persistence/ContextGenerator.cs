@@ -25,6 +25,12 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_Bills; }
 			private set { db_Bills = (DbSet<Bill>)value; }
 		}
+		private DbSet<BillPaymentStepsTemplate> db_BillPaymentStepsTemplates { get; set; }
+		public IQueryable<BillPaymentStepsTemplate> BillPaymentStepsTemplates 
+		{ 
+			get { return db_BillPaymentStepsTemplates; }
+			private set { db_BillPaymentStepsTemplates = (DbSet<BillPaymentStepsTemplate>)value; }
+		}
 		private DbSet<BillProvider> db_BillProviders { get; set; }
 		public IQueryable<BillProvider> BillProviders 
 		{ 
@@ -197,6 +203,7 @@ namespace Lynx.Infrastructure.Persistence
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
 	public partial class Bill_Configuration : BaseConfiguration<Bill> { }
+	public partial class BillPaymentStepsTemplate_Configuration : BaseConfiguration<BillPaymentStepsTemplate> { }
 	public partial class BillProvider_Configuration : BaseConfiguration<BillProvider> { }
 	public partial class BillSetting_Configuration : BaseConfiguration<BillSetting> { }
 	public partial class Email_Configuration : BaseConfiguration<Email> { }

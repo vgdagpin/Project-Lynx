@@ -42,21 +42,38 @@ namespace Lynx.MobileApp.ViewModels
             }
         }
 
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        #region IsLoaded
+        private bool isLoaded;
+        public virtual bool IsLoaded
+        {
+            get => isLoaded;
+            set => SetProperty(ref isLoaded, value);
+        }
+        #endregion
 
-        bool isBusy = false;
+        #region IsBusy
+        private bool isBusy;
         public virtual bool IsBusy
         {
-            get { return isBusy; }
-            set { SetProperty(ref isBusy, value); }
+            get => isBusy;
+            set => SetProperty(ref isBusy, value);
         }
+        #endregion
 
-        string title = string.Empty;
+        #region Title
+        private string title = string.Empty;
         public virtual string Title
         {
-            get { return title; }
-            set { SetProperty(ref title, value); }
+            get => title;
+            set => SetProperty(ref title, value);
         }
+        #endregion
+
+
+
+
+        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+
 
         protected bool SetProperty<T>(ref T backingStore, T value,            
             Action onChanged = null,

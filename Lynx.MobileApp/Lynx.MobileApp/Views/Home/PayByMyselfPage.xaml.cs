@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Lynx.MobileApp.Portable
+namespace Lynx.MobileApp.Views.Home
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Styles : ResourceDictionary
+    public partial class PayByMyselfPage : ContentPage
     {
-        public Styles()
+        public PayByMyselfPage()
         {
             InitializeComponent();
         }

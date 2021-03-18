@@ -7,6 +7,7 @@ using AutoMapper;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
+using Lynx.Queries.BillPaymentStepsTemplateQrs;
 using Lynx.Queries.BillsQrs;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.AspNetCore.Authorization;
@@ -28,6 +29,12 @@ namespace Lynx.WebAPI.Controllers
         public async Task<IEnumerable<BillSummaryVM>> Get(CancellationToken cancellationToken = default)
         {
             return await TasqR.RunAsync(new GetBillsQr(), cancellationToken);
+        }
+
+        [HttpGet("/Bills/{billID}/PaymentStepsTemplate")]
+        public Task<IEnumerable<BillPaymentStepsTemplateSummaryVM>> Search(short billID, string query, CancellationToken cancellationToken = default)
+        {
+            return TasqR.RunAsync(new GetBillPaymentStepsTemplatesQr(billID, query), cancellationToken);
         }
     }
 }

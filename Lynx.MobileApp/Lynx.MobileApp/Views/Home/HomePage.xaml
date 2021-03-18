@@ -8,17 +8,14 @@
         <vm:HomePageViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding TotalDue, StringFormat='Total Due: {0:n2}'}" />
-    </ContentPage.ToolbarItems>
+    <Shell.TitleView>
+        <Label IsVisible="{Binding IsLoaded}"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="End"
+               Padding="0, 0, 10, 0"
+               Text="{Binding TotalDue, StringFormat='Total Due: {0:n2}'}" 
+               TextColor="White" />
+    </Shell.TitleView>
 
     <ContentPage.Content>
         <StackLayout BackgroundColor="Gray">                     
@@ -32,12 +29,6 @@
                       IsPullToRefreshEnabled="True" 
                       RefreshCommand="{Binding LoadData}" 
                       IsRefreshing="{Binding IsBusy}">
-
-                <ListView.Resources>
-                    <Style TargetType="Label">
-                        <Setter Property="TextColor" Value="Green" />
-                    </Style>
-                </ListView.Resources>
                 
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -47,16 +38,16 @@
                                              BackgroundColor="White"  
                                              VerticalOptions="FillAndExpand">									
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Bill: "></Label>
-                                        <Label Text="{Binding ShortDesc}" />
+                                        <Label Text="Bill: " Style="{StaticResource Form-Label}" />
+                                        <Label Text="{Binding ShortDesc}" Style="{StaticResource Form-Value}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Due Date: "></Label>
-                                        <Label Text="{Binding DueDate, StringFormat='{0:MM/dd/yyyy}'}" />
+                                        <Label Text="Due Date: " Style="{StaticResource Form-Label}" />
+                                        <Label Text="{Binding DueDate, StringFormat='{0:MM/dd/yyyy}'}" Style="{StaticResource Form-Value}" />
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="Amount: "></Label>
-                                        <Label Text="{Binding Amount, StringFormat='{0:n2}'}" />
+                                        <Label Text="Amount: " Style="{StaticResource Form-Label}" />
+                                        <Label Text="{Binding Amount, StringFormat='{0:n2}'}" Style="{StaticResource Form-Value}" />
                                     </StackLayout>
 
                                     <StackLayout.GestureRecognizers>

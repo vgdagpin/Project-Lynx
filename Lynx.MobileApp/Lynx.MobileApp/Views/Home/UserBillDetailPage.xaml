@@ -8,17 +8,16 @@
         <vm:UserBillDetailViewModel />
     </ContentPage.BindingContext>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Mark as Paid" Command="{Binding MarkAsPaidCommand}">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource 
-                    FontFamily="FontAwesome"
-                    Glyph="{x:Static fonts:FontAwesomeIcon.Home}" 
-                    Color="Black" 
-                    Size="Small" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+    <Shell.TitleView>
+        <Label IsVisible="{Binding IsLoaded}"
+               VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Start"
+               Padding="0, 0, 10, 0"
+               Text="{Binding UserBill.ShortDesc}" 
+               TextColor="White"
+               FontAttributes="Bold"
+               FontSize="Medium"/>
+    </Shell.TitleView>
 
     <ContentPage.Content>
         <StackLayout>
@@ -31,13 +30,31 @@
                 VerticalOptions="CenterAndExpand"/>
 
 
+            <Grid Margin="10" ColumnDefinitions="1*,2*" IsVisible="{Binding IsLoaded}">
 
-            <Editor Text="{Binding UserBillJson}"
-                    FontSize="Micro"
-                    IsReadOnly="True"
-                   IsVisible="{Binding IsLoaded}" />
+                <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Category:"></Label>
+                <Label Grid.Row="0" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.TrackBill.Bill.ShortDesc}"></Label>
 
-            
+                <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Bill Description:"></Label>
+                <Label Grid.Row="1" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.ShortDesc}"></Label>
+
+                <Label Grid.Row="2" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Account Number:"></Label>
+                <Label Grid.Row="2" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.TrackBill.AccountNumber}"></Label>
+
+                <Label Grid.Row="3" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Amount:"></Label>
+                <Label Grid.Row="3" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.Amount, StringFormat='{0:n2}'}"></Label>
+
+                <Label Grid.Row="4" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Due Date:"></Label>
+                <Label Grid.Row="4" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.DueDate, StringFormat='{0:MMM dd, yyyy}'}"></Label>
+
+                <Label Grid.Row="5" Grid.Column="0" Style="{StaticResource Form-Label}" Text="Status:"></Label>
+                <Label Grid.Row="5" Grid.Column="1" Style="{StaticResource Form-Value}" Text="{Binding UserBill.Status}"></Label>
+            </Grid>
+
+            <Grid Margin="10" IsVisible="{Binding IsLoaded}">
+                <Button Grid.Row="0" Grid.Column="0" Text="Pay with Lynx" Command="{Binding PayWithLynx}"></Button>
+                <Button Grid.Row="0" Grid.Column="1" Text="I'll pay it myself" Command="{Binding PayByMyself}"></Button>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
