@@ -18,7 +18,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class SessionVerificationViewModel : BaseViewModel
+    public class SessionVerificationViewModel : LynxViewModel
     {
         #region PreloadProgress
         private string preloadProgress;

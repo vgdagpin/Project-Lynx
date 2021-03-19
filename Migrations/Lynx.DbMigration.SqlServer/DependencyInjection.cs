@@ -13,7 +13,12 @@ namespace Lynx.DbMigration.SqlServer
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructureUseSqlServer(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory = null)
+        public static IServiceCollection AddInfrastructureUseSqlServer
+            (
+                this IServiceCollection services, 
+                IConfiguration configuration, 
+                ILoggerFactory loggerFactory = null
+            )
         {
             services.AddDbContext<LynxDbContext>((svc, options) =>
             {
@@ -30,11 +35,12 @@ namespace Lynx.DbMigration.SqlServer
 
                 if (loggerFactory != null)
                 {
+                    //var logger = loggerFactory.CreateLogger("Query");
+
+                    //options.LogTo(a => logger.LogWarning(a), LogLevel.Information);
                     options.UseLoggerFactory(loggerFactory);
                 }
             });
-
-            
 
             return services;
         }

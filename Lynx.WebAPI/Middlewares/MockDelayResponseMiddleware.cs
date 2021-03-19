@@ -9,6 +9,8 @@ namespace Lynx.WebAPI.Middlewares
 {
     public class MockDelayResponseMiddleware
     {
+        public const int DelayInMilliseconds = 2000;
+
         private readonly RequestDelegate next;
 
         public MockDelayResponseMiddleware(RequestDelegate next)
@@ -20,7 +22,7 @@ namespace Lynx.WebAPI.Middlewares
         {
 #if DEBUG
             // this helps the development of responsiveness of the UI
-            Thread.Sleep(3000);
+            Thread.Sleep(DelayInMilliseconds);
 #endif           
             await next(context);
         }

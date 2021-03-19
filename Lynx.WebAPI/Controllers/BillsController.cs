@@ -36,5 +36,11 @@ namespace Lynx.WebAPI.Controllers
         {
             return TasqR.RunAsync(new GetBillPaymentStepsTemplatesQr(billID, query), cancellationToken);
         }
+
+        [HttpGet("/Bills/PaymentStepsTemplate/{billTemplateID}")]
+        public Task<BillPaymentStepsTemplateVM> FindBillTemplate(int billTemplateID, CancellationToken cancellationToken = default)
+        {
+            return TasqR.RunAsync(new FindBillPaymentStepsTemplateQr(billTemplateID), cancellationToken);
+        }
     }
 }

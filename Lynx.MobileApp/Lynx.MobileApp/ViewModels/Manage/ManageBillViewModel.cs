@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class ManageBillViewModel : BaseViewModel
+    public class ManageBillViewModel : LynxViewModel
     {
         public ObservableCollection<TrackBillSummaryVM> TrackedBills { get; protected set; } = new ObservableCollection<TrackBillSummaryVM>();
 

@@ -17,7 +17,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels.Manage
 {
-    public class NewTrackBillViewModel : BaseViewModel
+    public class NewTrackBillViewModel : LynxViewModel
     {
         #region BillProviderLoaded
         private bool billProviderLoaded;

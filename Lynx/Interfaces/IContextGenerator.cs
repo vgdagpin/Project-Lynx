@@ -34,6 +34,7 @@ namespace Lynx.Interfaces
 		IQueryable<ProviderTypeConfigScheduler> ProviderTypeConfigSchedulers { get; }
 		IQueryable<ProviderTypeConfigWebService> ProviderTypeConfigWebServices { get; }
 		IQueryable<SchedulerEntry> SchedulerEntries { get; }
+		IQueryable<TextTemplate> TextTemplates { get; }
 		IQueryable<TrackBill> TrackBills { get; }
 		IQueryable<TrackBillSetting> TrackBillSettings { get; }
 		IQueryable<User> Users { get; }

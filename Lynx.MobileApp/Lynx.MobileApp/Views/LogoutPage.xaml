@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<b:BaseContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+<b:LynxContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:b="clr-namespace:Lynx.MobileApp.Common.Base;assembly=Lynx.MobileApp"
+             xmlns:b="clr-namespace:Lynx.MobileApp.Views;assembly=Lynx.MobileApp"
              x:Class="Lynx.MobileApp.Views.LogoutPage">
     <ContentPage.Content>
       <StackLayout>
           <Label Text="{Binding LogoutStatus}" />
       </StackLayout>
   </ContentPage.Content>
-</b:BaseContentPage>
+</b:LynxContentPage>

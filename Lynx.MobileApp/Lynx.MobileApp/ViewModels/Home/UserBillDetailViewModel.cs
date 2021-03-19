@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 namespace Lynx.MobileApp.ViewModels
 {
     [QueryProperty(nameof(UserBillID), nameof(UserBillID))]
-    public class UserBillDetailViewModel : BaseViewModel
+    public class UserBillDetailViewModel : LynxViewModel
     {
 
         #region UserBillID

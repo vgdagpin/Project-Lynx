@@ -1,11 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<b:LynxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:Lynx.MobileApp.Views;assembly=Lynx.MobileApp"
              xmlns:controls="clr-namespace:Lynx.MobileApp.Controls"
              x:Class="Lynx.MobileApp.Views.Home.PayByMyselfPage">
 
     <Shell.SearchHandler>
-        <controls:PayByMyselfStepsSearchHandler Placeholder="Find payment gateway" SearchDelay="1000" ShowsResults="False" >
+        <controls:PayByMyselfStepsSearchHandler x:Name="shPayByMeselfSearchTemplate" 
+                                                Placeholder="Find payment gateway" 
+                                                SearchDelay="1000" 
+                                                ShowsResults="False" >
             <controls:PayByMyselfStepsSearchHandler.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="10" ColumnDefinitions="0.15*,0.85*">
@@ -19,11 +23,14 @@
         </controls:PayByMyselfStepsSearchHandler>
     </Shell.SearchHandler>
     
-    <ContentPage.Content>
+    <ContentPage.Content>       
+
         <StackLayout>
-            <Label Text="pay by myself"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ScrollView>
+                <Label Text="{Binding StepsTemplate}" 
+                   Margin="20"
+                   TextType="Html" />
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</b:LynxContentPage>

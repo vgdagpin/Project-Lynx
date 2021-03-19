@@ -2,6 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Lynx.MobileApp.Views.Home.PayWithLynxPage">
+
+    <Shell.TitleView>
+        <Label VerticalTextAlignment="Center"
+               HorizontalTextAlignment="Start"
+               Text="Pay with Lynx" 
+               TextColor="White"
+               FontAttributes="Bold"
+                   Grid.Row="0"
+               FontSize="Medium"/>
+    </Shell.TitleView>
+
     <ContentPage.Content>
         <StackLayout>
             <Label Text="pay with lynx"

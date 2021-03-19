@@ -12,7 +12,7 @@ using Xamarin.Forms.Xaml;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public abstract class BaseViewModel : INotifyPropertyChanged
+    public abstract class LynxViewModel : INotifyPropertyChanged
     {
         private ITasqR p_TasqR;
         protected ITasqR TasqR

@@ -127,6 +127,12 @@ namespace Lynx.Infrastructure.Persistence
 			get { return db_SchedulerEntries; }
 			private set { db_SchedulerEntries = (DbSet<SchedulerEntry>)value; }
 		}
+		private DbSet<TextTemplate> db_TextTemplates { get; set; }
+		public IQueryable<TextTemplate> TextTemplates 
+		{ 
+			get { return db_TextTemplates; }
+			private set { db_TextTemplates = (DbSet<TextTemplate>)value; }
+		}
 		private DbSet<TrackBill> db_TrackBills { get; set; }
 		public IQueryable<TrackBill> TrackBills 
 		{ 
@@ -220,6 +226,7 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class ProviderTypeConfigScheduler_Configuration : BaseConfiguration<ProviderTypeConfigScheduler> { }
 	public partial class ProviderTypeConfigWebService_Configuration : BaseConfiguration<ProviderTypeConfigWebService> { }
 	public partial class SchedulerEntry_Configuration : BaseConfiguration<SchedulerEntry> { }
+	public partial class TextTemplate_Configuration : BaseConfiguration<TextTemplate> { }
 	public partial class TrackBill_Configuration : BaseConfiguration<TrackBill> { }
 	public partial class TrackBillSetting_Configuration : BaseConfiguration<TrackBillSetting> { }
 	public partial class User_Configuration : BaseConfiguration<User> { }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lynx.Commands.UserSessionCmds;
-using Lynx.MobileApp.Common.Base;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -12,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace Lynx.MobileApp.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LogoutPage : BaseContentPage
+    public partial class LogoutPage : LynxContentPage
     {
         #region LogoutStatus
         private string logoutStatus;

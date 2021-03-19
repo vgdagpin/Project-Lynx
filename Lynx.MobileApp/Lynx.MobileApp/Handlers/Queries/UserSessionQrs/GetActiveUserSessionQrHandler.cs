@@ -13,7 +13,7 @@ using Lynx.Domain.ViewModels;
 using Lynx.Enums;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
-using Lynx.Queries.FirebaseTokenCmds;
+using Lynx.Queries.FirebaseTokenQrs;
 using Lynx.Queries.UserQrs;
 using Lynx.Queries.UserSessionQrs;
 using Microsoft.EntityFrameworkCore;

@@ -12,7 +12,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class HomePageViewModel : BaseViewModel
+    public class HomePageViewModel : LynxViewModel
     {
         #region TotalDue
         private decimal totalDue;

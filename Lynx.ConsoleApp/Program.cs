@@ -25,7 +25,7 @@ namespace Lynx.ConsoleApp
         static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
             services.AddInfrastructureUseSqlite(configuration, SampleLoggingFactory);
-            services.AddInfrastructure(configuration, SampleLoggingFactory);
+            services.AddInfrastructure(configuration);
             services.AddApplication();
 
             services.AddTasqR(Assembly.GetExecutingAssembly());

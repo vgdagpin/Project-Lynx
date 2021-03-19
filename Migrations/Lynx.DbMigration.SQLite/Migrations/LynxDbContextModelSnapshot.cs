@@ -14,7 +14,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.13");
+                .HasAnnotation("ProductVersion", "5.0.4");
 
             modelBuilder.Entity("Lynx.Domain.Entities.Bill", b =>
                 {
@@ -24,28 +24,28 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsEnabled")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LongDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ShortDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Code")
                         .IsUnique();
 
-                    b.ToTable("tbl_Bill","dbo");
+                    b.ToTable("tbl_Bill", "dbo");
 
                     b.HasData(
                         new
@@ -90,6 +90,69 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Lynx.Domain.Entities.BillPaymentStepsTemplate", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<short>("BillID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Keywords")
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LongDesc")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ShortDesc")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("BillID");
+
+                    b.ToTable("tbl_BillPaymentStepsTemplate", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            BillID = (short)3,
+                            Keywords = "7/11,711",
+                            LongDesc = "Just kidding, see below very long instructions",
+                            ShortDesc = "Go to nearest 7/11, ask cashier for instructions lol",
+                            Title = "7/11"
+                        },
+                        new
+                        {
+                            ID = 2,
+                            BillID = (short)3,
+                            Keywords = "e-wallet,ewallet,wallet,gcash",
+                            LongDesc = "See below very long instructions",
+                            ShortDesc = "Payment using GCash, follow this instruction",
+                            Title = "GCash"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            BillID = (short)3,
+                            Keywords = "e-wallet,ewallet,wallet,paymaya",
+                            LongDesc = "See below very long instructions",
+                            ShortDesc = "Payment using Paymaya, follow this instruction",
+                            Title = "Paymaya"
+                        });
+                });
+
             modelBuilder.Entity("Lynx.Domain.Entities.BillProvider", b =>
                 {
                     b.Property<short>("ID")
@@ -100,15 +163,15 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<short>("ProviderTypeID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
@@ -116,7 +179,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("ProviderTypeID");
 
-                    b.ToTable("tbl_BillProvider","dbo");
+                    b.ToTable("tbl_BillProvider", "dbo");
 
                     b.HasData(
                         new
@@ -167,20 +230,20 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Code")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("ID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("BillID", "Code");
 
-                    b.ToTable("tbl_BillSetting","dbo");
+                    b.ToTable("tbl_BillSetting", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.Email", b =>
@@ -190,8 +253,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("CC")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("TEXT");
@@ -200,32 +263,32 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("From")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ProcessedOn")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Subject")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("To")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_Email","dbo");
+                    b.ToTable("tbl_Email", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailAttachment", b =>
@@ -239,16 +302,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("EmailID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
 
                     b.Property<long>("Length")
                         .HasColumnType("INTEGER");
@@ -257,7 +320,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("EmailID");
 
-                    b.ToTable("tbl_EmailAttachment","dbo");
+                    b.ToTable("tbl_EmailAttachment", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailBody", b =>
@@ -276,7 +339,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_EmailBody","dbo");
+                    b.ToTable("tbl_EmailBody", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
@@ -288,18 +351,18 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Key")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(255);
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("EmailID", "EmailWorkerID", "Key");
 
                     b.HasIndex("EmailWorkerID");
 
-                    b.ToTable("tbl_EmailExtract","dbo");
+                    b.ToTable("tbl_EmailExtract", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailPart", b =>
@@ -313,13 +376,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PartType")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .HasColumnType("TEXT");
@@ -328,7 +391,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("EmailID");
 
-                    b.ToTable("tbl_EmailPart","dbo");
+                    b.ToTable("tbl_EmailPart", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailWorker", b =>
@@ -338,17 +401,17 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("AssemblyName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(200);
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("TypeName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(400);
+                        .HasMaxLength(400)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_EmailWorker","dbo");
+                    b.ToTable("tbl_EmailWorker", "dbo");
 
                     b.HasData(
                         new
@@ -379,8 +442,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(300);
+                        .HasMaxLength(300)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid?>("UserID")
                         .HasColumnType("TEXT");
@@ -392,7 +455,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("tbl_FirebaseToken","dbo");
+                    b.ToTable("tbl_FirebaseToken", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationConfiguration", b =>
@@ -420,7 +483,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("N_UserBillTrackingID", "N_UserBillTrackingUserID");
 
-                    b.ToTable("tbl_NotificationConfiguration","dbo");
+                    b.ToTable("tbl_NotificationConfiguration", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.NotificationTemplate", b =>
@@ -437,7 +500,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_NotificationTemplate","dbo");
+                    b.ToTable("tbl_NotificationTemplate", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderType", b =>
@@ -447,17 +510,17 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("LongDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ShortDesc")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_ProviderType","dbo");
+                    b.ToTable("tbl_ProviderType", "dbo");
 
                     b.HasData(
                         new
@@ -488,13 +551,13 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("ClientEmailAddress")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ReceiverEmailAddress")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("TEXT");
@@ -506,7 +569,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasIndex("ID", "UserID")
                         .IsUnique();
 
-                    b.ToTable("tbl_ProviderTypeConfigEmail","dbo");
+                    b.ToTable("tbl_ProviderTypeConfigEmail", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
@@ -525,16 +588,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Frequency")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.Property<short?>("SkipTimes")
                         .HasColumnType("INTEGER");
@@ -552,7 +615,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasIndex("ID", "UserID")
                         .IsUnique();
 
-                    b.ToTable("tbl_ProviderTypeConfigScheduler","dbo");
+                    b.ToTable("tbl_ProviderTypeConfigScheduler", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigWebService", b =>
@@ -574,7 +637,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasIndex("ID", "UserID")
                         .IsUnique();
 
-                    b.ToTable("tbl_ProviderTypeConfigWebService","dbo");
+                    b.ToTable("tbl_ProviderTypeConfigWebService", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.SchedulerEntry", b =>
@@ -596,8 +659,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("TrackBillSchedulerID")
                         .HasColumnType("TEXT");
@@ -606,7 +669,61 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("TrackBillSchedulerID");
 
-                    b.ToTable("tbl_SchedulerEntry","dbo");
+                    b.ToTable("tbl_SchedulerEntry", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.TextTemplate", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RecordStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("Code", "RecordStatus")
+                        .IsUnique()
+                        .HasFilter("[RecordStatus] = 'Active'");
+
+                    b.ToTable("tbl_TextTemplate", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Code = "PayWithLynxTOS",
+                            Content = "Test",
+                            RecordStatus = "Active",
+                            Title = "Pay with Lynx Terms of Service",
+                            UpdatedOn = new DateTime(2021, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Version = "1.0"
+                        });
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBill", b =>
@@ -620,8 +737,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<short>("BillID")
                         .HasColumnType("INTEGER");
@@ -630,15 +747,15 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("LongDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<short>("ProviderTypeID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ShortDesc")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID", "UserID");
 
@@ -648,7 +765,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("tbl_TrackBill","dbo");
+                    b.ToTable("tbl_TrackBill", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBillSetting", b =>
@@ -660,20 +777,20 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Code")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(50);
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("ID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("TrackBillID", "UserID", "Code");
 
-                    b.ToTable("tbl_TrackBillSetting","dbo");
+                    b.ToTable("tbl_TrackBillSetting", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.User", b =>
@@ -684,17 +801,17 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
-                    b.ToTable("tbl_User","dbo");
+                    b.ToTable("tbl_User", "dbo");
 
                     b.HasData(
                         new
@@ -725,8 +842,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("TrackBillID")
                         .HasColumnType("TEXT");
@@ -740,7 +857,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("TrackBillID", "UserID");
 
-                    b.ToTable("tbl_UserBill","dbo");
+                    b.ToTable("tbl_UserBill", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillAttachment", b =>
@@ -756,7 +873,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserBillID");
 
-                    b.ToTable("tbl_UserBillAttachment","dbo");
+                    b.ToTable("tbl_UserBillAttachment", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillPayment", b =>
@@ -778,7 +895,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserBillID");
 
-                    b.ToTable("tbl_UserBillPayment","dbo");
+                    b.ToTable("tbl_UserBillPayment", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillPaymentTransaction", b =>
@@ -803,7 +920,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserBillPaymentID");
 
-                    b.ToTable("tbl_UserBillPaymentTransaction","dbo");
+                    b.ToTable("tbl_UserBillPaymentTransaction", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserLogin", b =>
@@ -823,20 +940,20 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.Property<string>("TemporaryPassword")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(100);
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
 
                     b.HasKey("ID");
 
                     b.HasIndex("Username")
                         .IsUnique();
 
-                    b.ToTable("tbl_UserLogin","dbo");
+                    b.ToTable("tbl_UserLogin", "dbo");
 
                     b.HasData(
                         new
@@ -890,7 +1007,7 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("tbl_UserNotification","dbo");
+                    b.ToTable("tbl_UserNotification", "dbo");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserSession", b =>
@@ -912,18 +1029,18 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Remarks")
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(20);
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasMaxLength(500);
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserID")
                         .HasColumnType("TEXT");
@@ -932,7 +1049,16 @@ namespace Lynx.DbMigration.SQLite.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("tbl_UserSession","dbo");
+                    b.ToTable("tbl_UserSession", "dbo");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.BillPaymentStepsTemplate", b =>
+                {
+                    b.HasOne("Lynx.Domain.Entities.Bill", null)
+                        .WithMany("N_PaymentStepsTemplates")
+                        .HasForeignKey("BillID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.BillProvider", b =>
@@ -948,6 +1074,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("ProviderTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_ProviderType");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.BillSetting", b =>
@@ -975,6 +1103,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("Lynx.Domain.Entities.EmailBody", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_Email");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.EmailExtract", b =>
@@ -1022,6 +1152,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                     b.HasOne("Lynx.Domain.Entities.TrackBill", "N_UserBillTracking")
                         .WithMany("N_NotificationConfigurations")
                         .HasForeignKey("N_UserBillTrackingID", "N_UserBillTrackingUserID");
+
+                    b.Navigation("N_UserBillTracking");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigEmail", b =>
@@ -1097,6 +1229,12 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_Bill");
+
+                    b.Navigation("N_ProviderType");
+
+                    b.Navigation("N_User");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.TrackBillSetting", b =>
@@ -1117,10 +1255,14 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .IsRequired();
 
                     b.HasOne("Lynx.Domain.Entities.TrackBill", "N_TrackBill")
-                        .WithMany()
+                        .WithMany("N_UserBills")
                         .HasForeignKey("TrackBillID", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_TrackBill");
+
+                    b.Navigation("N_User");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserBillAttachment", b =>
@@ -1157,6 +1299,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("Lynx.Domain.Entities.UserLogin", "ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserNotification", b =>
@@ -1166,6 +1310,8 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("N_User");
                 });
 
             modelBuilder.Entity("Lynx.Domain.Entities.UserSession", b =>
@@ -1175,6 +1321,70 @@ namespace Lynx.DbMigration.SQLite.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.Bill", b =>
+                {
+                    b.Navigation("N_BillProviders");
+
+                    b.Navigation("N_BillSettings");
+
+                    b.Navigation("N_PaymentStepsTemplates");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.BillProvider", b =>
+                {
+                    b.Navigation("N_EmailWorker");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.Email", b =>
+                {
+                    b.Navigation("N_Attachments");
+
+                    b.Navigation("N_Body");
+
+                    b.Navigation("N_Extracts");
+
+                    b.Navigation("N_Headers");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.ProviderTypeConfigScheduler", b =>
+                {
+                    b.Navigation("N_ScheduleEntries");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.TrackBill", b =>
+                {
+                    b.Navigation("N_NotificationConfigurations");
+
+                    b.Navigation("N_ProviderTypeConfigEmail");
+
+                    b.Navigation("N_ProviderTypeConfigScheduler");
+
+                    b.Navigation("N_ProviderTypeConfigWebService");
+
+                    b.Navigation("N_TrackBillSettings");
+
+                    b.Navigation("N_UserBills");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.User", b =>
+                {
+                    b.Navigation("UserLogin");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.UserBill", b =>
+                {
+                    b.Navigation("N_Attachments");
+
+                    b.Navigation("N_UserBillPayments");
+                });
+
+            modelBuilder.Entity("Lynx.Domain.Entities.UserBillPayment", b =>
+                {
+                    b.Navigation("N_UserBillPaymentTransactions");
                 });
 #pragma warning restore 612, 618
         }

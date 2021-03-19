@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.BillPaymentStepsTemplateQrs;
@@ -23,13 +24,17 @@ namespace Lynx.Application.Handlers.Queries.BillPaymentStepsTemplateQrs
 
         public async override Task<IEnumerable<BillPaymentStepsTemplateSummaryVM>> RunAsync(GetBillPaymentStepsTemplatesQr request, CancellationToken cancellationToken = default)
         {
-            var query = p_DbContext.BillPaymentStepsTemplates
-                .Where(a => a.BillID == request.BillID
-                        && (
-                                (!string.IsNullOrWhiteSpace(request.Query) && a.Title.Contains(request.Query))
-                                || string.IsNullOrWhiteSpace(request.Query)
-                           )
-                      )
+            IQueryable<BillPaymentStepsTemplate> query = p_DbContext.BillPaymentStepsTemplates
+                .Where(a => a.BillID == request.BillID);
+
+            if (!string.IsNullOrWhiteSpace(request.Query))
+            {
+                query = query
+                    .Where(a => a.Title.Contains(request.Query)
+                        || ("," + a.Keywords + ",").Contains("," + request.Query + ","));
+            }
+
+            return await query
                 .Select(a => new BillPaymentStepsTemplateSummaryVM
                 {
                     ID = a.ID,
@@ -37,8 +42,6 @@ namespace Lynx.Application.Handlers.Queries.BillPaymentStepsTemplateQrs
                     ShortDesc = a.ShortDesc
                 })
                 .ToListAsync();
-
-            return await query;
         }
     }
 }

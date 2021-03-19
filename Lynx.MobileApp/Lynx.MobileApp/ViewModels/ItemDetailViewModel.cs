@@ -6,7 +6,7 @@ using Xamarin.Forms;
 namespace Lynx.MobileApp.ViewModels
 {
     [QueryProperty(nameof(ItemId), nameof(ItemId))]
-    public class ItemDetailViewModel : BaseViewModel
+    public class ItemDetailViewModel : LynxViewModel
     {
         private string itemId;
         private string text;

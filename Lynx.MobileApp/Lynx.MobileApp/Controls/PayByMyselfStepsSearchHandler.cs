@@ -15,6 +15,13 @@ namespace Lynx.MobileApp.Controls
     public class PayByMyselfStepsSearchHandler : SearchHandler
     {
         private CancellationTokenSource cancellationTokenSource;
+        public delegate void SearchStart();
+        public delegate void SearchEnd();
+        public delegate void SelectedSearchItem(BillPaymentStepsTemplateSummaryVM item, object sender);
+
+        public event SearchStart OnSearchStart;
+        public event SearchEnd OnSearchEnd;
+        public event SelectedSearchItem OnSelectedSearchItem;
 
         public int SearchDelay { get; set; }
 
@@ -42,9 +49,11 @@ namespace Lynx.MobileApp.Controls
 
                         if (!token.IsCancellationRequested)
                         {
+                            OnSearchStart?.Invoke();
                             ItemsSource = await LynxDependencyService.Get<ITasqR>()
                                .UsingAsHandler<GetBillPaymentStepsTemplatesQrHandler_API>()
                                .RunAsync(new GetBillPaymentStepsTemplatesQr(3, newValue.Trim()), token);
+                            OnSearchEnd?.Invoke();
                         }
                     }, cancellationTokenSource.Token);
                 }
@@ -54,6 +63,9 @@ namespace Lynx.MobileApp.Controls
         protected override void OnItemSelected(object item)
         {
             base.OnItemSelected(item);
+
+
+            OnSelectedSearchItem?.Invoke((BillPaymentStepsTemplateSummaryVM)item, this);
         }
     }
 }

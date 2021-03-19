@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-
+using Lynx.WebAPI.Middlewares;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -34,7 +34,7 @@ namespace Lynx.WebAPI
             }
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("All requests will be delayed by 3 seconds -- see MockDelayResponseMiddleware");
+            Console.WriteLine($"All requests will be delayed by {MockDelayResponseMiddleware.DelayInMilliseconds} ms");
             Console.ResetColor();
             Console.WriteLine();
 

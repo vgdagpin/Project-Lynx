@@ -8,7 +8,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class ItemsViewModel : LynxViewModel
     {
         private Item _selectedItem;
 

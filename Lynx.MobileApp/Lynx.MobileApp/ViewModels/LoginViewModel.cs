@@ -13,7 +13,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : LynxViewModel
     {
         #region Username
         private string username;

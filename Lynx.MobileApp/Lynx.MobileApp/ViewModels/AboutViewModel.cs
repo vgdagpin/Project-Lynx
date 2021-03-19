@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Lynx.MobileApp.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class AboutViewModel : LynxViewModel
     {
         public AboutViewModel()
         {

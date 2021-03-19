@@ -37,7 +37,7 @@ namespace Lynx.MobileApp
 
             services.AddInfrastructureUseSqlite(configuration, loggerFactory, SQLiteConstants.FilePath);
 
-            services.AddInfrastructure(configuration, loggerFactory);
+            services.AddInfrastructure(configuration);
 
             if (additionalServices != null)
             {

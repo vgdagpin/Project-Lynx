@@ -11,7 +11,7 @@ using Xamarin.Forms;
 namespace Lynx.MobileApp.ViewModels
 {
     [QueryProperty(nameof(TrackBillID), nameof(TrackBillID))]
-    public class TrackBillViewModel : BaseViewModel
+    public class TrackBillViewModel : LynxViewModel
     {
         #region IsLoaded
         private bool isLoaded;

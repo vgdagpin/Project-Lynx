@@ -8,10 +8,10 @@ namespace Lynx.MobileApp.Common.Interfaces
 {
     public interface INavigationService
     {
-        BaseViewModel PreviousPageViewModel { get; }
+        LynxViewModel PreviousPageViewModel { get; }
         Task InitializeAsync();
-        Task NavigateToAsync<TViewModel>() where TViewModel : BaseViewModel;
-        Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : BaseViewModel;
+        Task NavigateToAsync<TViewModel>() where TViewModel : LynxViewModel;
+        Task NavigateToAsync<TViewModel>(object parameter) where TViewModel : LynxViewModel;
         Task RemoveLastFromBackStackAsync();
         Task RemoveBackStackAsync();
     }

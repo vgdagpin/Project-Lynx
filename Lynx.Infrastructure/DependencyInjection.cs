@@ -12,18 +12,18 @@ namespace Lynx.Infrastructure
 {
     public static class DependencyInjection
     {
-        private static IServiceCollection AddCommonServices(this IServiceCollection services, IConfiguration configuration)
+        private static IServiceCollection AddCommonServices(this IServiceCollection services)
         {
             services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
             return services;
         }
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration, ILoggerFactory loggerFactory = null)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<ILynxDbContext>(provider => provider.GetService<LynxDbContext>());
             services.AddScoped<DbContext>(provider => provider.GetService<LynxDbContext>());
-            services.AddCommonServices(configuration);
+            services.AddCommonServices();
 
             return services;
         }

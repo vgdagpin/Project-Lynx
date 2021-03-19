@@ -7,9 +7,9 @@ using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace Lynx.MobileApp.Common.Base
+namespace Lynx.MobileApp.Views
 {
-    public abstract class BaseContentPage : ContentPage
+    public abstract class LynxContentPage : ContentPage
     {
         private ITasqR p_TasqR;
         protected ITasqR TasqR
@@ -38,6 +38,15 @@ namespace Lynx.MobileApp.Common.Base
                 return p_appUser;
             }
         }
+
+        #region IsLoaded
+        private bool isLoaded;
+        public virtual bool IsLoaded
+        {
+            get => isLoaded;
+            set => SetProperty(ref isLoaded, value);
+        }
+        #endregion
 
         protected T GetService<T>()
         {

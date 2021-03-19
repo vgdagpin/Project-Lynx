@@ -42,6 +42,7 @@ namespace Lynx.WebAPI
 
         public Startup(IConfiguration configuration)
         {
+            //Configuration = configuration;
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
             Configuration = config;
@@ -53,8 +54,8 @@ namespace Lynx.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructureUseSqlServer(Configuration/*, SampleLoggingFactory*/);
-            services.AddInfrastructure(Configuration/*, SampleLoggingFactory*/);
+            services.AddInfrastructureUseSqlServer(Configuration, SampleLoggingFactory);
+            services.AddInfrastructure(Configuration);
 
             services.AddHttpContextAccessor();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
