@@ -10,6 +10,7 @@ using Lynx.Commands.UtilitiesCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
+using Lynx.MobileApp.Common.Interfaces;
 using Microsoft.Extensions.Logging;
 using TasqR;
 
@@ -18,39 +19,36 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.UtilitiesCmds
     public class PingAPICmdHandler_API : TasqHandlerAsync<PingAPICmd, APIPingResult>
     {
         private readonly ILogger p_ExceptionHandler;
-        private readonly HttpClient p_HttpClient;
+        private readonly ILynxAPI p_HttpClient;
 
         public PingAPICmdHandler_API
             (
-                IHttpClientFactory clientFactory,
+                ILynxAPI clientFactory,
                 ILogger<PingAPICmdHandler_API> exceptionHandler
             )
         {
             p_ExceptionHandler = exceptionHandler;
-            p_HttpClient = clientFactory.LynxApiClient();
+            p_HttpClient = clientFactory;
         }
 
         public async override Task<APIPingResult> RunAsync(PingAPICmd request, CancellationToken cancellationToken = default)
         {
             try
             {
-                var httpRequest = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.Ping);
-                var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
+                var httpResponse = await p_HttpClient.GetAsync<string>(APIUriConstants.Ping, cancellationToken);
 
-                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.NoContent)
+                if (!string.IsNullOrWhiteSpace(httpResponse.StringContent))
                 {
                     return new APIPingResult
                     {
-                        IsOnline = true
+                        IsOnline = true,
+                        Message = httpResponse.StringContent
                     };
                 }
 
-                string response = await httpResponse.Content.ReadAsStringAsync();
-
                 return new APIPingResult
                 {
-                    IsOnline = true,
-                    Message = response
+                    IsOnline = true
                 };
             }
             catch (Exception ex)

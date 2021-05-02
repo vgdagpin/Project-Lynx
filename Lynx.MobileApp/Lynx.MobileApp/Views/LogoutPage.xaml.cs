@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Lynx.Commands.UserSessionCmds;
+using Lynx.MobileApp.Handlers.Commands.UserSessionCmds;
 using TasqR;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -26,13 +27,33 @@ namespace Lynx.MobileApp.Views
         {
             InitializeComponent();
 
+            BindingContext = this;
+
             LogoutStatus = "Logging out..";
 
-            TasqR.RunAsync(new LogoutSessionCmd())
-                .ContinueWith(t =>
-                {
+            Logout();
+        }
+
+        private void Logout()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {                    
+                    await TasqR
+                    .UsingAsHandler<LogoutSessionCmdHandler_API>()
+                    .RunAsync(new LogoutSessionCmd());
+
                     LogoutStatus = "Logged out";
-                });
+
+                    //Xamarin.Forms.Application.Current.MainPage = new StartShell();
+                    //await Shell.Current.GoToAsync("//LoginPage");
+                }
+                catch (Exception ex)
+                {
+                    LogoutStatus = ex.InnermostException().Message;
+                }
+            });
         }
     }
 }

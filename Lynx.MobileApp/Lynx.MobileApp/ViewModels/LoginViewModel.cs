@@ -42,24 +42,42 @@ namespace Lynx.MobileApp.ViewModels
         }
         #endregion
 
-
-
-        public ICommand LoginCommand => new Command(OnLoginClicked);
-
-        private async void OnLoginClicked(object obj)
+        #region LoginButtonText
+        private string loginButtonText;
+        public string LoginButtonText
         {
-            if (IsBusy)
+            get => loginButtonText;
+            set => SetProperty(ref loginButtonText, value);
+        }
+        #endregion
+
+        public ICommand LoginCommand { get; }
+
+
+        public LoginViewModel()
+        {
+            LoginButtonText = "Login";
+
+            LoginCommand = new Command(() => OnLoginClicked());
+        }
+
+
+
+        private async void OnLoginClicked()
+        {
+            if (string.IsNullOrWhiteSpace(Username)
+                || string.IsNullOrWhiteSpace(Password))
             {
                 return;
             }
 
-            IsBusy = true;
+            EnableFlag = false;
+            LoginButtonText = "Logging in..";
+            ErrorMessage = "";
 
             var cmd = new ValidateUserLoginCmd(Username, Password);
 
             var loginResult = await TasqR.RunAsync(cmd);
-
-            IsBusy = false;
 
             if (loginResult.IsSuccess)
             {
@@ -67,7 +85,11 @@ namespace Lynx.MobileApp.ViewModels
             }
             else
             {
-                ErrorMessage = loginResult.Error?.Message;
+                // ErrorMessage = loginResult.Error?.Message;
+                ErrorMessage = "Invalid username or password";
+
+                LoginButtonText = "Login";
+                EnableFlag = true;
             }
         }
     }

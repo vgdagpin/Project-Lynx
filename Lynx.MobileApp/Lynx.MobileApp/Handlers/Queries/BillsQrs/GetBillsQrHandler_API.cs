@@ -20,58 +20,30 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
 {
     public class GetBillsQrHandler_API : GetBillsQrHandler
     {
-        private readonly IHttpClientFactory p_ClientFactory;
+        private readonly ILynxAPI p_LynxAPI;
         private readonly ILogger p_ExceptionHandler;
-        private readonly ITasqR p_TasqR;
-        private readonly IAppUser p_AppUser;
-        
-        private HttpClient p_HttpClient;
+
 
         public GetBillsQrHandler_API
             (
-                IHttpClientFactory clientFactory, 
-                ILogger<GetBillsQrHandler_API> exceptionHandler, 
-                ITasqR tasqR, 
-                IAppUser appUser,
+                ILynxAPI lynxAPI,
+                ILogger<GetBillsQrHandler_API> exceptionHandler,
                 ILynxDbContext dbContext,
                 IMapper mapper
             )
             : base(dbContext, mapper)
         {
-            p_ClientFactory = clientFactory;
+            p_LynxAPI = lynxAPI;
             p_ExceptionHandler = exceptionHandler;
-            p_TasqR = tasqR;
-            p_AppUser = appUser;
-        }
-
-        public override Task InitializeAsync(GetBillsQr request, CancellationToken cancellationToken)
-        {
-            return p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID))
-                .ContinueWith(result =>
-                {
-                    p_HttpClient = p_ClientFactory.LynxApiClient(result.Result);
-                });
         }
 
         public async override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var request = new HttpRequestMessage(HttpMethod.Get, APIUriConstants.Bill);
-                var response = await p_HttpClient.SendAsync(request, cancellationToken);
-                var jsonData = await response.Content.ReadAsStringAsync();
+                var response = await p_LynxAPI.GetAsync<IEnumerable<BillSummaryVM>>(APIUriConstants.Bill, cancellationToken);
 
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.StatusCode == HttpStatusCode.NoContent)
-                    {
-                        return BillSummaryVM.Empty();
-                    }
-
-                    return JsonSerializer.Deserialize<IEnumerable<BillSummaryVM>>(jsonData);
-                }
-
-                throw new LynxException(jsonData);
+                return response.ObjectContent;
             }
             catch (Exception ex)
             {

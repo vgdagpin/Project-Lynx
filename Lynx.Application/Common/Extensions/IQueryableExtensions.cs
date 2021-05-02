@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -9,12 +10,7 @@ namespace Lynx.Application.Common.Extensions
 {
     public static class IQueryableExtensions
     {
-        public static DbSet<T> AsDbSet<T>(this IQueryable<T> queryable) where T : class
-        {
-            return (DbSet<T>)queryable;
-        }
-
-        public static EntityEntry<T> Add<T>(this IQueryable<T> collection, T entry) where T : class
+        private static DbSet<T> AsDbSet<T>(this IQueryable<T> collection) where T : class
         {
             DbSet<T> dbSet = (DbSet<T>)collection;
 
@@ -23,19 +19,13 @@ namespace Lynx.Application.Common.Extensions
                 throw new LynxException("Collection is not dbset");
             }
 
-            return dbSet.Add(entry);
+            return dbSet;
         }
 
-        public static EntityEntry<T> Remove<T>(this IQueryable<T> collection, T entry) where T  :class
-        {
-            DbSet<T> dbSet = (DbSet<T>)collection;
+        public static EntityEntry<T> Add<T>(this IQueryable<T> collection, T entry) where T : class => collection.AsDbSet().Add(entry);
 
-            if (dbSet == null)
-            {
-                throw new LynxException("Collection is not dbset");
-            }
+        public static EntityEntry<T> Remove<T>(this IQueryable<T> collection, T entry) where T : class => collection.AsDbSet().Remove(entry);
 
-            return dbSet.Remove(entry);
-        }
+        public static ValueTask<T> FindAsync<T>(this IQueryable<T> collection, params object[] keyValues) where T : class => collection.AsDbSet().FindAsync(keyValues);
     }
 }

@@ -12,7 +12,8 @@ using Lynx.Domain.Entities;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
-using Lynx.Queries.FirebaseTokenCmds;
+using Lynx.MobileApp.Common.Interfaces;
+using Lynx.Queries.FirebaseTokenQrs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TasqR;
@@ -22,32 +23,27 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
     public class ValidateUserLoginCmdHandler_API : TasqHandlerAsync<ValidateUserLoginCmd, LoginResultVM>
     {
         private readonly ILogger p_ExceptionHandler;
-        private readonly ILynxDbContext p_DbContext;
-        private readonly IJsonSerializer p_JsonSerializer;
         private readonly ITasqR p_TasqR;
-        private readonly HttpClient p_HttpClient;
+        private readonly ILynxAPI p_HttpClient;
         private readonly DbSet<UserSession> p_UserSessionDbSet;
         private readonly DbContext p_BaseDbContext;
 
         public ValidateUserLoginCmdHandler_API
             (
-                IHttpClientFactory clientFactory,
+                ILynxAPI clientFactory,
                 ILogger<ValidateUserLoginCmdHandler_API> exceptionHandler,
                 ILynxDbContext dbContext,
-                IJsonSerializer jsonSerializer,
                 ITasqR tasqR
             )
         {
             p_ExceptionHandler = exceptionHandler;
-            p_DbContext = dbContext;
-            p_JsonSerializer = jsonSerializer;
             p_TasqR = tasqR;
-            p_HttpClient = clientFactory.LynxApiClient();
+            p_HttpClient = clientFactory;
             p_BaseDbContext = dbContext as DbContext;
             p_UserSessionDbSet = (DbSet<UserSession>)dbContext.UserSessions;
         }
 
-        public async override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process, 
+        public async override Task<LoginResultVM> RunAsync(ValidateUserLoginCmd process,
             CancellationToken cancellationToken = default)
         {
             try
@@ -55,24 +51,18 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
                 string firebaseToken = p_TasqR.Run(new FindMyFirebaseTokenQr());
 
                 var loginRequest = new LoginRequestVM { Username = process.Username, Password = process.Password, FirebaseToken = firebaseToken };
-                var httpRequest = new HttpRequestMessage(HttpMethod.Post, APIUriConstants.AccessToken)
-                {
-                    Content = new JsonContent<LoginRequestVM>(loginRequest)
-                };
 
-                var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
-                string response = await httpResponse.Content.ReadAsStringAsync();
+                var httpResponse = await p_HttpClient.PostAsync<UserSessionVM, LoginRequestVM>(APIUriConstants.AccessToken, loginRequest, cancellationToken);
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    throw new LynxException(response);
+                    throw new LynxException(httpResponse.StringContent);
                 }
 
-                var userSession = p_JsonSerializer.Deserialize<UserSessionVM>(response);
                 var dbUserSession = new UserSession
                 {
-                    UserID = userSession.UserData.ID,
-                    Token = userSession.Token
+                    UserID = httpResponse.ObjectContent.UserData.ID,
+                    Token = httpResponse.ObjectContent.Token
                 };
 
                 p_UserSessionDbSet.Add(dbUserSession);

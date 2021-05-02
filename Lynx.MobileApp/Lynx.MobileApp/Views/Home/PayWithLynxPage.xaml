@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<b:LynxContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:Lynx.MobileApp.Views;assembly=Lynx.MobileApp"
              x:Class="Lynx.MobileApp.Views.Home.PayWithLynxPage">
 
     <Shell.TitleView>
@@ -15,9 +16,18 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="pay with lynx"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <ScrollView>
+                <Label Text="{Binding PayWithLynxTermsOfService}" 
+                   Margin="20"
+                   TextType="Html" />
+            </ScrollView>
+
+            <Grid IsVisible="{Binding IsLoaded}" HeightRequest="120" ColumnDefinitions="6*, 1*">
+                <Label Grid.Row="0" Grid.Column="0" Text="I Agree" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+                <Switch Grid.Row="0" Grid.Column="1" IsToggled="{Binding IAgree}" />
+            </Grid>
+
+            <Button IsEnabled="{Binding IAgree}" IsVisible="{Binding IsLoaded}" Text="Send Request for Lynx Payment"></Button>
         </StackLayout>
     </ContentPage.Content>
-</ContentPage>
+</b:LynxContentPage>

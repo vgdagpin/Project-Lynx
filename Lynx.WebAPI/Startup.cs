@@ -30,6 +30,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Lynx.DbMigration.SqlServer;
+using Lynx.Infrastructure.Persistence;
 
 namespace Lynx.WebAPI
 {
@@ -42,10 +43,18 @@ namespace Lynx.WebAPI
 
         public Startup(IConfiguration configuration)
         {
-            //Configuration = configuration;
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+#if DEBUG
+            Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-            Configuration = config;
+            string conStr = Configuration.GetConnectionString($"{nameof(LynxDbContext)}_MSSQLConStr");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Database Server: {0}", conStr.Split(';').FirstOrDefault());
+            Console.ResetColor();
+            Console.WriteLine();
+#else
+            Configuration = configuration;
+#endif
+
         }
 
         public IConfiguration Configuration { get; }

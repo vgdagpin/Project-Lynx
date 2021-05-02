@@ -17,7 +17,7 @@
             <Entry Placeholder="Username" Text="{Binding Username, Mode=TwoWay}" />
             <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password, Mode=TwoWay}" />
 
-            <Button Text="Login" Command="{Binding LoginCommand}" />
+            <Button Text="{Binding LoginButtonText}" IsEnabled="{Binding DisableFlag}" Command="{Binding LoginCommand}" />
             <Label Text="{Binding ErrorMessage}" />
         </StackLayout>
     </ContentPage.Content>

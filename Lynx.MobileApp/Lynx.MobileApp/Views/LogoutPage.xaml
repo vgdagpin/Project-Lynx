@@ -5,7 +5,7 @@
              x:Class="Lynx.MobileApp.Views.LogoutPage">
     <ContentPage.Content>
       <StackLayout>
-          <Label Text="{Binding LogoutStatus}" />
+            <Label Text="{Binding LogoutStatus}" />
       </StackLayout>
   </ContentPage.Content>
 </b:LynxContentPage>

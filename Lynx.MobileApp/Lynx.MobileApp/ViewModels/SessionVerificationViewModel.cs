@@ -9,6 +9,7 @@ using Lynx.Commands.UtilitiesCmds;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Common;
 using Lynx.MobileApp.Common.Constants;
+using Lynx.MobileApp.Handlers.Queries.UserSessionQrs;
 using Lynx.MobileApp.Portable.Common.Enums;
 using Lynx.MobileApp.Views;
 using Lynx.Queries.UserSessionQrs;
@@ -40,7 +41,7 @@ namespace Lynx.MobileApp.ViewModels
         {
             PreloadProgress = "Loading..";
 
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 try
                 {
@@ -72,7 +73,9 @@ namespace Lynx.MobileApp.ViewModels
                     {
                         PreloadProgress += "\nVerifying authentication token..";
 
-                        UserSessionVM activeSession = TasqR.Run(new GetActiveUserSessionQr());
+                        var activeSession = await TasqR
+                            .UsingAsHandler<GetActiveUserSessionQrHandler>()
+                            .RunAsync(new GetActiveUserSessionQr());
 
                         if (activeSession == null)
                         {

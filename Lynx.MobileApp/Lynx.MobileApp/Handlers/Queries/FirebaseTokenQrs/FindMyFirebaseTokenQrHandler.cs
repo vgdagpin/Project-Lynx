@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Lynx.Interfaces;
-using Lynx.Queries.FirebaseTokenCmds;
+using Lynx.Queries.FirebaseTokenQrs;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.FirebaseTokenQrs

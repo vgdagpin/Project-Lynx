@@ -1,0 +1,1539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EurekaDb.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_Broker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_BrokerStock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrokerID" Type="bigint" Nullable="false" />
+          <Property Name="ProductSpecificationID" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_FollowedUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarketID" Type="bigint" Nullable="false" />
+          <Property Name="BrokerID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_FollowedUserTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FollowedUserID" Type="bigint" Nullable="false" />
+          <Property Name="TagID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Market">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_NotificationAlert">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReceiverID" Type="bigint" Nullable="false" />
+          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UrlSegment" Type="nvarchar(max)" />
+          <Property Name="Message" Type="nvarchar(max)" />
+          <Property Name="IsSent" Type="bit" />
+          <Property Name="IsFailed" Type="bit" />
+          <Property Name="IsRead" Type="bit" />
+          <Property Name="ReadOn" Type="datetime2" Precision="7" />
+          <Property Name="NotificationType" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_NotificationTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_OriginalPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="Effectivity" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="BrokerStockID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+          <Property Name="ProductCategoryID" Type="bigint" Nullable="false" />
+          <Property Name="SupplierID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_ProductCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_ProductSpecification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductSpecificationID" Type="bigint" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+          <Property Name="Specification" Type="nvarchar(max)" />
+          <Property Name="SpecificationDescription" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_ProductTagCollection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagID" Type="bigint" Nullable="false" />
+          <Property Name="ProductID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_SellingPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="Effectivity" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="BrokerStockID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BrokerID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tbl_SupplierContact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierID" Type="bigint" Nullable="false" />
+          <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ContactType" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_SupplierLocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SupplierID" Type="bigint" Nullable="false" />
+          <Property Name="FullAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="Latitude" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="20" Scale="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="150" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="305" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="tbl_UserContact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ContactType" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="tbl_UserLogin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="160" Nullable="false" />
+          <Property Name="Salt" Type="varbinary" MaxLength="500" Nullable="false" />
+          <Property Name="Password" Type="varbinary" MaxLength="500" Nullable="false" />
+          <Property Name="IsTemporary" Type="bit" Nullable="false" />
+          <Property Name="TemporaryPassword" Type="nvarchar(max)" />
+          <Property Name="LastChangedPassword" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="tbl_UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="AccessRole" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_Broker_tbl_User_ID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Broker" Type="Self.tbl_Broker" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BrokerStock_tbl_Broker_BrokerID">
+          <End Role="tbl_Broker" Type="Self.tbl_Broker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_BrokerStock" Type="Self.tbl_BrokerStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BrokerStock">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID">
+          <End Role="tbl_ProductSpecification" Type="Self.tbl_ProductSpecification" Multiplicity="1" />
+          <End Role="tbl_BrokerStock" Type="Self.tbl_BrokerStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductSpecification">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BrokerStock">
+              <PropertyRef Name="ProductSpecificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUser_tbl_Broker_BrokerID">
+          <End Role="tbl_Broker" Type="Self.tbl_Broker" Multiplicity="1" />
+          <End Role="tbl_FollowedUser" Type="Self.tbl_FollowedUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUser">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUser_tbl_Market_MarketID">
+          <End Role="tbl_Market" Type="Self.tbl_Market" Multiplicity="1" />
+          <End Role="tbl_FollowedUser" Type="Self.tbl_FollowedUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Market">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUser">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID">
+          <End Role="tbl_FollowedUser" Type="Self.tbl_FollowedUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_FollowedUserTag" Type="Self.tbl_FollowedUserTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_FollowedUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUserTag">
+              <PropertyRef Name="FollowedUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUserTag_tbl_Tag_TagID">
+          <End Role="tbl_Tag" Type="Self.tbl_Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_FollowedUserTag" Type="Self.tbl_FollowedUserTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUserTag">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Market_tbl_User_ID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Market" Type="Self.tbl_Market" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Market">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_NotificationAlert_tbl_User_ReceiverID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_NotificationAlert" Type="Self.tbl_NotificationAlert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_NotificationAlert">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID">
+          <End Role="tbl_BrokerStock" Type="Self.tbl_BrokerStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_OriginalPrice" Type="Self.tbl_OriginalPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_BrokerStock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_OriginalPrice">
+              <PropertyRef Name="BrokerStockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_ProductCategory_ProductCategoryID">
+          <End Role="tbl_ProductCategory" Type="Self.tbl_ProductCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_Supplier_SupplierID">
+          <End Role="tbl_Supplier" Type="Self.tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductSpecification_tbl_Product_ProductID">
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_ProductSpecification" Type="Self.tbl_ProductSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductSpecification">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductTagCollection_tbl_Product_ProductID">
+          <End Role="tbl_Product" Type="Self.tbl_Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_ProductTagCollection" Type="Self.tbl_ProductTagCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductTagCollection">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductTagCollection_tbl_Tag_TagID">
+          <End Role="tbl_Tag" Type="Self.tbl_Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_ProductTagCollection" Type="Self.tbl_ProductTagCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductTagCollection">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID">
+          <End Role="tbl_BrokerStock" Type="Self.tbl_BrokerStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_SellingPrice" Type="Self.tbl_SellingPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_BrokerStock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SellingPrice">
+              <PropertyRef Name="BrokerStockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Supplier_tbl_Broker_BrokerID">
+          <End Role="tbl_Broker" Type="Self.tbl_Broker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_Supplier" Type="Self.tbl_Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Supplier">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SupplierContact_tbl_Supplier_SupplierID">
+          <End Role="tbl_Supplier" Type="Self.tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_SupplierContact" Type="Self.tbl_SupplierContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SupplierContact">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SupplierLocation_tbl_Supplier_SupplierID">
+          <End Role="tbl_Supplier" Type="Self.tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_SupplierLocation" Type="Self.tbl_SupplierLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SupplierLocation">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserContact_tbl_User_UserID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_UserContact" Type="Self.tbl_UserContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserContact">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserLogin_tbl_User_ID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_UserLogin" Type="Self.tbl_UserLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserLogin">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserRole_tbl_User_UserID">
+          <End Role="tbl_User" Type="Self.tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="tbl_UserRole" Type="Self.tbl_UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EurekaDbStoreContainer">
+          <EntitySet Name="tbl_Broker" EntityType="Self.tbl_Broker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_BrokerStock" EntityType="Self.tbl_BrokerStock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_FollowedUser" EntityType="Self.tbl_FollowedUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_FollowedUserTag" EntityType="Self.tbl_FollowedUserTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Market" EntityType="Self.tbl_Market" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NotificationAlert" EntityType="Self.tbl_NotificationAlert" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_NotificationTemplate" EntityType="Self.tbl_NotificationTemplate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_OriginalPrice" EntityType="Self.tbl_OriginalPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Product" EntityType="Self.tbl_Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ProductCategory" EntityType="Self.tbl_ProductCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ProductSpecification" EntityType="Self.tbl_ProductSpecification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_ProductTagCollection" EntityType="Self.tbl_ProductTagCollection" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SellingPrice" EntityType="Self.tbl_SellingPrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Supplier" EntityType="Self.tbl_Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SupplierContact" EntityType="Self.tbl_SupplierContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_SupplierLocation" EntityType="Self.tbl_SupplierLocation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_Tag" EntityType="Self.tbl_Tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_User" EntityType="Self.tbl_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserContact" EntityType="Self.tbl_UserContact" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserLogin" EntityType="Self.tbl_UserLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_UserRole" EntityType="Self.tbl_UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_Broker_tbl_User_ID" Association="Self.FK_tbl_Broker_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BrokerStock_tbl_Broker_BrokerID" Association="Self.FK_tbl_BrokerStock_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID" Association="Self.FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID">
+            <End Role="tbl_ProductSpecification" EntitySet="tbl_ProductSpecification" />
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUser_tbl_Broker_BrokerID" Association="Self.FK_tbl_FollowedUser_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUser_tbl_Market_MarketID" Association="Self.FK_tbl_FollowedUser_tbl_Market_MarketID">
+            <End Role="tbl_Market" EntitySet="tbl_Market" />
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID" Association="Self.FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID">
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+            <End Role="tbl_FollowedUserTag" EntitySet="tbl_FollowedUserTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUserTag_tbl_Tag_TagID" Association="Self.FK_tbl_FollowedUserTag_tbl_Tag_TagID">
+            <End Role="tbl_Tag" EntitySet="tbl_Tag" />
+            <End Role="tbl_FollowedUserTag" EntitySet="tbl_FollowedUserTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Market_tbl_User_ID" Association="Self.FK_tbl_Market_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Market" EntitySet="tbl_Market" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_NotificationAlert_tbl_User_ReceiverID" Association="Self.FK_tbl_NotificationAlert_tbl_User_ReceiverID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_NotificationAlert" EntitySet="tbl_NotificationAlert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID" Association="Self.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID">
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+            <End Role="tbl_OriginalPrice" EntitySet="tbl_OriginalPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_ProductCategory_ProductCategoryID" Association="Self.FK_tbl_Product_tbl_ProductCategory_ProductCategoryID">
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_Supplier_SupplierID" Association="Self.FK_tbl_Product_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductSpecification_tbl_Product_ProductID" Association="Self.FK_tbl_ProductSpecification_tbl_Product_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_ProductSpecification" EntitySet="tbl_ProductSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductTagCollection_tbl_Product_ProductID" Association="Self.FK_tbl_ProductTagCollection_tbl_Product_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_ProductTagCollection" EntitySet="tbl_ProductTagCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductTagCollection_tbl_Tag_TagID" Association="Self.FK_tbl_ProductTagCollection_tbl_Tag_TagID">
+            <End Role="tbl_Tag" EntitySet="tbl_Tag" />
+            <End Role="tbl_ProductTagCollection" EntitySet="tbl_ProductTagCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID" Association="Self.FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID">
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+            <End Role="tbl_SellingPrice" EntitySet="tbl_SellingPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Supplier_tbl_Broker_BrokerID" Association="Self.FK_tbl_Supplier_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SupplierContact_tbl_Supplier_SupplierID" Association="Self.FK_tbl_SupplierContact_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_SupplierContact" EntitySet="tbl_SupplierContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SupplierLocation_tbl_Supplier_SupplierID" Association="Self.FK_tbl_SupplierLocation_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_SupplierLocation" EntitySet="tbl_SupplierLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserContact_tbl_User_UserID" Association="Self.FK_tbl_UserContact_tbl_User_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserContact" EntitySet="tbl_UserContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserLogin_tbl_User_ID" Association="Self.FK_tbl_UserLogin_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserLogin" EntitySet="tbl_UserLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserRole_tbl_User_UserID" Association="Self.FK_tbl_UserRole_tbl_User_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserRole" EntitySet="tbl_UserRole" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="EurekaDb" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="EurekaDbContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_Broker" EntityType="EurekaDb.tbl_Broker" />
+          <EntitySet Name="tbl_BrokerStock" EntityType="EurekaDb.tbl_BrokerStock" />
+          <EntitySet Name="tbl_FollowedUser" EntityType="EurekaDb.tbl_FollowedUser" />
+          <EntitySet Name="tbl_FollowedUserTag" EntityType="EurekaDb.tbl_FollowedUserTag" />
+          <EntitySet Name="tbl_Market" EntityType="EurekaDb.tbl_Market" />
+          <EntitySet Name="tbl_NotificationAlert" EntityType="EurekaDb.tbl_NotificationAlert" />
+          <EntitySet Name="tbl_NotificationTemplate" EntityType="EurekaDb.tbl_NotificationTemplate" />
+          <EntitySet Name="tbl_OriginalPrice" EntityType="EurekaDb.tbl_OriginalPrice" />
+          <EntitySet Name="tbl_Product" EntityType="EurekaDb.tbl_Product" />
+          <EntitySet Name="tbl_ProductCategory" EntityType="EurekaDb.tbl_ProductCategory" />
+          <EntitySet Name="tbl_ProductSpecification" EntityType="EurekaDb.tbl_ProductSpecification" />
+          <EntitySet Name="tbl_ProductTagCollection" EntityType="EurekaDb.tbl_ProductTagCollection" />
+          <EntitySet Name="tbl_SellingPrice" EntityType="EurekaDb.tbl_SellingPrice" />
+          <EntitySet Name="tbl_Supplier" EntityType="EurekaDb.tbl_Supplier" />
+          <EntitySet Name="tbl_SupplierContact" EntityType="EurekaDb.tbl_SupplierContact" />
+          <EntitySet Name="tbl_SupplierLocation" EntityType="EurekaDb.tbl_SupplierLocation" />
+          <EntitySet Name="tbl_Tag" EntityType="EurekaDb.tbl_Tag" />
+          <EntitySet Name="tbl_User" EntityType="EurekaDb.tbl_User" />
+          <EntitySet Name="tbl_UserContact" EntityType="EurekaDb.tbl_UserContact" />
+          <EntitySet Name="tbl_UserLogin" EntityType="EurekaDb.tbl_UserLogin" />
+          <EntitySet Name="tbl_UserRole" EntityType="EurekaDb.tbl_UserRole" />
+          <AssociationSet Name="FK_tbl_Broker_tbl_User_ID" Association="EurekaDb.FK_tbl_Broker_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BrokerStock_tbl_Broker_BrokerID" Association="EurekaDb.FK_tbl_BrokerStock_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUser_tbl_Broker_BrokerID" Association="EurekaDb.FK_tbl_FollowedUser_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Supplier_tbl_Broker_BrokerID" Association="EurekaDb.FK_tbl_Supplier_tbl_Broker_BrokerID">
+            <End Role="tbl_Broker" EntitySet="tbl_Broker" />
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID" Association="EurekaDb.FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID">
+            <End Role="tbl_ProductSpecification" EntitySet="tbl_ProductSpecification" />
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID1" Association="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID1">
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+            <End Role="tbl_OriginalPrice" EntitySet="tbl_OriginalPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID" Association="EurekaDb.FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID">
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+            <End Role="tbl_SellingPrice" EntitySet="tbl_SellingPrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUser_tbl_Market_MarketID" Association="EurekaDb.FK_tbl_FollowedUser_tbl_Market_MarketID">
+            <End Role="tbl_Market" EntitySet="tbl_Market" />
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID" Association="EurekaDb.FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID">
+            <End Role="tbl_FollowedUser" EntitySet="tbl_FollowedUser" />
+            <End Role="tbl_FollowedUserTag" EntitySet="tbl_FollowedUserTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_FollowedUserTag_tbl_Tag_TagID" Association="EurekaDb.FK_tbl_FollowedUserTag_tbl_Tag_TagID">
+            <End Role="tbl_Tag" EntitySet="tbl_Tag" />
+            <End Role="tbl_FollowedUserTag" EntitySet="tbl_FollowedUserTag" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Market_tbl_User_ID" Association="EurekaDb.FK_tbl_Market_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_Market" EntitySet="tbl_Market" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_NotificationAlert_tbl_User_ReceiverID" Association="EurekaDb.FK_tbl_NotificationAlert_tbl_User_ReceiverID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_NotificationAlert" EntitySet="tbl_NotificationAlert" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_ProductCategory_ProductCategoryID" Association="EurekaDb.FK_tbl_Product_tbl_ProductCategory_ProductCategoryID">
+            <End Role="tbl_ProductCategory" EntitySet="tbl_ProductCategory" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_Product_tbl_Supplier_SupplierID" Association="EurekaDb.FK_tbl_Product_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductSpecification_tbl_Product_ProductID" Association="EurekaDb.FK_tbl_ProductSpecification_tbl_Product_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_ProductSpecification" EntitySet="tbl_ProductSpecification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductTagCollection_tbl_Product_ProductID" Association="EurekaDb.FK_tbl_ProductTagCollection_tbl_Product_ProductID">
+            <End Role="tbl_Product" EntitySet="tbl_Product" />
+            <End Role="tbl_ProductTagCollection" EntitySet="tbl_ProductTagCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_ProductTagCollection_tbl_Tag_TagID" Association="EurekaDb.FK_tbl_ProductTagCollection_tbl_Tag_TagID">
+            <End Role="tbl_Tag" EntitySet="tbl_Tag" />
+            <End Role="tbl_ProductTagCollection" EntitySet="tbl_ProductTagCollection" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SupplierContact_tbl_Supplier_SupplierID" Association="EurekaDb.FK_tbl_SupplierContact_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_SupplierContact" EntitySet="tbl_SupplierContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_SupplierLocation_tbl_Supplier_SupplierID" Association="EurekaDb.FK_tbl_SupplierLocation_tbl_Supplier_SupplierID">
+            <End Role="tbl_Supplier" EntitySet="tbl_Supplier" />
+            <End Role="tbl_SupplierLocation" EntitySet="tbl_SupplierLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserContact_tbl_User_UserID" Association="EurekaDb.FK_tbl_UserContact_tbl_User_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserContact" EntitySet="tbl_UserContact" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserLogin_tbl_User_ID" Association="EurekaDb.FK_tbl_UserLogin_tbl_User_ID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserLogin" EntitySet="tbl_UserLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_UserRole_tbl_User_UserID" Association="EurekaDb.FK_tbl_UserRole_tbl_User_UserID">
+            <End Role="tbl_User" EntitySet="tbl_User" />
+            <End Role="tbl_UserRole" EntitySet="tbl_UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID" Association="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID">
+            <End Role="tbl_BrokerStock" EntitySet="tbl_BrokerStock" />
+            <End Role="tbl_OriginalPrice" EntitySet="tbl_OriginalPrice" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="tbl_Broker">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_Broker_tbl_User_ID" FromRole="tbl_Broker" ToRole="tbl_User" />
+          <NavigationProperty Name="tbl_BrokerStock" Relationship="EurekaDb.FK_tbl_BrokerStock_tbl_Broker_BrokerID" FromRole="tbl_Broker" ToRole="tbl_BrokerStock" />
+          <NavigationProperty Name="tbl_FollowedUser" Relationship="EurekaDb.FK_tbl_FollowedUser_tbl_Broker_BrokerID" FromRole="tbl_Broker" ToRole="tbl_FollowedUser" />
+          <NavigationProperty Name="tbl_Supplier" Relationship="EurekaDb.FK_tbl_Supplier_tbl_Broker_BrokerID" FromRole="tbl_Broker" ToRole="tbl_Supplier" />
+        </EntityType>
+        <EntityType Name="tbl_BrokerStock">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrokerID" Type="Int64" Nullable="false" />
+          <Property Name="ProductSpecificationID" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_Broker" Relationship="EurekaDb.FK_tbl_BrokerStock_tbl_Broker_BrokerID" FromRole="tbl_BrokerStock" ToRole="tbl_Broker" />
+          <NavigationProperty Name="tbl_ProductSpecification" Relationship="EurekaDb.FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID" FromRole="tbl_BrokerStock" ToRole="tbl_ProductSpecification" />
+          <NavigationProperty Name="tbl_OriginalPrice" Relationship="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID1" FromRole="tbl_BrokerStock" ToRole="tbl_OriginalPrice" />
+          <NavigationProperty Name="tbl_SellingPrice" Relationship="EurekaDb.FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID" FromRole="tbl_BrokerStock" ToRole="tbl_SellingPrice" />
+          <NavigationProperty Name="tbl_OriginalPrice1" Relationship="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID" FromRole="tbl_BrokerStock" ToRole="tbl_OriginalPrice" />
+        </EntityType>
+        <EntityType Name="tbl_FollowedUser">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarketID" Type="Int64" Nullable="false" />
+          <Property Name="BrokerID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_Broker" Relationship="EurekaDb.FK_tbl_FollowedUser_tbl_Broker_BrokerID" FromRole="tbl_FollowedUser" ToRole="tbl_Broker" />
+          <NavigationProperty Name="tbl_Market" Relationship="EurekaDb.FK_tbl_FollowedUser_tbl_Market_MarketID" FromRole="tbl_FollowedUser" ToRole="tbl_Market" />
+          <NavigationProperty Name="tbl_FollowedUserTag" Relationship="EurekaDb.FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID" FromRole="tbl_FollowedUser" ToRole="tbl_FollowedUserTag" />
+        </EntityType>
+        <EntityType Name="tbl_FollowedUserTag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FollowedUserID" Type="Int64" Nullable="false" />
+          <Property Name="TagID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_FollowedUser" Relationship="EurekaDb.FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID" FromRole="tbl_FollowedUserTag" ToRole="tbl_FollowedUser" />
+          <NavigationProperty Name="tbl_Tag" Relationship="EurekaDb.FK_tbl_FollowedUserTag_tbl_Tag_TagID" FromRole="tbl_FollowedUserTag" ToRole="tbl_Tag" />
+        </EntityType>
+        <EntityType Name="tbl_Market">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_FollowedUser" Relationship="EurekaDb.FK_tbl_FollowedUser_tbl_Market_MarketID" FromRole="tbl_Market" ToRole="tbl_FollowedUser" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_Market_tbl_User_ID" FromRole="tbl_Market" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_NotificationAlert">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReceiverID" Type="Int64" Nullable="false" />
+          <Property Name="UID" Type="Guid" Nullable="false" />
+          <Property Name="UrlSegment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsSent" Type="Boolean" />
+          <Property Name="IsFailed" Type="Boolean" />
+          <Property Name="IsRead" Type="Boolean" />
+          <Property Name="ReadOn" Type="DateTime" Precision="7" />
+          <Property Name="NotificationType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_NotificationAlert_tbl_User_ReceiverID" FromRole="tbl_NotificationAlert" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_NotificationTemplate">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="tbl_OriginalPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="Decimal" Nullable="false" Precision="20" Scale="6" />
+          <Property Name="Effectivity" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="BrokerStockID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_BrokerStock" Relationship="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID1" FromRole="tbl_OriginalPrice" ToRole="tbl_BrokerStock" />
+          <NavigationProperty Name="tbl_BrokerStock1" Relationship="EurekaDb.FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID" FromRole="tbl_OriginalPrice" ToRole="tbl_BrokerStock" />
+        </EntityType>
+        <EntityType Name="tbl_Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ProductCategoryID" Type="Int64" Nullable="false" />
+          <Property Name="SupplierID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_ProductCategory" Relationship="EurekaDb.FK_tbl_Product_tbl_ProductCategory_ProductCategoryID" FromRole="tbl_Product" ToRole="tbl_ProductCategory" />
+          <NavigationProperty Name="tbl_Supplier" Relationship="EurekaDb.FK_tbl_Product_tbl_Supplier_SupplierID" FromRole="tbl_Product" ToRole="tbl_Supplier" />
+          <NavigationProperty Name="tbl_ProductSpecification" Relationship="EurekaDb.FK_tbl_ProductSpecification_tbl_Product_ProductID" FromRole="tbl_Product" ToRole="tbl_ProductSpecification" />
+          <NavigationProperty Name="tbl_ProductTagCollection" Relationship="EurekaDb.FK_tbl_ProductTagCollection_tbl_Product_ProductID" FromRole="tbl_Product" ToRole="tbl_ProductTagCollection" />
+        </EntityType>
+        <EntityType Name="tbl_ProductCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tbl_Product" Relationship="EurekaDb.FK_tbl_Product_tbl_ProductCategory_ProductCategoryID" FromRole="tbl_ProductCategory" ToRole="tbl_Product" />
+        </EntityType>
+        <EntityType Name="tbl_ProductSpecification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductSpecificationID" Type="Int64" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <Property Name="Specification" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SpecificationDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_BrokerStock" Relationship="EurekaDb.FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID" FromRole="tbl_ProductSpecification" ToRole="tbl_BrokerStock" />
+          <NavigationProperty Name="tbl_Product" Relationship="EurekaDb.FK_tbl_ProductSpecification_tbl_Product_ProductID" FromRole="tbl_ProductSpecification" ToRole="tbl_Product" />
+        </EntityType>
+        <EntityType Name="tbl_ProductTagCollection">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagID" Type="Int64" Nullable="false" />
+          <Property Name="ProductID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_Product" Relationship="EurekaDb.FK_tbl_ProductTagCollection_tbl_Product_ProductID" FromRole="tbl_ProductTagCollection" ToRole="tbl_Product" />
+          <NavigationProperty Name="tbl_Tag" Relationship="EurekaDb.FK_tbl_ProductTagCollection_tbl_Tag_TagID" FromRole="tbl_ProductTagCollection" ToRole="tbl_Tag" />
+        </EntityType>
+        <EntityType Name="tbl_SellingPrice">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="Decimal" Nullable="false" Precision="20" Scale="6" />
+          <Property Name="Effectivity" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="BrokerStockID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="tbl_BrokerStock" Relationship="EurekaDb.FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID" FromRole="tbl_SellingPrice" ToRole="tbl_BrokerStock" />
+        </EntityType>
+        <EntityType Name="tbl_Supplier">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BrokerID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Broker" Relationship="EurekaDb.FK_tbl_Supplier_tbl_Broker_BrokerID" FromRole="tbl_Supplier" ToRole="tbl_Broker" />
+          <NavigationProperty Name="tbl_Product" Relationship="EurekaDb.FK_tbl_Product_tbl_Supplier_SupplierID" FromRole="tbl_Supplier" ToRole="tbl_Product" />
+          <NavigationProperty Name="tbl_SupplierContact" Relationship="EurekaDb.FK_tbl_SupplierContact_tbl_Supplier_SupplierID" FromRole="tbl_Supplier" ToRole="tbl_SupplierContact" />
+          <NavigationProperty Name="tbl_SupplierLocation" Relationship="EurekaDb.FK_tbl_SupplierLocation_tbl_Supplier_SupplierID" FromRole="tbl_Supplier" ToRole="tbl_SupplierLocation" />
+        </EntityType>
+        <EntityType Name="tbl_SupplierContact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int64" Nullable="false" />
+          <Property Name="ContactPerson" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ContactType" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Supplier" Relationship="EurekaDb.FK_tbl_SupplierContact_tbl_Supplier_SupplierID" FromRole="tbl_SupplierContact" ToRole="tbl_Supplier" />
+        </EntityType>
+        <EntityType Name="tbl_SupplierLocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SupplierID" Type="Int64" Nullable="false" />
+          <Property Name="FullAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="20" Scale="6" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="20" Scale="6" />
+          <NavigationProperty Name="tbl_Supplier" Relationship="EurekaDb.FK_tbl_SupplierLocation_tbl_Supplier_SupplierID" FromRole="tbl_SupplierLocation" ToRole="tbl_Supplier" />
+        </EntityType>
+        <EntityType Name="tbl_Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_FollowedUserTag" Relationship="EurekaDb.FK_tbl_FollowedUserTag_tbl_Tag_TagID" FromRole="tbl_Tag" ToRole="tbl_FollowedUserTag" />
+          <NavigationProperty Name="tbl_ProductTagCollection" Relationship="EurekaDb.FK_tbl_ProductTagCollection_tbl_Tag_TagID" FromRole="tbl_Tag" ToRole="tbl_ProductTagCollection" />
+        </EntityType>
+        <EntityType Name="tbl_User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UID" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="MiddleName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="FullName" Type="String" Nullable="false" MaxLength="305" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Gender" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_Broker" Relationship="EurekaDb.FK_tbl_Broker_tbl_User_ID" FromRole="tbl_User" ToRole="tbl_Broker" />
+          <NavigationProperty Name="tbl_Market" Relationship="EurekaDb.FK_tbl_Market_tbl_User_ID" FromRole="tbl_User" ToRole="tbl_Market" />
+          <NavigationProperty Name="tbl_NotificationAlert" Relationship="EurekaDb.FK_tbl_NotificationAlert_tbl_User_ReceiverID" FromRole="tbl_User" ToRole="tbl_NotificationAlert" />
+          <NavigationProperty Name="tbl_UserContact" Relationship="EurekaDb.FK_tbl_UserContact_tbl_User_UserID" FromRole="tbl_User" ToRole="tbl_UserContact" />
+          <NavigationProperty Name="tbl_UserLogin" Relationship="EurekaDb.FK_tbl_UserLogin_tbl_User_ID" FromRole="tbl_User" ToRole="tbl_UserLogin" />
+          <NavigationProperty Name="tbl_UserRole" Relationship="EurekaDb.FK_tbl_UserRole_tbl_User_UserID" FromRole="tbl_User" ToRole="tbl_UserRole" />
+        </EntityType>
+        <EntityType Name="tbl_UserContact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ContactType" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_UserContact_tbl_User_UserID" FromRole="tbl_UserContact" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_UserLogin">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="120" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="160" FixedLength="false" Unicode="true" />
+          <Property Name="Salt" Type="Binary" Nullable="false" MaxLength="500" FixedLength="false" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="500" FixedLength="false" />
+          <Property Name="IsTemporary" Type="Boolean" Nullable="false" />
+          <Property Name="TemporaryPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastChangedPassword" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_UserLogin_tbl_User_ID" FromRole="tbl_UserLogin" ToRole="tbl_User" />
+        </EntityType>
+        <EntityType Name="tbl_UserRole">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="AccessRole" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_User" Relationship="EurekaDb.FK_tbl_UserRole_tbl_User_UserID" FromRole="tbl_UserRole" ToRole="tbl_User" />
+        </EntityType>
+        <Association Name="FK_tbl_Broker_tbl_User_ID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_Broker" Role="tbl_Broker" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BrokerStock_tbl_Broker_BrokerID">
+          <End Type="EurekaDb.tbl_Broker" Role="tbl_Broker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_BrokerStock" Role="tbl_BrokerStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BrokerStock">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUser_tbl_Broker_BrokerID">
+          <End Type="EurekaDb.tbl_Broker" Role="tbl_Broker" Multiplicity="1" />
+          <End Type="EurekaDb.tbl_FollowedUser" Role="tbl_FollowedUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUser">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Supplier_tbl_Broker_BrokerID">
+          <End Type="EurekaDb.tbl_Broker" Role="tbl_Broker" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_Supplier" Role="tbl_Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Broker">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Supplier">
+              <PropertyRef Name="BrokerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_BrokerStock_tbl_ProductSpecification_ProductSpecificationID">
+          <End Type="EurekaDb.tbl_ProductSpecification" Role="tbl_ProductSpecification" Multiplicity="1" />
+          <End Type="EurekaDb.tbl_BrokerStock" Role="tbl_BrokerStock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductSpecification">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_BrokerStock">
+              <PropertyRef Name="ProductSpecificationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID1">
+          <End Type="EurekaDb.tbl_BrokerStock" Role="tbl_BrokerStock" Multiplicity="0..1" />
+          <End Type="EurekaDb.tbl_OriginalPrice" Role="tbl_OriginalPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_BrokerStock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_OriginalPrice">
+              <PropertyRef Name="BrokerStockID1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SellingPrice_tbl_BrokerStock_BrokerStockID">
+          <End Type="EurekaDb.tbl_BrokerStock" Role="tbl_BrokerStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_SellingPrice" Role="tbl_SellingPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_BrokerStock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SellingPrice">
+              <PropertyRef Name="BrokerStockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUser_tbl_Market_MarketID">
+          <End Type="EurekaDb.tbl_Market" Role="tbl_Market" Multiplicity="1" />
+          <End Type="EurekaDb.tbl_FollowedUser" Role="tbl_FollowedUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Market">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUser">
+              <PropertyRef Name="MarketID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUserTag_tbl_FollowedUser_FollowedUserID">
+          <End Type="EurekaDb.tbl_FollowedUser" Role="tbl_FollowedUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_FollowedUserTag" Role="tbl_FollowedUserTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_FollowedUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUserTag">
+              <PropertyRef Name="FollowedUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_FollowedUserTag_tbl_Tag_TagID">
+          <End Type="EurekaDb.tbl_Tag" Role="tbl_Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_FollowedUserTag" Role="tbl_FollowedUserTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_FollowedUserTag">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Market_tbl_User_ID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_Market" Role="tbl_Market" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Market">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_NotificationAlert_tbl_User_ReceiverID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_NotificationAlert" Role="tbl_NotificationAlert" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_NotificationAlert">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_ProductCategory_ProductCategoryID">
+          <End Type="EurekaDb.tbl_ProductCategory" Role="tbl_ProductCategory" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_Product" Role="tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_ProductCategory">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="ProductCategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_Product_tbl_Supplier_SupplierID">
+          <End Type="EurekaDb.tbl_Supplier" Role="tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_Product" Role="tbl_Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_Product">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductSpecification_tbl_Product_ProductID">
+          <End Type="EurekaDb.tbl_Product" Role="tbl_Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_ProductSpecification" Role="tbl_ProductSpecification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductSpecification">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductTagCollection_tbl_Product_ProductID">
+          <End Type="EurekaDb.tbl_Product" Role="tbl_Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_ProductTagCollection" Role="tbl_ProductTagCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductTagCollection">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_ProductTagCollection_tbl_Tag_TagID">
+          <End Type="EurekaDb.tbl_Tag" Role="tbl_Tag" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_ProductTagCollection" Role="tbl_ProductTagCollection" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_ProductTagCollection">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SupplierContact_tbl_Supplier_SupplierID">
+          <End Type="EurekaDb.tbl_Supplier" Role="tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_SupplierContact" Role="tbl_SupplierContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SupplierContact">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_SupplierLocation_tbl_Supplier_SupplierID">
+          <End Type="EurekaDb.tbl_Supplier" Role="tbl_Supplier" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_SupplierLocation" Role="tbl_SupplierLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_Supplier">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_SupplierLocation">
+              <PropertyRef Name="SupplierID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserContact_tbl_User_UserID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_UserContact" Role="tbl_UserContact" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserContact">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserLogin_tbl_User_ID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_UserLogin" Role="tbl_UserLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserLogin">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_UserRole_tbl_User_UserID">
+          <End Type="EurekaDb.tbl_User" Role="tbl_User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_UserRole" Role="tbl_UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_User">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_UserRole">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_OriginalPrice_tbl_BrokerStock_BrokerStockID">
+          <End Type="EurekaDb.tbl_BrokerStock" Role="tbl_BrokerStock" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="EurekaDb.tbl_OriginalPrice" Role="tbl_OriginalPrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_BrokerStock">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tbl_OriginalPrice">
+              <PropertyRef Name="BrokerStockID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="EurekaDb" />
+        <Alias Key="Target" Value="EurekaDb.Store" />
+        <EntityContainerMapping CdmEntityContainer="EurekaDbContainer" StorageEntityContainer="EurekaDbStoreContainer">
+          <EntitySetMapping Name="tbl_Broker">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_Broker">
+              <MappingFragment StoreEntitySet="tbl_Broker">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_BrokerStock">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_BrokerStock">
+              <MappingFragment StoreEntitySet="tbl_BrokerStock">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductSpecificationID" ColumnName="ProductSpecificationID" />
+                <ScalarProperty Name="BrokerID" ColumnName="BrokerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_FollowedUser">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_FollowedUser">
+              <MappingFragment StoreEntitySet="tbl_FollowedUser">
+                <ScalarProperty Name="BrokerID" ColumnName="BrokerID" />
+                <ScalarProperty Name="MarketID" ColumnName="MarketID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_FollowedUserTag">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_FollowedUserTag">
+              <MappingFragment StoreEntitySet="tbl_FollowedUserTag">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="FollowedUserID" ColumnName="FollowedUserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Market">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_Market">
+              <MappingFragment StoreEntitySet="tbl_Market">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NotificationAlert">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_NotificationAlert">
+              <MappingFragment StoreEntitySet="tbl_NotificationAlert">
+                <ScalarProperty Name="NotificationType" ColumnName="NotificationType" />
+                <ScalarProperty Name="ReadOn" ColumnName="ReadOn" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="IsFailed" ColumnName="IsFailed" />
+                <ScalarProperty Name="IsSent" ColumnName="IsSent" />
+                <ScalarProperty Name="Message" ColumnName="Message" />
+                <ScalarProperty Name="UrlSegment" ColumnName="UrlSegment" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_NotificationTemplate">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_NotificationTemplate">
+              <MappingFragment StoreEntitySet="tbl_NotificationTemplate">
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_OriginalPrice">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_OriginalPrice">
+              <MappingFragment StoreEntitySet="tbl_OriginalPrice">
+                <ScalarProperty Name="BrokerStockID" ColumnName="BrokerStockID" />
+                <ScalarProperty Name="Effectivity" ColumnName="Effectivity" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Product">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_Product">
+              <MappingFragment StoreEntitySet="tbl_Product">
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="ProductCategoryID" ColumnName="ProductCategoryID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProductCategory">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_ProductCategory">
+              <MappingFragment StoreEntitySet="tbl_ProductCategory">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProductSpecification">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_ProductSpecification">
+              <MappingFragment StoreEntitySet="tbl_ProductSpecification">
+                <ScalarProperty Name="SpecificationDescription" ColumnName="SpecificationDescription" />
+                <ScalarProperty Name="Specification" ColumnName="Specification" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ProductSpecificationID" ColumnName="ProductSpecificationID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_ProductTagCollection">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_ProductTagCollection">
+              <MappingFragment StoreEntitySet="tbl_ProductTagCollection">
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SellingPrice">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_SellingPrice">
+              <MappingFragment StoreEntitySet="tbl_SellingPrice">
+                <ScalarProperty Name="BrokerStockID" ColumnName="BrokerStockID" />
+                <ScalarProperty Name="Effectivity" ColumnName="Effectivity" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Supplier">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_Supplier">
+              <MappingFragment StoreEntitySet="tbl_Supplier">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="BrokerID" ColumnName="BrokerID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SupplierContact">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_SupplierContact">
+              <MappingFragment StoreEntitySet="tbl_SupplierContact">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="ContactPerson" ColumnName="ContactPerson" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_SupplierLocation">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_SupplierLocation">
+              <MappingFragment StoreEntitySet="tbl_SupplierLocation">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="FullAddress" ColumnName="FullAddress" />
+                <ScalarProperty Name="SupplierID" ColumnName="SupplierID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_Tag">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_Tag">
+              <MappingFragment StoreEntitySet="tbl_Tag">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_User">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_User">
+              <MappingFragment StoreEntitySet="tbl_User">
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserContact">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_UserContact">
+              <MappingFragment StoreEntitySet="tbl_UserContact">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ContactType" ColumnName="ContactType" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserLogin">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_UserLogin">
+              <MappingFragment StoreEntitySet="tbl_UserLogin">
+                <ScalarProperty Name="LastChangedPassword" ColumnName="LastChangedPassword" />
+                <ScalarProperty Name="TemporaryPassword" ColumnName="TemporaryPassword" />
+                <ScalarProperty Name="IsTemporary" ColumnName="IsTemporary" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_UserRole">
+            <EntityTypeMapping TypeName="EurekaDb.tbl_UserRole">
+              <MappingFragment StoreEntitySet="tbl_UserRole">
+                <ScalarProperty Name="AccessRole" ColumnName="AccessRole" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -69,6 +69,15 @@ namespace Lynx.MobileApp.ViewModels
         }
         #endregion
 
+        #region EnableFlag
+        private bool enableFlag = true;
+        public bool EnableFlag
+        {
+            get => enableFlag;
+            set => SetProperty(ref enableFlag, value);
+        }
+        #endregion
+
 
 
 

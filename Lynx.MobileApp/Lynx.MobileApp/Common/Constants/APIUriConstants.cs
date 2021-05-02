@@ -12,5 +12,6 @@ namespace Lynx.MobileApp.Common.Constants
         public const string TrackBill = "TrackBills";
         public const string AccessToken = "AccessToken";
         public const string Ping = "Ping";
+        public const string TextTemplate = "TextTemplate";
     }
 }

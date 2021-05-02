@@ -23,8 +23,15 @@
 
 
     <Shell.FlyoutHeader>
-        <Grid HeightRequest="100" BackgroundColor="LightBlue">
-            
+        <Grid HeightRequest="100" BackgroundColor="LightBlue" ColumnDefinitions="1*, 4*">
+            <StackLayout Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Center">
+                <Label Text="Avatar" />
+            </StackLayout>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <Label Grid.Row="0" Text="Vincent Dagpin" VerticalTextAlignment="End" Margin="5,0,0,0" />
+                <Label Grid.Row="1" Text="VIP" Margin="5,0,0,0"  />
+            </Grid>
         </Grid>
     </Shell.FlyoutHeader>
 

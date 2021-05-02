@@ -37,20 +37,12 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
 
             var token = await p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID));
 
-            try
+            if (token != null)
             {
                 var s = p_UserSessionDbSet.Find(token.SessionID);
 
-                if (s != null)
-                {
-                    p_UserSessionDbSet.Remove(s);
-                    p_BaseDbContext.SaveChanges();
-                }
-            }
-            catch (Exception ex)
-            {
-
-                throw;
+                p_UserSessionDbSet.Remove(s);
+                p_BaseDbContext.SaveChanges();
             }
         }
     }

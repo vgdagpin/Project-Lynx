@@ -16,8 +16,11 @@
     var jsonConfig = Path.ChangeExtension(t4File, "json");
     var config = JObject.Parse(File.ReadAllText(jsonConfig));
     var entitiesDirectory = Path.GetFullPath(Path.Combine(entitiesPath,config.SelectToken("$.Entities.Path").ToString() ));
+	var excludedPath = config.SelectToken("$.Entities.ExcludedFiles");
 
-	var excludedTypes = config.SelectToken("$.Entities.ExcludedFiles").ToObject<string[]>().Select(a => Path.GetFullPath(Path.Combine(entitiesPath, a)));
+    var excludedTypes = excludedPath != null
+		? excludedPath.ToObject<string[]>().Select(a => Path.GetFullPath(Path.Combine(entitiesPath, a)))
+		: new List<string>().ToArray();
 #>
 using System;
 using System.Linq;

@@ -23,55 +23,30 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
 {
     public class GetUserBillsQrHandler_API : GetUserBillsQrHandler
     {
-        private readonly IHttpClientFactory p_ClientFactory;
         private readonly ILogger p_ExceptionHandler;
-        private readonly ITasqR p_TasqR;
-        private readonly IAppUser p_AppUser;
-        private readonly IJsonSerializer p_JsonSerializer;
-        private HttpClient p_HttpClient;
+        private readonly ILynxAPI p_HttpClient;
 
         public GetUserBillsQrHandler_API
             (
-                IHttpClientFactory clientFactory, 
-                ILogger<GetUserBillsQrHandler_API> exceptionHandler, 
-                ITasqR tasqR, 
-                IAppUser appUser,
-                IJsonSerializer jsonSerializer
+                ILynxAPI clientFactory, 
+                ILogger<GetUserBillsQrHandler_API> exceptionHandler
             )
         {
-            p_ClientFactory = clientFactory;
+            p_HttpClient = clientFactory;
             p_ExceptionHandler = exceptionHandler;
-            p_TasqR = tasqR;
-            p_AppUser = appUser;
-            p_JsonSerializer = jsonSerializer;
-        }
-
-        public async override Task InitializeAsync(GetUserBillsQr request, CancellationToken cancellationToken)
-        {
-            var token = await p_TasqR.RunAsync(new GetTokenCmd(p_AppUser.UserID));
-            p_HttpClient = p_ClientFactory.LynxApiClient(token);
         }
 
         public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{APIUriConstants.UserBill}?forecastDays={process.ForecastDays}");
-                var httpResponse = await p_HttpClient.SendAsync(httpRequest, cancellationToken);
-
-                string jsonContent = await httpResponse.Content.ReadAsStringAsync();
-
-                if (httpResponse.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    throw new LynxUnauthorizedException();
-                }
-
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    throw new LynxHttpException(httpResponse);
-                }
-
-                return p_JsonSerializer.Deserialize<IEnumerable<UserBillSummaryVM>>(jsonContent);
+                var httpResponse = await p_HttpClient.GetAsync<IEnumerable<UserBillSummaryVM>>
+                    (
+                        $"{APIUriConstants.UserBill}?forecastDays={process.ForecastDays}", 
+                        cancellationToken
+                    );
+       
+                return httpResponse.ObjectContent;
             }
             catch (Exception ex)
             {
