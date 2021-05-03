@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.TrackBillsQrs;
@@ -14,7 +15,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
 {
-    public class GetTrackedBillsQrHandler : TasqHandlerAsync<GetTrackBillsQr, IEnumerable<TrackBillSummaryVM>>
+    public class GetTrackedBillsQrHandler : TasqHandlerAsync<GetTrackBillsQr, IEnumerable<TrackBillSummaryBO>>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
@@ -27,14 +28,14 @@ namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
             p_Mapper = mapper;
         }
 
-        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<TrackBillSummaryBO>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
         {
             return await p_DbContext.TrackBills
                     .Include(a => a.N_Bill)
                     .Include(a => a.N_ProviderType)
                     .Include(a => a.N_TrackBillSettings)
                     .Where(a => a.UserID == process.UserID)
-                    .ProjectTo<TrackBillSummaryVM>(p_Mapper.ConfigurationProvider)
+                    .ProjectTo<TrackBillSummaryBO>(p_Mapper.ConfigurationProvider)
                     .ToListAsync();
         }
     }

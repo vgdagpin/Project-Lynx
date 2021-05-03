@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using FluentValidation;
 using Lynx.Commands.TrackBillCmds;
 using Lynx.Constants;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
 {
-    public class CreateTrackBillCmdHandler : TasqHandlerAsync<CreateTrackBillCmd, CreateResult<TrackBillVM>>
+    public class CreateTrackBillCmdHandler : TasqHandlerAsync<CreateTrackBillCmd, CreateResult<TrackBillBO>>
     {
         private readonly IDateTime p_DateTime;
 
@@ -38,26 +38,27 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
 
         public override Task InitializeAsync(CreateTrackBillCmd tasq, CancellationToken cancellationToken)
         {
-            var validationResult = tasq.Validator.ValidateUsing<TrackBillVMValidator>(tasq.Entry);
+            //var validationResult = tasq.Validator.ValidateUsing<TrackBillBOValidator>(tasq.Entry);
 
-            if (!validationResult.IsValid)
-            {
-                throw new LynxException(new ValidationException(validationResult.Errors));
-            }
+            //if (!validationResult.IsValid)
+            //{
+            //    throw new LynxException(new ValidationException(validationResult.Errors));
+            //}
 
-            return base.InitializeAsync(tasq, cancellationToken);
+            //return base.InitializeAsync(tasq, cancellationToken);
+            throw new NotImplementedException();
         }
 
-        public override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd request, CancellationToken cancellationToken = default)
+        public override Task<CreateResult<TrackBillBO>> RunAsync(CreateTrackBillCmd request, CancellationToken cancellationToken = default)
         {
-            Task<CreateResult<TrackBillVM>> retVal = null;
+            Task<CreateResult<TrackBillBO>> retVal = null;
 
             if (request.Entry == null)
             {
-                return Task.FromResult(new CreateResult<TrackBillVM>
+                return Task.FromResult(new CreateResult<TrackBillBO>
                 {
                     IsCreated = false,
-                    Error = new LynxObjectNotFoundException<TrackBillVM>("Parameter is null")
+                    Error = new LynxObjectNotFoundException<TrackBillBO>("Parameter is null")
                 });
             }
 
@@ -132,7 +133,7 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                     {
                         if (result.IsFaulted)
                         {
-                            return new CreateResult<TrackBillVM>
+                            return new CreateResult<TrackBillBO>
                             {
                                 IsCreated = false,
                                 NewEntry = request.Entry,
@@ -140,21 +141,21 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                             };
                         }
 
-                        return new CreateResult<TrackBillVM>
+                        return new CreateResult<TrackBillBO>
                         {
                             IsCreated = true,
-                            NewEntry = Mapper.Map<TrackBillVM>(entityEntry.Entity)
+                            NewEntry = Mapper.Map<TrackBillBO>(entityEntry.Entity)
                         };
                     });
             }
             else
             {
-                var entry = Mapper.Map<TrackBillVM>(newEntry);
+                var entry = Mapper.Map<TrackBillBO>(newEntry);
 
-                entry.Bill = Mapper.Map<BillVM>(bill);
-                entry.BillProvider = Mapper.Map<BillProviderVM>(billProvider);
+                entry.Bill = Mapper.Map<BillBO>(bill);
+                entry.BillProvider = Mapper.Map<BillProviderBO>(billProvider);
 
-                retVal = Task.FromResult(new CreateResult<TrackBillVM>
+                retVal = Task.FromResult(new CreateResult<TrackBillBO>
                 {
                     NewEntry = entry
                 });

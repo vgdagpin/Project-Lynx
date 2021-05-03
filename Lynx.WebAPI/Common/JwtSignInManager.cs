@@ -9,6 +9,7 @@ using Lynx.Commands.UserLoginCmds;
 using Lynx.Commands.UserSessionCmds;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Exceptions;
 using Lynx.Interfaces;
@@ -43,7 +44,7 @@ namespace Lynx.WebAPI.Common
             p_DataSecure = dataSecure;
         }
 
-        public async Task<UserSessionVM> SignInAsync(string username, string password)
+        public async Task<UserSessionBO> SignInAsync(string username, string password)
         {
             var validate = await p_TasqR.RunAsync(new ValidateUserLoginCmd(username, password));
 
@@ -53,7 +54,7 @@ namespace Lynx.WebAPI.Common
 
             var user = await p_TasqR.RunAsync(new GetUserDetailQr(username));
 
-            var userVm = p_Mapper.Map<UserVM>(user);
+            var userVm = p_Mapper.Map<UserBO>(user);
             Guid newSession = Guid.NewGuid();
 
             //Random string
@@ -89,7 +90,7 @@ namespace Lynx.WebAPI.Common
             return await p_TasqR.RunAsync(new ExpiringSessionCmd(token));
         }
 
-        public async Task<UserSessionVM> RefreshUserTokenAsync(string token, string refreshToken)
+        public async Task<UserSessionBO> RefreshUserTokenAsync(string token, string refreshToken)
         {
             var user = ExtractUserFromToken(token);
 
@@ -107,9 +108,9 @@ namespace Lynx.WebAPI.Common
             return null;
         }
 
-        private UserSessionVM TokenBuilder(UserSession session)
+        private UserSessionBO TokenBuilder(UserSessionBO session)
         {
-            var user = p_Mapper.Map<UserVM>(session.User);
+            var user = p_Mapper.Map<UserBO>(session.UserData);
 
             string userData = JsonConvert.SerializeObject(user);
 
@@ -140,13 +141,13 @@ namespace Lynx.WebAPI.Common
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var accessToken = tokenHandler.WriteToken(token);
 
-            return new UserSessionVM
+            return new UserSessionBO
             {
                 Token = accessToken
             };
         }
 
-        public UserVM ExtractUserFromToken(string accessToken)
+        public UserBO ExtractUserFromToken(string accessToken)
         {
             var tokenValidationParam = Startup.TokenValidationParameters(p_Configuration);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -166,7 +167,7 @@ namespace Lynx.WebAPI.Common
             {
                 Claim claimUserData = principle.FindFirst(ClaimTypes.UserData);
 
-                return JsonConvert.DeserializeObject<UserVM>(claimUserData?.Value);
+                return JsonConvert.DeserializeObject<UserBO>(claimUserData?.Value);
             }
 
 
@@ -200,14 +201,14 @@ namespace Lynx.WebAPI.Common
             return null;
         }
 
-        private async Task<bool> ValidateRefreshToken(UserVM user, string refreshToken)
+        private async Task<bool> ValidateRefreshToken(UserBO user, string refreshToken)
         {
             var session = await p_TasqR.RunAsync(new GetSessionFromTokenQr(refreshToken));
 
             if (session == null)
                 return false;
 
-            if (user.ID == session.User.ID
+            if (user.ID == session.UserData.ID
                 && !session.IsExpired)
                 return true;
 

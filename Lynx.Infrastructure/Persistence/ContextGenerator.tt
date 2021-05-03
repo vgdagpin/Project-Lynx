@@ -44,6 +44,9 @@ namespace <#= config.SelectToken("$.DbContext.Namespace") #>
 {
 	public partial class <#= config.SelectToken("$.DbContext.Name") #> : DbContext, <#= config.SelectToken("$.IDbContext.Name") #>
 	{
+		public Guid UID { get; } = Guid.NewGuid();
+		public bool HasSeedData { get; set; }
+
 		#region Entities
 <# foreach (var _eachFile in Directory.GetFiles(entitiesDirectory, "*.cs", SearchOption.AllDirectories)) { if (excludedTypes.Contains(_eachFile)) continue; #>
 		private DbSet<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> db_<#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; set; }
@@ -55,22 +58,21 @@ namespace <#= config.SelectToken("$.DbContext.Namespace") #>
 <# } #>
         #endregion
 
-		public <#= config.SelectToken("$.DbContext.Name") #>(DbContextOptions<<#= config.SelectToken("$.DbContext.Name") #>> dbContextOpt) : base(dbContextOpt)
-        {
-        }
+		public <#= config.SelectToken("$.DbContext.Name") #>(DbContextOptions<<#= config.SelectToken("$.DbContext.Name") #>> dbContextOpt) 
+			: base(dbContextOpt) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+			=> modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 }
 
 namespace <#= config.SelectToken("$.DbContext.Namespace") #>.Configurations
 {
+	#region Configurations
 <# foreach (var _eachFile in Directory.GetFiles(entitiesDirectory, "*.cs", SearchOption.AllDirectories)) { if (excludedTypes.Contains(_eachFile)) continue; #>
 	public partial class <#= Path.GetFileNameWithoutExtension(_eachFile) #>_Configuration : BaseConfiguration<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> { }
 <# } #>
+    #endregion
 }
 <#+
 private string Pluralize(string input)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.TrackBillsQrs;
@@ -13,7 +14,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
 {
-    public class FindTrackBillQrHandler : TasqHandlerAsync<FindTrackBillQr, TrackBillVM>
+    public class FindTrackBillQrHandler : TasqHandlerAsync<FindTrackBillQr, TrackBillBO>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
@@ -24,7 +25,7 @@ namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
             p_Mapper = mapper;
         }
 
-        public async override Task<TrackBillVM> RunAsync(FindTrackBillQr request, CancellationToken cancellationToken = default)
+        public async override Task<TrackBillBO> RunAsync(FindTrackBillQr request, CancellationToken cancellationToken = default)
         {
             var result = await p_DbContext.TrackBills
                                 .Include(a => a.N_Bill)
@@ -35,7 +36,7 @@ namespace Lynx.Application.Handlers.Queries.TrackBillsQrs
                                 .Include(a => a.N_ProviderTypeConfigWebService)
                                 .SingleOrDefaultAsync(a => a.ID == request.TrackBillID);
 
-            return p_Mapper.Map<TrackBillVM>(result);
+            return p_Mapper.Map<TrackBillBO>(result);
         }
     }
 }

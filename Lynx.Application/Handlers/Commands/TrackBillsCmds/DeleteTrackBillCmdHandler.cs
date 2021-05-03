@@ -41,7 +41,7 @@ namespace Lynx.Application.Handlers.Commands.TrackBillsCmds
                 {
                     if (r.Result != null)
                     {
-                        p_DbContext.TrackBills.AsDbSet().Remove(r.Result);
+                        p_DbContext.TrackBills.Remove(r.Result);
                     }
 
                     return p_BaseDbContext.SaveChangesAsync()

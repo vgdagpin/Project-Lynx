@@ -41,11 +41,17 @@ namespace <#= config.SelectToken("$.IDbContext.Namespace") #>
 {
 	public interface <#= config.SelectToken("$.IDbContext.Name") #>
 	{
+		Guid UID { get; }
+		bool HasSeedData { get; set; }
+
 		#region Entities
 <# foreach (var _eachFile in Directory.GetFiles(entitiesDirectory, "*.cs", SearchOption.AllDirectories)) { if (excludedTypes.Contains(_eachFile)) continue; #>
 		IQueryable<<#= Path.GetFileNameWithoutExtension(_eachFile) #>> <#= Pluralize(Path.GetFileNameWithoutExtension(_eachFile)) #> { get; }
 <# } #>
         #endregion
+
+		int SaveChanges();
+		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 	}
 }
 

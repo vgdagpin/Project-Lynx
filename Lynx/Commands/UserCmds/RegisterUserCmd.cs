@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using TasqR;
 
 namespace Lynx.Commands.UserCmds
 {
-    public class RegisterUserCmd : ITasq<RegisterResultVM>
+    public class RegisterUserCmd : ITasq<RegisterResultBO>
     {
         public RegisterUserCmd(string firstName, string lastName, string email, string password)
         {

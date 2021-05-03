@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Lynx.Queries.UserQrs;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<UserVM> Get()
+        public Task<UserBO> Get()
         {
             return TasqR.RunAsync(new GetUserDetailQr(AppUser.UserID));
         }

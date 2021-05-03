@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.BillsQrs;
@@ -14,7 +15,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.BillsQrs
 {
-    public class GetBillsQrHandler : TasqHandlerAsync<GetBillsQr, IEnumerable<BillSummaryVM>>
+    public class GetBillsQrHandler : TasqHandlerAsync<GetBillsQr, IEnumerable<BillSummaryBO>>
     {
         public GetBillsQrHandler(ILynxDbContext dbContext, IMapper mapper)
         {
@@ -25,12 +26,12 @@ namespace Lynx.Application.Handlers.Queries.BillsQrs
         protected ILynxDbContext DbContext { get; }
         protected IMapper Mapper { get; }
 
-        public async override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<BillSummaryBO>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
         {
             return await DbContext.Bills
                    .Include(a => a.N_BillSettings)
                    .Where(a => a.IsEnabled)
-                   .ProjectTo<BillSummaryVM>(Mapper.ConfigurationProvider)
+                   .ProjectTo<BillSummaryBO>(Mapper.ConfigurationProvider)
                    .ToListAsync();
         }
     }

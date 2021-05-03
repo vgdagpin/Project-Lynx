@@ -15,6 +15,9 @@ namespace Lynx.Interfaces
 {
 	public interface ILynxDbContext
 	{
+		Guid UID { get; }
+		bool HasSeedData { get; set; }
+
 		#region Entities
 		IQueryable<Bill> Bills { get; }
 		IQueryable<BillPaymentStepsTemplate> BillPaymentStepsTemplates { get; }
@@ -46,6 +49,9 @@ namespace Lynx.Interfaces
 		IQueryable<UserNotification> UserNotifications { get; }
 		IQueryable<UserSession> UserSessions { get; }
         #endregion
+
+		int SaveChanges();
+		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 	}
 }
 

@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AutoMapper;
-using Lynx.Domain.Entities;
-using Lynx.Interfaces;
 
-namespace Lynx.Domain.ViewModels
+namespace Lynx.Domain.Models
 {
-    public class ProviderTypeConfigSchedulerVM : IMapFrom<ProviderTypeConfigScheduler>
+    public class ProviderTypeConfigSchedulerBO
     {
         public string ShortDesc { get; set; }
         public string LongDesc { get; set; }
@@ -29,12 +26,6 @@ namespace Lynx.Domain.ViewModels
         /// </summary>
         public short? SkipTimes { get; set; }
 
-        public IEnumerable<SchedulerEntryVM> SchedulerEntries { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap<ProviderTypeConfigScheduler, ProviderTypeConfigSchedulerVM>()
-                .ForMember(t => t.SchedulerEntries, s => s.MapFrom(sprop => sprop.N_ScheduleEntries));
-        }
+        public IEnumerable<SchedulerEntryBO> SchedulerEntries { get; set; }
     }
 }

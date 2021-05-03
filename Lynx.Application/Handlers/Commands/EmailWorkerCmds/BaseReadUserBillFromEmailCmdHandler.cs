@@ -5,13 +5,14 @@ using System.Text;
 using Lynx.Commands.EmailWorkerCmds;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 
 namespace Lynx.Application.Handlers.Commands.EmailWorkerCmds
 {
-    public class BaseReadUserBillFromEmailCmdHandler : TasqHandler<ReadUserBillFromEmailCmd, UserBillVM>
+    public class BaseReadUserBillFromEmailCmdHandler : TasqHandler<ReadUserBillFromEmailCmd, UserBillBO>
     {
         protected DbContext m_DbContext;
         protected DbSet<Email> m_Emails;
@@ -39,7 +40,7 @@ namespace Lynx.Application.Handlers.Commands.EmailWorkerCmds
             return asHTML ? email.N_Body.Html : email.N_Body.Text;
         }
 
-        public override UserBillVM Run(ReadUserBillFromEmailCmd request)
+        public override UserBillBO Run(ReadUserBillFromEmailCmd request)
         {
             // override this per type of email worker
             throw new NotImplementedException();

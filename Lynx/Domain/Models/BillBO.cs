@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using AutoMapper;
-using Lynx.Domain.Entities;
-using Lynx.Interfaces;
 
-namespace Lynx.Domain.ViewModels
+namespace Lynx.Domain.Models
 {
-    public class BillVM : IMapFrom<Bill>
+    public class BillBO
     {
         public short ID { get; set; }
 
@@ -20,10 +17,5 @@ namespace Lynx.Domain.ViewModels
 
         public string AssemblyName { get; set; }
         public string TypeName { get; set; }
-
-        public void Mapping(Profile profile)
-        {
-            profile.CreateMap(typeof(Bill), GetType());
-        }
     }
 }

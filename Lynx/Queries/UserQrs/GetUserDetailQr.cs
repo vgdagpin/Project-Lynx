@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Lynx.Common.ViewModels;
-using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using TasqR;
 
 namespace Lynx.Queries.UserQrs
 {
-    public class GetUserDetailQr : ITasq<UserVM>
+    public class GetUserDetailQr : ITasq<UserBO>
     {
         public GetUserDetailQr(string emailOrUserName)
         {

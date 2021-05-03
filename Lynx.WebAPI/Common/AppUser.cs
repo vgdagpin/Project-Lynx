@@ -3,6 +3,7 @@ using System.Security.Claims;
 using AutoMapper;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Lynx.WebAPI.Common.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ namespace Lynx.WebAPI.Common
 {
     public class AppUser : IAppUser
     {
-        public UserVM Details { get; set; }
+        public UserBO Details { get; set; }
         public Guid UserID { get; set; }
         public Guid SessionUID { get; set; }
 
@@ -44,7 +45,7 @@ namespace Lynx.WebAPI.Common
 
             try
             {
-                Details = JsonConvert.DeserializeObject<UserVM>(_userData);
+                Details = JsonConvert.DeserializeObject<UserBO>(_userData);
             }
             catch
             {
@@ -61,7 +62,7 @@ namespace Lynx.WebAPI.Common
 
             if (contextAccessor.HttpContext.User != null)
             {
-                Details = contextAccessor.HttpContext.User.GetUserData<UserVM>();
+                Details = contextAccessor.HttpContext.User.GetUserData<UserBO>();
             }
 
             UserID = Details.ID;

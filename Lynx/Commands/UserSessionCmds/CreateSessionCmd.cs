@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using TasqR;
 
 namespace Lynx.Commands.UserSessionCmds
 {
-    public class CreateSessionCmd : ITasq<UserSession>
+    public class CreateSessionCmd : ITasq<UserSessionBO>
     {
         public CreateSessionCmd(Guid sid, string username, string token, DateTime? expiration = default)
         {

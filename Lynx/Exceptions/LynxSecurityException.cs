@@ -7,8 +7,6 @@ namespace Lynx.Exceptions
 {
     public class LynxSecurityException : Exception
     {
-        private readonly string p_Provider;
-
         public LynxSecurityException()
         {
 

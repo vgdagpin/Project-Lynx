@@ -10,6 +10,7 @@ namespace Lynx.Application
         public static IServiceCollection AddApplication(this IServiceCollection services, bool includeValidators = false)
         {
             services.AddTasqR(Assembly.GetExecutingAssembly());
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             return services;
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.UserBillQrs;
@@ -15,7 +16,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.UserBillQrs
 {
-    public class GetUserBillsQrHandler : TasqHandlerAsync<GetUserBillsQr, IEnumerable<UserBillSummaryVM>>
+    public class GetUserBillsQrHandler : TasqHandlerAsync<GetUserBillsQr, IEnumerable<UserBillSummaryBO>>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
@@ -30,7 +31,7 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
             p_DateTime = dateTime;
         }
 
-        public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<UserBillSummaryBO>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
         {
             DateTime maxDate = p_DateTime.Now.AddDays(process.ForecastDays);
 
@@ -39,7 +40,7 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
                     .ThenInclude(a => a.N_Bill)
                     .Where(a => a.UserID == process.UserID && a.Status != BillPaymentStatus.Paid && a.DueDate <= maxDate)
                     .OrderByDescending(a => a.DueDate)
-                    .ProjectTo<UserBillSummaryVM>(p_Mapper.ConfigurationProvider)
+                    .ProjectTo<UserBillSummaryBO>(p_Mapper.ConfigurationProvider)
                     .ToListAsync();
         }
     }

@@ -18,6 +18,9 @@ namespace Lynx.Infrastructure.Persistence
 {
 	public partial class LynxDbContext : DbContext, ILynxDbContext
 	{
+		public Guid UID { get; } = Guid.NewGuid();
+		public bool HasSeedData { get; set; }
+
 		#region Entities
 		private DbSet<Bill> db_Bills { get; set; }
 		public IQueryable<Bill> Bills 
@@ -195,19 +198,17 @@ namespace Lynx.Infrastructure.Persistence
 		}
         #endregion
 
-		public LynxDbContext(DbContextOptions<LynxDbContext> dbContextOpt) : base(dbContextOpt)
-        {
-        }
+		public LynxDbContext(DbContextOptions<LynxDbContext> dbContextOpt) 
+			: base(dbContextOpt) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+			=> modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 	}
 }
 
 namespace Lynx.Infrastructure.Persistence.Configurations
 {
+	#region Configurations
 	public partial class Bill_Configuration : BaseConfiguration<Bill> { }
 	public partial class BillPaymentStepsTemplate_Configuration : BaseConfiguration<BillPaymentStepsTemplate> { }
 	public partial class BillProvider_Configuration : BaseConfiguration<BillProvider> { }
@@ -237,4 +238,5 @@ namespace Lynx.Infrastructure.Persistence.Configurations
 	public partial class UserLogin_Configuration : BaseConfiguration<UserLogin> { }
 	public partial class UserNotification_Configuration : BaseConfiguration<UserNotification> { }
 	public partial class UserSession_Configuration : BaseConfiguration<UserSession> { }
+    #endregion
 }

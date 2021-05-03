@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.BillPaymentStepsTemplateQrs;
@@ -26,7 +27,7 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<BillSummaryVM>> Get(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<BillSummaryBO>> Get(CancellationToken cancellationToken = default)
         {
             return await TasqR.RunAsync(new GetBillsQr(), cancellationToken);
         }

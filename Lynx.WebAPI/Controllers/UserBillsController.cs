@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Commands.UserBillsCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.Queries.UserBillQrs;
@@ -26,13 +27,13 @@ namespace Lynx.WebAPI.Controllers
         }
 
         [HttpGet]
-        public Task<IEnumerable<UserBillSummaryVM>> Get(int forecastDays = 30)
+        public Task<IEnumerable<UserBillSummaryBO>> Get(int forecastDays = 30)
         {
             return TasqR.RunAsync(new GetUserBillsQr(AppUser.UserID, forecastDays));
         }
 
         [HttpGet("{id}")]
-        public Task<UserBillVM> Get(Guid id)
+        public Task<UserBillBO> Get(Guid id)
         {
             return TasqR.RunAsync(new FindUserBillQr(id));
         }

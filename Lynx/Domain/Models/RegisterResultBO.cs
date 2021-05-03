@@ -1,45 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Lynx.Domain.Entities;
 
-namespace Lynx.Common.ViewModels
+namespace Lynx.Domain.Models
 {
-    public class RegisterResultVM
+    public class RegisterResultBO
     {
         public bool IsSuccess { get; set; }
         public Exception Error { get; set; }
-        public User User { get; set; }
+        public UserBO User { get; set; }
 
-        public static RegisterResultVM Failed(string reason)
+        public static RegisterResultBO Failed(string reason)
         {
-            return new RegisterResultVM
+            return new RegisterResultBO
             {
                 IsSuccess = false,
                 Error = new Exception(reason)
             };
         }
 
-        public static RegisterResultVM Failed(Exception error)
+        public static RegisterResultBO Failed(Exception error)
         {
-            return new RegisterResultVM
+            return new RegisterResultBO
             {
                 IsSuccess = false,
                 Error = error
             };
         }
 
-        public static RegisterResultVM Success()
+        public static RegisterResultBO Success()
         {
-            return new RegisterResultVM
+            return new RegisterResultBO
             {
                 IsSuccess = true
             };
         }
 
-        public static RegisterResultVM Ready(User user)
+        public static RegisterResultBO Ready(UserBO user)
         {
-            return new RegisterResultVM
+            return new RegisterResultBO
             {
                 IsSuccess = true,
                 User = user

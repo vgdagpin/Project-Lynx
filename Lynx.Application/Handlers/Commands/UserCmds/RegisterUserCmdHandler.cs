@@ -4,32 +4,36 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Lynx.Application.Common.Extensions;
 using Lynx.Commands.UserCmds;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 
 namespace Lynx.Application.Handlers.Commands.UserCmds
 {
-    public class RegisterUserCmdHandler : TasqHandlerAsync<RegisterUserCmd, RegisterResultVM>
+    public class RegisterUserCmdHandler : TasqHandlerAsync<RegisterUserCmd, RegisterResultBO>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IPasswordHasher p_PasswordHasher;
+        private readonly IMapper p_Mapper;
 
-        public RegisterUserCmdHandler(ILynxDbContext dbContext, IPasswordHasher passwordHasher)
+        public RegisterUserCmdHandler(ILynxDbContext dbContext, IPasswordHasher passwordHasher, IMapper mapper)
         {
             p_DbContext = dbContext;
             p_PasswordHasher = passwordHasher;
+            p_Mapper = mapper;
         }
 
-        public async override Task<RegisterResultVM> RunAsync(RegisterUserCmd process, CancellationToken cancellationToken = default)
+        public async override Task<RegisterResultBO> RunAsync(RegisterUserCmd process, CancellationToken cancellationToken = default)
         {
             if (await p_DbContext.UserLogins.AnyAsync(a => a.Username == process.Email))
             {
-                return RegisterResultVM.Failed("Username already exists!");
+                return RegisterResultBO.Failed("Username already exists!");
             }
 
             Guid newUserID = Guid.NewGuid();
@@ -49,9 +53,9 @@ namespace Lynx.Application.Handlers.Commands.UserCmds
                 }
             };
 
-            p_DbContext.Users.AsDbSet().Add(newUser);
+            p_DbContext.Users.Add(newUser);
 
-            return RegisterResultVM.Ready(newUser);
+            return RegisterResultBO.Ready(p_Mapper.Map<UserBO>(newUser));
         }
     }
 }

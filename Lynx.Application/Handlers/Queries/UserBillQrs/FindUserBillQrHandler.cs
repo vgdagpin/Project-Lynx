@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Lynx.Queries.UserBillQrs;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using TasqR;
 
 namespace Lynx.Application.Handlers.Queries.UserBillQrs
 {
-    public class FindUserBillQrHandler : TasqHandlerAsync<FindUserBillQr, UserBillVM>
+    public class FindUserBillQrHandler : TasqHandlerAsync<FindUserBillQr, UserBillBO>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IMapper p_Mapper;
@@ -25,21 +26,19 @@ namespace Lynx.Application.Handlers.Queries.UserBillQrs
             p_Mapper = mapper;
         }
 
-        public override Task<UserBillVM> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
+        public async override Task<UserBillBO> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
         {
-            return p_DbContext.UserBills
+            var result = await p_DbContext.UserBills
                    .Include(a => a.N_TrackBill)
                    .ThenInclude(a => a.N_Bill)
-                   .SingleOrDefaultAsync(a => a.ID == process.UserBillID, cancellationToken)
-                   .ContinueWith(res =>
-                   {
-                       if (res.Result == null)
-                       {
-                           return null;
-                       }
+                   .SingleOrDefaultAsync(a => a.ID == process.UserBillID, cancellationToken);
 
-                       return p_Mapper.Map<UserBillVM>(res.Result);
-                   }, cancellationToken);
+            if (result == null)
+            {
+                return null;
+            }
+
+            return p_Mapper.Map<UserBillBO>(result);
         }
     }
 }

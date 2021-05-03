@@ -67,7 +67,6 @@ namespace Lynx.WebAPI
             services.AddInfrastructure(Configuration);
 
             services.AddHttpContextAccessor();
-            services.AddAutoMapper(typeof(MappingProfile).Assembly);
             services.AddScoped<IAppUser, AppUser>();
             services.AddScoped<IDataSecure, DataSecure>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
