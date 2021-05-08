@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.TrackBillsQrs;
 using Lynx.MobileApp.Views;
@@ -15,9 +16,9 @@ namespace Lynx.MobileApp.ViewModels
 {
     public class ManageBillViewModel : LynxViewModel
     {
-        public ObservableCollection<TrackBillSummaryVM> TrackedBills { get; protected set; } = new ObservableCollection<TrackBillSummaryVM>();
+        public ObservableCollection<TrackBillSummaryBO> TrackedBills { get; protected set; } = new ObservableCollection<TrackBillSummaryBO>();
 
-        public Command<TrackBillSummaryVM> ItemTapped { get; } = new Command<TrackBillSummaryVM>(trackBill => Shell.Current.GoToTrackBillDetailPage(trackBill.ID));
+        public Command<TrackBillSummaryBO> ItemTapped { get; } = new Command<TrackBillSummaryBO>(trackBill => Shell.Current.GoToTrackBillDetailPage(trackBill.ID));
         public ICommand LoadData { get; }
         public ICommand TrackNewBill { get; } = new Command(() => Shell.Current.GoToPage<NewTrackBillPage>());
 

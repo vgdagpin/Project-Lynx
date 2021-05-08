@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Lynx.Commands.UserLoginCmds;
 using Lynx.Common.ViewModels;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
@@ -52,7 +53,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
 
                 var loginRequest = new LoginRequestVM { Username = process.Username, Password = process.Password, FirebaseToken = firebaseToken };
 
-                var httpResponse = await p_HttpClient.PostAsync<UserSessionVM, LoginRequestVM>(APIUriConstants.AccessToken, loginRequest, cancellationToken);
+                var httpResponse = await p_HttpClient.PostAsync<UserSessionBO, LoginRequestVM>(APIUriConstants.AccessToken, loginRequest, cancellationToken);
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {

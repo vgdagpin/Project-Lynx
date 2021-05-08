@@ -8,6 +8,7 @@ using AutoMapper;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
 using Lynx.MobileApp.Common.Interfaces;
@@ -33,11 +34,11 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             p_ExceptionHandler = exceptionHandler;
         }
 
-        public async override Task<UserBillVM> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
+        public async override Task<UserBillBO> RunAsync(FindUserBillQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await p_LynxAPI.GetAsync<UserBillVM>($"{APIUriConstants.UserBill}/{process.UserBillID}", cancellationToken);
+                var response = await p_LynxAPI.GetAsync<UserBillBO>($"{APIUriConstants.UserBill}/{process.UserBillID}", cancellationToken);
 
                 return response.ObjectContent;
             }
@@ -45,7 +46,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return UserBillVM.Null();
+                return UserBillBO.Null();
             }
         }
     }

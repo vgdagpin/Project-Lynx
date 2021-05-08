@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.BillsQrs;
 using Lynx.MobileApp.Handlers.Queries.UserBillQrs;
@@ -27,9 +28,9 @@ namespace Lynx.MobileApp.ViewModels
 
 
 
-        public ObservableCollection<UserBillSummaryVM> Bills { get; protected set; } = new ObservableCollection<UserBillSummaryVM>();
+        public ObservableCollection<UserBillSummaryBO> Bills { get; protected set; } = new ObservableCollection<UserBillSummaryBO>();
 
-        public Command<UserBillSummaryVM> ItemTapped { get; } = new Command<UserBillSummaryVM>(async bill =>
+        public Command<UserBillSummaryBO> ItemTapped { get; } = new Command<UserBillSummaryBO>(async bill =>
         {
             await Shell.Current.GoToUserBillDetailPage(bill.ID);
         });

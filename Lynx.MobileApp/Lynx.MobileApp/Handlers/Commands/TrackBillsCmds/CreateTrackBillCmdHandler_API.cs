@@ -7,9 +7,9 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Lynx.Application.Handlers.Commands.TrackBillsCmds;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Commands.TrackBillCmds;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
@@ -18,7 +18,7 @@ using TasqR;
 
 namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
 {
-    public class CreateTrackBillCmdHandler_API : CreateTrackBillCmdHandler
+    public class CreateTrackBillCmdHandler_API : TasqHandlerAsync<CreateTrackBillCmd, CreateResult<TrackBillBO>>
     {
         private readonly IHttpClientFactory p_ClientFactory;
         private readonly ILogger p_ExceptionHandler;
@@ -52,7 +52,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
                 });
         }
 
-        public async override Task<CreateResult<TrackBillVM>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
+        public async override Task<CreateResult<TrackBillBO>> RunAsync(CreateTrackBillCmd process, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -69,13 +69,13 @@ namespace Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds
                     throw new LynxHttpException(httpResponse);
                 }
 
-                return JsonSerializer.Deserialize<CreateResult<TrackBillVM>>(json);
+                return JsonSerializer.Deserialize<CreateResult<TrackBillBO>>(json);
             }
             catch (Exception ex)
             {
                 p_ExceptionHandler.LogError(ex, ex.Message);
 
-                return new CreateResult<TrackBillVM>
+                return new CreateResult<TrackBillBO>
                 {
                     IsCreated = false,
                     Error = ex

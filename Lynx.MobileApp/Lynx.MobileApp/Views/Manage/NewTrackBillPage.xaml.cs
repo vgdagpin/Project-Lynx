@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.ViewModels.Manage;
 using Xamarin.Forms;
@@ -24,7 +25,7 @@ namespace Lynx.MobileApp.Views.Manage
             bindingContext.OnRecordCreateResultEvent += bindingContext_OnRecordCreateResultEvent;
         }
 
-        private void bindingContext_OnRecordCreateResultEvent(CreateResult<TrackBillVM> createResult, object sender)
+        private void bindingContext_OnRecordCreateResultEvent(CreateResult<TrackBillBO> createResult, object sender)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {

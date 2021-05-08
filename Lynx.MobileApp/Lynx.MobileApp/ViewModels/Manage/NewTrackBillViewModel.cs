@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Lynx.Commands.TrackBillCmds;
 using Lynx.Constants;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.BillsQrs;
 using Lynx.MobileApp.Portable.Handlers.Commands.TrackBillsCmds;
@@ -29,8 +30,8 @@ namespace Lynx.MobileApp.ViewModels.Manage
         #endregion
 
         #region SelectedBill
-        private BillSummaryVM selectedBill;
-        public BillSummaryVM SelectedBill
+        private BillSummaryBO selectedBill;
+        public BillSummaryBO SelectedBill
         {
             get { return selectedBill; }
             set
@@ -87,8 +88,8 @@ namespace Lynx.MobileApp.ViewModels.Manage
         #endregion
 
         #region SelectedBillProvider
-        private BillProviderVM selectedBillProvider;
-        public BillProviderVM SelectedBillProvider
+        private BillProviderBO selectedBillProvider;
+        public BillProviderBO SelectedBillProvider
         {
             get { return selectedBillProvider; }
             set 
@@ -194,12 +195,12 @@ namespace Lynx.MobileApp.ViewModels.Manage
         #endregion
 
 
-        public delegate void RecordCreateResult(CreateResult<TrackBillVM> createResult, object sender);
+        public delegate void RecordCreateResult(CreateResult<TrackBillBO> createResult, object sender);
         public event RecordCreateResult OnRecordCreateResultEvent;        
 
 
-        public ObservableCollection<BillSummaryVM> Bills { get; protected set; } = new ObservableCollection<BillSummaryVM>();
-        public ObservableCollection<BillProviderVM> BillProviders { get; protected set; } = new ObservableCollection<BillProviderVM>();
+        public ObservableCollection<BillSummaryBO> Bills { get; protected set; } = new ObservableCollection<BillSummaryBO>();
+        public ObservableCollection<BillProviderBO> BillProviders { get; protected set; } = new ObservableCollection<BillProviderBO>();
 
         public ICommand LoadBillsCommand { get; }
 
@@ -229,16 +230,16 @@ namespace Lynx.MobileApp.ViewModels.Manage
 
             IsBusy = true;
 
-            TrackBillVM entry = new TrackBillVM
+            TrackBillBO entry = new TrackBillBO
             {
                 AccountNumber = AccountNumber,
                 ShortDesc = ShortDesc,
                 LongDesc = ShortDesc,
-                Bill = new BillVM
+                Bill = new BillBO
                 {
                     ID = SelectedBill.ID
                 },
-                BillProvider = new BillProviderVM
+                BillProvider = new BillProviderBO
                 {
                     ProviderTypeID = SelectedBillProvider.ProviderTypeID
                 }
@@ -247,7 +248,7 @@ namespace Lynx.MobileApp.ViewModels.Manage
             switch (entry.BillProvider.ProviderTypeID)
             {
                 case ProviderTypeConstants.Scheduled:
-                    entry.ProviderTypeConfigScheduler = new ProviderTypeConfigSchedulerVM
+                    entry.ProviderTypeConfigScheduler = new ProviderTypeConfigSchedulerBO
                     {
                         Amount = Amount.GetValueOrDefault(),
                         ShortDesc = ShortDesc,
@@ -258,7 +259,7 @@ namespace Lynx.MobileApp.ViewModels.Manage
                     };
                     break;
                 case ProviderTypeConstants.Email:
-                    entry.ProviderTypeConfigEmail = new ProviderTypeConfigEmailVM
+                    entry.ProviderTypeConfigEmail = new ProviderTypeConfigEmailBO
                     {
                         ClientEmailAddress = EmailAddress
                     };

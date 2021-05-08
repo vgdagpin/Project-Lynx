@@ -7,6 +7,7 @@ namespace Lynx.Domain.Models
 {
     public class UserSessionBO
     {
+        public Guid UserID { get; set; }
         public Guid SessionID { get; set; }
         public UserBO UserData { get; set; }
 

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Lynx.Application;
+using AutoMapper;
 using Lynx.Application.Common.Extensions;
 using Lynx.Commands.UserSessionCmds;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Enums;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -15,20 +13,22 @@ using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
 {
-    public class CreateSessionCmdHandler : TasqHandlerAsync<CreateSessionCmd, UserSession>
+    public class CreateSessionCmdHandler : TasqHandlerAsync<CreateSessionCmd, UserSessionBO>
     {
         private readonly ILynxDbContext p_DbContext;
         private readonly IDateTime p_DateTime;
         private readonly IGuid p_Guid;
+        private readonly IMapper p_Mapper;
 
-        public CreateSessionCmdHandler(ILynxDbContext dbContext, IDateTime dateTime, IGuid guid)
+        public CreateSessionCmdHandler(ILynxDbContext dbContext, IDateTime dateTime, IGuid guid, IMapper mapper)
         {
             p_DbContext = dbContext;
             p_DateTime = dateTime;
             p_Guid = guid;
+            p_Mapper = mapper;
         }
 
-        public async override Task<UserSession> RunAsync(CreateSessionCmd process, CancellationToken cancellationToken = default)
+        public async override Task<UserSessionBO> RunAsync(CreateSessionCmd process, CancellationToken cancellationToken = default)
         {
             var user = await p_DbContext.UserLogins
                 .Include(a => a.User)
@@ -42,8 +42,8 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
             // we need to revoke active sessions to prevent multiple logins
             //TODO: this may cause performance problem in the future
             p_DbContext.UserSessions
-                .Where(a => a.Status == SessionStatus.Active 
-                    && a.ExpiredOn >= p_DateTime.Now 
+                .Where(a => a.Status == SessionStatus.Active
+                    && a.ExpiredOn >= p_DateTime.Now
                     && a.UserID == user.ID)
                 .ToList()
                 .ForEach(session =>
@@ -52,7 +52,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
                     session.Remarks = "Forced expired to prevent multiple login";
                 });
 
-            var newSession = new UserSession
+            var newSession = new UserSessionBO
             {
                 UserID = user.ID,
                 CreatedOn = p_DateTime.Now,
@@ -61,7 +61,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserSessionCmds
                 Token = p_Guid.NewGuid().ToString("D"),
             };
 
-            p_DbContext.UserSessions.Add(newSession);
+            p_DbContext.UserSessions.Add(p_Mapper.Map<UserSession>(newSession));
 
             return newSession;
         }

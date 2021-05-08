@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.MobileApp.Handlers.Queries.TrackBillsQrs;
 using Lynx.Queries.TrackBillsQrs;
@@ -23,8 +24,8 @@ namespace Lynx.MobileApp.ViewModels
         #endregion
 
         #region TrackBill
-        private TrackBillVM trackBill;
-        public TrackBillVM TrackBill
+        private TrackBillBO trackBill;
+        public TrackBillBO TrackBill
         {
             get => trackBill;
             set => SetProperty(ref trackBill, value);

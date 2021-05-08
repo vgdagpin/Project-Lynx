@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Application.Handlers.Queries.TrackBillsQrs;
 using Lynx.Commands.AuthenticationCmds;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
@@ -39,7 +40,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
             p_HttpClient = p_ClientFactory.LynxApiClient(session);
         }
 
-        public async override Task<IEnumerable<TrackBillSummaryVM>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<TrackBillSummaryBO>> RunAsync(GetTrackBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -54,7 +55,7 @@ namespace Lynx.MobileApp.Handlers.Queries.TrackBillsQrs
 
                 var responseStream = await httpResponse.Content.ReadAsStreamAsync();
 
-                return await JsonSerializer.DeserializeAsync<List<TrackBillSummaryVM>>(responseStream);
+                return await JsonSerializer.DeserializeAsync<List<TrackBillSummaryBO>>(responseStream);
             }
             catch (Exception ex)
             {

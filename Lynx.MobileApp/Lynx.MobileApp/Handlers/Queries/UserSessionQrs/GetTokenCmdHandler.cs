@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using TasqR;
 
 namespace Lynx.MobileApp.Portable.Handlers.Queries.UserSessionQrs
 {
-    public class GetTokenCmdHandler : TasqHandlerAsync<GetTokenCmd, UserSessionVM>
+    public class GetTokenCmdHandler : TasqHandlerAsync<GetTokenCmd, UserSessionBO>
     {
         private readonly DbContext p_BaseDbContext;
         private readonly IMapper p_Mapper;
@@ -28,7 +29,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Queries.UserSessionQrs
             p_UserSessionDbSet = dbContext.UserSessions as DbSet<UserSession>;
 
         }
-        public async override Task<UserSessionVM> RunAsync(GetTokenCmd request, CancellationToken cancellationToken = default)
+        public async override Task<UserSessionBO> RunAsync(GetTokenCmd request, CancellationToken cancellationToken = default)
         {
             // if more than one session found it means its broken and needs to be cleared
             if (await p_UserSessionDbSet.CountAsync() > 1)
@@ -45,7 +46,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Queries.UserSessionQrs
                 return null;
             }
 
-            return p_Mapper.Map<UserSessionVM>(currentSession);
+            return p_Mapper.Map<UserSessionBO>(currentSession);
         }
     }
 }

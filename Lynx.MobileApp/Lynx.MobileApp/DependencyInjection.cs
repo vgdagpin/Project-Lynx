@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
+using Lynx.Application;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common;
 using Lynx.DbMigration.SQLite;
@@ -34,6 +35,7 @@ namespace Lynx.MobileApp
         {
             services.AddInfrastructureUseSqlite(configuration, loggerFactory, SQLiteConstants.FilePath);
 
+            services.AddApplication();
             services.AddInfrastructure(configuration);
 
             if (additionalServices != null)
@@ -46,7 +48,6 @@ namespace Lynx.MobileApp
             services.AddSingleton<IGuid, AppGuid>();
             services.AddSingleton<IAppUser, AppUser>();
             services.AddSingleton<IJsonSerializer, AppJsonSerializer>();
-            services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
             services.AddLogging();
 

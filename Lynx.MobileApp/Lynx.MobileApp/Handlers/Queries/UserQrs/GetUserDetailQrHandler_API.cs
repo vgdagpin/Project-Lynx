@@ -8,6 +8,7 @@ using AutoMapper;
 using Lynx.Application.Handlers.Queries.UserQrs;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Lynx.Queries.UserQrs;
 using Microsoft.Extensions.Logging;
@@ -41,7 +42,7 @@ namespace Lynx.MobileApp.Portable.Handlers.Queries.UserQrs
                 });
         }
 
-        public override Task<UserVM> RunAsync(GetUserDetailQr process, CancellationToken cancellationToken = default)
+        public override Task<UserBO> RunAsync(GetUserDetailQr process, CancellationToken cancellationToken = default)
         {
             return base.RunAsync(process, cancellationToken);
         }

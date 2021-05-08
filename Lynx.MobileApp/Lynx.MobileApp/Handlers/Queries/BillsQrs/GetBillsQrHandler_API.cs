@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Lynx.Application.Handlers.Queries.BillsQrs;
 using Lynx.Commands.AuthenticationCmds;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
@@ -37,11 +38,11 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
             p_ExceptionHandler = exceptionHandler;
         }
 
-        public async override Task<IEnumerable<BillSummaryVM>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<BillSummaryBO>> RunAsync(GetBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var response = await p_LynxAPI.GetAsync<IEnumerable<BillSummaryVM>>(APIUriConstants.Bill, cancellationToken);
+                var response = await p_LynxAPI.GetAsync<IEnumerable<BillSummaryBO>>(APIUriConstants.Bill, cancellationToken);
 
                 return response.ObjectContent;
             }
@@ -49,7 +50,7 @@ namespace Lynx.MobileApp.Handlers.Queries.BillsQrs
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return BillSummaryVM.Empty();
+                return BillSummaryBO.Empty();
             }
         }
     }

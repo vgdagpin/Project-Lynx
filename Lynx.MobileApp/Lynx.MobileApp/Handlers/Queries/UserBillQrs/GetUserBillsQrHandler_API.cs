@@ -11,6 +11,7 @@ using AutoMapper.QueryableExtensions;
 using Lynx.Application.Handlers.Queries.UserBillQrs;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Interfaces;
 using Lynx.MobileApp.Common.Constants;
@@ -36,11 +37,11 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             p_ExceptionHandler = exceptionHandler;
         }
 
-        public async override Task<IEnumerable<UserBillSummaryVM>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
+        public async override Task<IEnumerable<UserBillSummaryBO>> RunAsync(GetUserBillsQr process, CancellationToken cancellationToken = default)
         {
             try
             {
-                var httpResponse = await p_HttpClient.GetAsync<IEnumerable<UserBillSummaryVM>>
+                var httpResponse = await p_HttpClient.GetAsync<IEnumerable<UserBillSummaryBO>>
                     (
                         $"{APIUriConstants.UserBill}?forecastDays={process.ForecastDays}", 
                         cancellationToken
@@ -52,7 +53,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserBillQrs
             {
                 p_ExceptionHandler.LogError(ex);
 
-                return UserBillSummaryVM.Empty();
+                return UserBillSummaryBO.Empty();
             }
         }
     }

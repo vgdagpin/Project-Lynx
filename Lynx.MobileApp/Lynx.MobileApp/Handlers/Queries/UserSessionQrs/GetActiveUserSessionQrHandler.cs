@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Lynx.Commands.AuthenticationCmds;
 using Lynx.Domain.Entities;
+using Lynx.Domain.Models;
 using Lynx.Domain.ViewModels;
 using Lynx.Enums;
 using Lynx.Interfaces;
@@ -22,7 +23,7 @@ using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Queries.UserSessionQrs
 {
-    public class GetActiveUserSessionQrHandler : TasqHandlerAsync<GetActiveUserSessionQr, UserSessionVM>
+    public class GetActiveUserSessionQrHandler : TasqHandlerAsync<GetActiveUserSessionQr, UserSessionBO>
     {
         private readonly ITasqR p_TasqR;
         private readonly IAppUser p_AppUser;
@@ -40,7 +41,7 @@ namespace Lynx.MobileApp.Handlers.Queries.UserSessionQrs
             p_AppUser = appUser;
         }
 
-        public async override Task<UserSessionVM> RunAsync(GetActiveUserSessionQr request, CancellationToken cancellationToken = default)
+        public async override Task<UserSessionBO> RunAsync(GetActiveUserSessionQr request, CancellationToken cancellationToken = default)
         {
             string firebaseToken = p_TasqR.Run(new FindMyFirebaseTokenQr());
 

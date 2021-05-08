@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.MobileApp.Handlers.Queries.UserBillQrs;
 using Lynx.Queries.UserBillQrs;
 using Newtonsoft.Json;
@@ -30,8 +31,8 @@ namespace Lynx.MobileApp.ViewModels
         #endregion
 
         #region UserBill
-        private UserBillVM userBill;
-        public UserBillVM UserBill
+        private UserBillBO userBill;
+        public UserBillBO UserBill
         {
             get { return userBill; }
             set { SetProperty(ref userBill, value); }

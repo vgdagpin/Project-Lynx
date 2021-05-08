@@ -2,13 +2,14 @@
 using System.Threading.Tasks;
 using Lynx.Commands.UserCmds;
 using Lynx.Common.ViewModels;
+using Lynx.Domain.Models;
 using Lynx.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using TasqR;
 
 namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
 {
-    public class FindUserCmdHandler : TasqHandlerAsync<FindUserCmd, UserVM>
+    public class FindUserCmdHandler : TasqHandlerAsync<FindUserCmd, UserBO>
     {
         private readonly ILynxDbContext p_DbContext;
 
@@ -17,7 +18,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
             p_DbContext = dbContext;
         }
 
-        public async override Task<UserVM> RunAsync(FindUserCmd process, CancellationToken cancellationToken = default)
+        public async override Task<UserBO> RunAsync(FindUserCmd process, CancellationToken cancellationToken = default)
         {
             var user = await p_DbContext.Users
                 .Include(a => a.UserLogin)
@@ -28,7 +29,7 @@ namespace Lynx.MobileApp.Handlers.Commands.UserLoginCmds
                 return null;
             }
 
-            return new UserVM
+            return new UserBO
             {
                 ID = user.ID,
                 FirstName = user.FirstName,
